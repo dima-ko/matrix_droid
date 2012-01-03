@@ -27,6 +27,7 @@ public class Solver {
     LinearLayout bottomHolder;
     String solvationString;
     TicTac tic;
+    boolean isShowingSolvation=false;
 
 
     public Solver(Context context, LinearLayout mainView) {
@@ -60,6 +61,22 @@ public class Solver {
         solv = new ImageView(context);
         solv.setImageResource(R.drawable.vortex_out);
         solv.setVisibility(View.INVISIBLE);
+        solv.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if(!isShowingSolvation)  {
+                    solvationView.setVisibility(View.VISIBLE);
+                    solv.setImageResource(R.drawable.vortex_in);
+                    startSolvationCast();
+                    isShowingSolvation=true;
+                }
+                else{
+                    solvationView.setVisibility(View.GONE);
+                    stopSolvationCast();
+                    solv.setImageResource(R.drawable.vortex_out);
+                    isShowingSolvation=false;
+                }
+            }
+        });
         c100x100.leftMargin=100;
         bottomHolder.addView(solv,c100x100);
 
@@ -182,11 +199,11 @@ public class Solver {
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsiutable");
             resultText.setTextColor(Color.RED);
-            solvationText.setVisibility(View.GONE);
+//            solvationText.setVisibility(View.GONE);
         } catch (BadMatrixException e) {
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
-            solvationText.setVisibility(View.GONE);
+//            solvationText.setVisibility(View.GONE);
 
         }
 //        Toast.makeText(_context, mainMatrix.findDeterminant() + "", 2000).show();
@@ -213,9 +230,10 @@ public class Solver {
         protected void onProgressUpdate(Object... values) {
             Log.d("zzz", "zzz");
 
-            counter++;
-            if (counter < solvationString.length())
+            if (counter <= solvationString.length()) {
                 solvationText.setText(solvationString.substring(0, counter));
+            }
+            counter++;
             super.onProgressUpdate(values);
         }
     }
