@@ -6,14 +6,11 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.*;
 
 
 public class Matrix {
@@ -29,11 +26,13 @@ public class Matrix {
     private final Context context;
     private LinearLayout _view;
     LinearLayout bodyMatrix;
-    LinearLayout.LayoutParams wrapParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
     LinearLayout plusMinusHolder;
     ImageView rightBraket, leftBraket;
+    SurfaceView canvas;
+    Animator animator;
 
     public Matrix(Context context, LinearLayout view) {
         this.context = context;
@@ -58,7 +57,7 @@ public class Matrix {
         bodyMatrix.setOrientation(LinearLayout.VERTICAL);
         fillGrid();
 
-        _view.addView(bodyMatrix, /*new LinearLayout.LayoutParams(200, 200)*/wrapParams);
+        _view.addView(bodyMatrix, /*new LinearLayout.LayoutParams(200, 200)*/wrapWrap);
 
 
         rightBraket = new ImageView(context);
@@ -110,6 +109,9 @@ public class Matrix {
     private void fillGrid() {
 
         bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
+        RelativeLayout relativeLayout = new RelativeLayout(context);
+        LinearLayout bodyMatrixRows = new LinearLayout(context);
+        bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
 
         for (int i = 0; i < MAX_ROWS; i++) {
 
@@ -140,10 +142,19 @@ public class Matrix {
                 });
                 gridRows[i].addView(grid[i][j], editParams);
             }
-            bodyMatrix.addView(gridRows[i], wrapParams);
+            bodyMatrixRows.addView(gridRows[i], wrapWrap);
         }
 
+        relativeLayout.addView(bodyMatrixRows, wrapWrap);
+
+        canvas = new SurfaceView(context);
+        relativeLayout.addView(canvas, fillFill);
+
+        bodyMatrix.addView(relativeLayout, wrapWrap);
+
         bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
+
+        animator = new Animator(canvas,this);
 
     }
 

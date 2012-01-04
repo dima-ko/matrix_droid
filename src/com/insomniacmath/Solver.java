@@ -3,12 +3,9 @@ package com.insomniacmath;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.*;
 
 public class Solver {
@@ -17,16 +14,16 @@ public class Solver {
     LinearLayout mainMatrixView;
     LinearLayout resultView;
     TextView resultText;
-    ImageView solv;
+    ImageView solveButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams c100x100 = new LinearLayout.LayoutParams(80, 80);
+    LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
     private Context _context;
     private LinearLayout solvationView;
-    private TextView solvationText;
+
     LinearLayout bottomHolder;
-    String solvationString;
-    TicTac tic;
+
+
     boolean isShowingSolvation=false;
 
 
@@ -58,27 +55,26 @@ public class Solver {
         bottomHolder.addView(minusRow, params1);
 
 
-        solv = new ImageView(context);
-        solv.setImageResource(R.drawable.vortex_out);
-        solv.setVisibility(View.INVISIBLE);
-        solv.setOnClickListener(new View.OnClickListener() {
+        solveButton = new ImageView(context);
+        solveButton.setImageResource(R.drawable.vortex_out);
+        solveButton.setVisibility(View.INVISIBLE);
+        solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if(!isShowingSolvation)  {
+                if (!isShowingSolvation) {
                     solvationView.setVisibility(View.VISIBLE);
-                    solv.setImageResource(R.drawable.vortex_in);
+                    solveButton.setImageResource(R.drawable.vortex_in);
                     startSolvationCast();
-                    isShowingSolvation=true;
-                }
-                else{
+                    isShowingSolvation = true;
+                } else {
                     solvationView.setVisibility(View.GONE);
                     stopSolvationCast();
-                    solv.setImageResource(R.drawable.vortex_out);
-                    isShowingSolvation=false;
+                    solveButton.setImageResource(R.drawable.vortex_out);
+                    isShowingSolvation = false;
                 }
             }
         });
-        c100x100.leftMargin=100;
-        bottomHolder.addView(solv,c100x100);
+        c80x80.leftMargin=100;
+        bottomHolder.addView(solveButton, c80x80);
 
 
 
@@ -108,15 +104,8 @@ public class Solver {
         solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        solvationText = new TextView(context);
-        solvationText.setTextSize(23);
-        solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvationView.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        solvationView.setVisibility(View.GONE);
+        mainMatrix.animator.setView(solvationView) ;
         mainView.addView(solvationView);
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
         resultView = new LinearLayout(context);
         resultView.setOrientation(LinearLayout.HORIZONTAL);
@@ -138,33 +127,18 @@ public class Solver {
 
     private void stopSolvationCast() {
 
+        mainMatrix.animator.stopSolvation();
 
     }
 
     private void startSolvationCast() {
-        tic = new TicTac();
-        if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
-            start2x2Solvation();
-        } else if (mainMatrix.rows == 3 && mainMatrix.columns == 3) {
-            start3x3Solvation();
-        } else ;
-        tic.execute();
-    }
 
-    private void start3x3Solvation() {
+        mainMatrix.animator.startSolvation();
 
     }
 
-    private void start2x2Solvation() {
-        solvationString = "" + round(mainMatrix.m[0][0]) + "*" + round(mainMatrix.m[1][1]) + " - " + round(mainMatrix.m[0][1]) + "*" + round(mainMatrix.m[1][0]);
-    }
 
-    private String round(float i) {
-        if (i % 1 == 0)
-            return Integer.toString((int) i);
-        else
-            return Float.toString(i);
-    }
+
 
     Dialog d;
 
@@ -192,9 +166,9 @@ public class Solver {
 
     public void findDeterminant() {
         try {
-            resultText.setText("Determinant = " + round(mainMatrix.findDeterminant()));
+            resultText.setText("Determinant = " + Utils.floToRoundString(mainMatrix.findDeterminant()));
             resultView.setVisibility(View.VISIBLE);
-            solv.setVisibility(View.VISIBLE);
+            solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsiutable");
@@ -209,34 +183,6 @@ public class Solver {
 //        Toast.makeText(_context, mainMatrix.findDeterminant() + "", 2000).show();
     }
 
-    class TicTac extends AsyncTask {
-
-        short counter = 0;
-
-        @Override
-        protected Object doInBackground(Object... objects) {
-            while (!this.isCancelled()) {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                publishProgress();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Object... values) {
-            Log.d("zzz", "zzz");
-
-            if (counter <= solvationString.length()) {
-                solvationText.setText(solvationString.substring(0, counter));
-            }
-            counter++;
-            super.onProgressUpdate(values);
-        }
-    }
 
 
 }
