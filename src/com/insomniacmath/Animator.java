@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class Animator {
@@ -20,6 +21,7 @@ public class Animator {
 
     TicTac tic;
 
+//    SurfaceView canvas;
     SurfaceView canvas;
     Matrix parent;
     int animType;

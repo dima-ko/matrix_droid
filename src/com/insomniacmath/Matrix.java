@@ -28,11 +28,13 @@ public class Matrix {
     LinearLayout bodyMatrix;
     LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
+    RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     LinearLayout plusMinusHolder;
     ImageView rightBraket, leftBraket;
     SurfaceView canvas;
     Animator animator;
+    RelativeLayout relativeLayout;
 
     public Matrix(Context context, LinearLayout view) {
         this.context = context;
@@ -109,7 +111,8 @@ public class Matrix {
     private void fillGrid() {
 
         bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
-        RelativeLayout relativeLayout = new RelativeLayout(context);
+
+        relativeLayout = new RelativeLayout(context);
         LinearLayout bodyMatrixRows = new LinearLayout(context);
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
 
@@ -145,14 +148,21 @@ public class Matrix {
             bodyMatrixRows.addView(gridRows[i], wrapWrap);
         }
 
-        relativeLayout.addView(bodyMatrixRows, wrapWrap);
+        relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
+        relativeLayout.setBackgroundColor(0x22FFFFFF);
 
-        canvas = new SurfaceView(context);
-        relativeLayout.addView(canvas, fillFill);
+
 
         bodyMatrix.addView(relativeLayout, wrapWrap);
 
         bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
+
+        bodyMatrixRows.setId(2);
+        fillFill.addRule(RelativeLayout.ALIGN_RIGHT,bodyMatrixRows.getId());
+        fillFill.addRule(RelativeLayout.ALIGN_BOTTOM,bodyMatrixRows.getId());
+        canvas = new SurfaceView(context);
+        relativeLayout.addView(canvas, fillFill);
+
 
         animator = new Animator(canvas,this);
 
