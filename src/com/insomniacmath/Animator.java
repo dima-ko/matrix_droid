@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animations.Animation;
+import com.insomniacmath.Animations.Det2x2Animation;
 
 public class Animator {
 
@@ -65,6 +66,7 @@ public class Animator {
         solvationString = "" + Utils.floToRoundString(parent.m[0][0]) + "*" + Utils.floToRoundString(parent.m[1][1]) + " - "
                 + Utils.floToRoundString(parent.m[0][1]) + "*" + Utils.floToRoundString(parent.m[1][0]);
 
+        anim = new Det2x2Animation(canvas);
 
 
     }
