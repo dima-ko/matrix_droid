@@ -1,7 +1,7 @@
 package com.insomniacmath.Animations;
 
 
-public class Det2x2Animation extends Animation{
+public class Det3x3Animation extends Animation{
 
 
     @Override

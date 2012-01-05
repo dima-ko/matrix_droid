@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.insomniacmath.Animations.Animation;
 
 public class Animator {
 
@@ -28,6 +29,7 @@ public class Animator {
     String solvationString;
     private TextView solvationText;
     private LinearLayout solvationView;
+    Animation anim;
 
     public int getAnimType() {
         return animType;
@@ -46,7 +48,6 @@ public class Animator {
     public void startSolvation() {
 
 
-
         tic = new TicTac();
         if (parent.rows == 2 && parent.columns == 2) {
             start2x2Solvation();
@@ -63,6 +64,9 @@ public class Animator {
     private void start2x2Solvation() {
         solvationString = "" + Utils.floToRoundString(parent.m[0][0]) + "*" + Utils.floToRoundString(parent.m[1][1]) + " - "
                 + Utils.floToRoundString(parent.m[0][1]) + "*" + Utils.floToRoundString(parent.m[1][0]);
+
+
+
     }
 
     public void stopSolvation() {
@@ -103,6 +107,7 @@ public class Animator {
         protected void onProgressUpdate(Object... values) {
             Log.d("zzz", "zzz");
 
+            anim.tic(counter);
             counter++;
             super.onProgressUpdate(values);
         }
