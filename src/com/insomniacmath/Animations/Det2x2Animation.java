@@ -7,7 +7,7 @@ import android.view.SurfaceView;
 public class Det2x2Animation extends Animation{
 
 
-    public Det2x2Animation(SurfaceView surface) {
+    public Det2x2Animation(MatrixCanvas surface) {
         super(surface);
     }
 

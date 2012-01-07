@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animations.Animation;
 import com.insomniacmath.Animations.Det2x2Animation;
+import com.insomniacmath.Animations.MatrixCanvas;
 
 public class Animator {
 
@@ -23,8 +24,8 @@ public class Animator {
 
     TicTac tic;
 
-//    SurfaceView canvas;
-    SurfaceView canvas;
+//    MatrixCanvas canvas;
+    MatrixCanvas canvas;
     Matrix parent;
     int animType;
     String solvationString;
@@ -41,7 +42,7 @@ public class Animator {
     }
 
 
-    public Animator(SurfaceView canvas, Matrix matrix) {
+    public Animator(MatrixCanvas canvas, Matrix matrix) {
         this.canvas = canvas;
         parent=matrix;
     }
@@ -72,7 +73,6 @@ public class Animator {
     }
 
     public void stopSolvation() {
-        //To change body of created methods use File | Settings | File Templates.
     }
 
     public void setView(LinearLayout solvationView) {

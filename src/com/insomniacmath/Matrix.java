@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.insomniacmath.Animations.MatrixCanvas;
 
 
 public class Matrix {
@@ -32,7 +33,7 @@ public class Matrix {
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     LinearLayout plusMinusHolder;
     ImageView rightBraket, leftBraket;
-    SurfaceView canvas;
+    MatrixCanvas canvas;
     Animator animator;
     RelativeLayout relativeLayout;
 
@@ -160,7 +161,7 @@ public class Matrix {
         bodyMatrixRows.setId(2);
         fillFill.addRule(RelativeLayout.ALIGN_RIGHT,bodyMatrixRows.getId());
         fillFill.addRule(RelativeLayout.ALIGN_BOTTOM,bodyMatrixRows.getId());
-        canvas = new SurfaceView(context);
+        canvas = new MatrixCanvas(context);
         relativeLayout.addView(canvas, fillFill);
 
 

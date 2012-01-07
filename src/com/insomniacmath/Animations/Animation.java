@@ -6,9 +6,9 @@ import android.view.SurfaceView;
 
 abstract public class Animation {
 
-    SurfaceView surface;
+    MatrixCanvas surface;
 
-    Animation(SurfaceView surface) {
+    Animation(MatrixCanvas surface) {
         this.surface = surface;
     }
 

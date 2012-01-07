@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.*;
 
 public class Solver {
@@ -170,6 +171,8 @@ public class Solver {
             resultView.setVisibility(View.VISIBLE);
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
+            solveButton.startAnimation(
+                    AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely) );
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsiutable");
             resultText.setTextColor(Color.RED);
