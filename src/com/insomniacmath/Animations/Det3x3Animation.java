@@ -1,14 +1,14 @@
 package com.insomniacmath.Animations;
 
 
-import android.view.Surface;
-import android.view.SurfaceView;
+import android.widget.LinearLayout;
+import com.insomniacmath.Matrix;
 
-public class Det3x3Animation extends Animation{
+public class Det3x3Animation extends Animation {
 
 
-    Det3x3Animation(MatrixCanvas surface) {
-        super(surface);
+    public Det3x3Animation(MatrixCanvas surface, LinearLayout solvationView, Matrix parent) {
+        super(surface, solvationView, parent);
     }
 
     @Override

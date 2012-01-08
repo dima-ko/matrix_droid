@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
+import com.insomniacmath.Animations.Det2x2Animation;
+import com.insomniacmath.Animations.Det3x3Animation;
 
 public class Solver {
 
@@ -173,6 +175,15 @@ public class Solver {
             resultText.setTextColor(Color.WHITE);
             solveButton.startAnimation(
                     AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely) );
+
+            if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
+                mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
+            } else if (mainMatrix.rows == 3 && mainMatrix.columns == 3) {
+                mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
+            } else ;
+
+
+
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsiutable");
             resultText.setTextColor(Color.RED);

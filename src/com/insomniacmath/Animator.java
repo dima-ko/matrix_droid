@@ -3,33 +3,26 @@ package com.insomniacmath;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import com.insomniacmath.Animations.Animation;
 import com.insomniacmath.Animations.Det2x2Animation;
+import com.insomniacmath.Animations.Det3x3Animation;
 import com.insomniacmath.Animations.MatrixCanvas;
 
 public class Animator {
 
 
-
     static final int ANIM_DETERMINANT_2x2 = 0;
-    static final int ANIM_DETERMINANT_3x3 = 0;
-    static final int ANIM_DETERMINANT_4x4 = 0;
+    static final int ANIM_DETERMINANT_3x3 = 1;
+    static final int ANIM_DETERMINANT_4x4 = 2;
 
     TicTac tic;
 
-//    MatrixCanvas canvas;
+    //    MatrixCanvas canvas;
     MatrixCanvas canvas;
     Matrix parent;
     int animType;
-    String solvationString;
-    private TextView solvationText;
+
     private LinearLayout solvationView;
     Animation anim;
 
@@ -44,47 +37,28 @@ public class Animator {
 
     public Animator(MatrixCanvas canvas, Matrix matrix) {
         this.canvas = canvas;
-        parent=matrix;
+        parent = matrix;
     }
 
     public void startSolvation() {
 
-
         tic = new TicTac();
-        if (parent.rows == 2 && parent.columns == 2) {
-            start2x2Solvation();
-        } else if (parent.rows == 3 && parent.columns == 3) {
-            start3x3Solvation();
+        if (animType == ANIM_DETERMINANT_2x2) {
+            anim = new Det2x2Animation(canvas, solvationView, parent);
+        } else if (animType == ANIM_DETERMINANT_3x3) {
+            anim = new Det3x3Animation(canvas, solvationView, parent);
         } else ;
         tic.execute();
-    }
-
-    private void start3x3Solvation() {
 
     }
 
-    private void start2x2Solvation() {
-        solvationString = "" + Utils.floToRoundString(parent.m[0][0]) + "*" + Utils.floToRoundString(parent.m[1][1]) + " - "
-                + Utils.floToRoundString(parent.m[0][1]) + "*" + Utils.floToRoundString(parent.m[1][0]);
-
-        anim = new Det2x2Animation(canvas);
-
-
-    }
 
     public void stopSolvation() {
+
     }
 
     public void setView(LinearLayout solvationView) {
-
         this.solvationView = solvationView;
-
-        solvationText = new TextView(solvationView.getContext());
-        solvationText.setTextSize(23);
-        solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvationView.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        solvationView.setVisibility(View.GONE);
-
     }
 
 
@@ -114,7 +88,6 @@ public class Animator {
             super.onProgressUpdate(values);
         }
     }
-
 
 
 }
