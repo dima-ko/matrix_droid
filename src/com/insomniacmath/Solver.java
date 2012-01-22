@@ -57,23 +57,21 @@ public class Solver {
 
 
         solveButton = new ImageView(context);
-//        solveButton.setImageResource(R.drawable.vortex_out);
         solveButton.setImageResource(R.drawable.gera2);
         solveButton.setVisibility(View.INVISIBLE);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (!isShowingSolvation) {
                     solvationView.setVisibility(View.VISIBLE);
-//                    solveButton.setImageResource(R.drawable.vortex_in);
-                    solveButton.setImageResource(R.drawable.gera2);
                     startSolvationCast();
                     isShowingSolvation = true;
+                    solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
+
                 } else {
                     solvationView.setVisibility(View.GONE);
                     stopSolvationCast();
-//                    solveButton.setImageResource(R.drawable.vortex_out);
-                    solveButton.setImageResource(R.drawable.gera2);
                     isShowingSolvation = false;
+                    solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
                 }
             }
         });
@@ -169,8 +167,7 @@ public class Solver {
             resultView.setVisibility(View.VISIBLE);
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
-            solveButton.startAnimation(
-                    AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely));
+            solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
             if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
                 mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
