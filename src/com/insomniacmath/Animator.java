@@ -70,7 +70,8 @@ public class Animator {
         protected Object doInBackground(Object... objects) {
             while (!this.isCancelled()) {
                 try {
-                    Thread.sleep(200);
+                    int time = 500;
+                    Thread.sleep(time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

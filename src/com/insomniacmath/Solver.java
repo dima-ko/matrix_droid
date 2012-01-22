@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.*;
-import com.insomniacmath.Animations.Det2x2Animation;
-import com.insomniacmath.Animations.Det3x3Animation;
 
 public class Solver {
 
@@ -27,7 +25,7 @@ public class Solver {
     LinearLayout bottomHolder;
 
 
-    boolean isShowingSolvation=false;
+    boolean isShowingSolvation = false;
 
 
     public Solver(Context context, LinearLayout mainView) {
@@ -59,26 +57,28 @@ public class Solver {
 
 
         solveButton = new ImageView(context);
-        solveButton.setImageResource(R.drawable.vortex_out);
+//        solveButton.setImageResource(R.drawable.vortex_out);
+        solveButton.setImageResource(R.drawable.gera2);
         solveButton.setVisibility(View.INVISIBLE);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (!isShowingSolvation) {
                     solvationView.setVisibility(View.VISIBLE);
-                    solveButton.setImageResource(R.drawable.vortex_in);
+//                    solveButton.setImageResource(R.drawable.vortex_in);
+                    solveButton.setImageResource(R.drawable.gera2);
                     startSolvationCast();
                     isShowingSolvation = true;
                 } else {
                     solvationView.setVisibility(View.GONE);
                     stopSolvationCast();
-                    solveButton.setImageResource(R.drawable.vortex_out);
+//                    solveButton.setImageResource(R.drawable.vortex_out);
+                    solveButton.setImageResource(R.drawable.gera2);
                     isShowingSolvation = false;
                 }
             }
         });
-        c80x80.leftMargin=100;
+        c80x80.leftMargin = 100;
         bottomHolder.addView(solveButton, c80x80);
-
 
 
         scrollWrapper.addView(bottomHolder, fillWrap);
@@ -104,10 +104,11 @@ public class Solver {
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
+        solvationView.setOrientation(LinearLayout.VERTICAL);
         solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        mainMatrix.animator.setView(solvationView) ;
+        mainMatrix.animator.setView(solvationView);
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
@@ -120,8 +121,7 @@ public class Solver {
         resultText = new TextView(context);
         resultText.setTextSize(20);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.addView(resultText,fillWrap);
-
+        resultView.addView(resultText, fillWrap);
 
 
         mainView.addView(resultView);
@@ -141,11 +141,7 @@ public class Solver {
     }
 
 
-
-
     Dialog d;
-
-
 
 
     public void findProperVectors() {
@@ -169,19 +165,18 @@ public class Solver {
 
     public void findDeterminant() {
         try {
-            resultText.setText("Determinant = " + Utils.floToRoundString(mainMatrix.findDeterminant()));
+            resultText.setText("Determinant = " + Utils.round(mainMatrix.findDeterminant()));
             resultView.setVisibility(View.VISIBLE);
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
             solveButton.startAnimation(
-                    AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely) );
+                    AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely));
 
             if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
                 mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
             } else if (mainMatrix.rows == 3 && mainMatrix.columns == 3) {
                 mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
             } else ;
-
 
 
         } catch (BadSymbolException e) {
@@ -196,7 +191,6 @@ public class Solver {
         }
 //        Toast.makeText(_context, mainMatrix.findDeterminant() + "", 2000).show();
     }
-
 
 
 }

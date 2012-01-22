@@ -9,7 +9,7 @@ import com.insomniacmath.Utils;
 
 abstract public class Animation {
 
-    MatrixCanvas surface;
+    public MatrixCanvas surface;
     public LinearLayout solvation;
     public Matrix parent;
 
@@ -21,7 +21,7 @@ abstract public class Animation {
 
     public abstract void tic(int t);
 
-//    solvationString = "" + Utils.floToRoundString(parent.m[0][0]) + "*" + Utils.floToRoundString(parent.m[1][1]) + " - "
-//            + Utils.floToRoundString(parent.m[0][1]) + "*" + Utils.floToRoundString(parent.m[1][0]);
+//    solvationString = "" + Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]) + " - "
+//            + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]);
 
 }

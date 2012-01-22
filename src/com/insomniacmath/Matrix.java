@@ -17,7 +17,7 @@ public class Matrix {
     private final static int MAX_ROWS = 6;
     private final static int MAX_COLUMNS = 8;
 
-    float[][] m;
+    public float[][] m;
     EditText[][] grid = new EditText[MAX_ROWS][];
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
 
@@ -148,7 +148,7 @@ public class Matrix {
         }
 
         relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
-        relativeLayout.setBackgroundColor(0x22FFFFFF);
+//        relativeLayout.setBackgroundColor(0x22FFFFFF);
 
         grid[0][0].setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
