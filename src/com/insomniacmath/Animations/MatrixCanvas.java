@@ -42,6 +42,23 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         }
     }
 
+    class circle {
+        final static int shiftX = 40;
+        final static int shiftY = 31;
+        final static int shift = 80;
+
+        public int x;
+        public int y;
+        public int lifeCounter = 0;
+        int color;
+
+        public circle(int x, int y, int color) {
+            this.color = color;
+            this.x = x * shift + shiftX;
+            this.y = y * shift + shiftY;
+        }
+    }
+
 
     public MatrixCanvas(Context context) {
         super(context);
@@ -53,6 +70,10 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         pathList = new ArrayList<line>();
 
         onResumeMySurfaceView();
+    }
+
+    public void addPath(int startx, int starty, int endx, int endy, int color) {
+        pathList.add(new line(startx, starty, endx, endy, color));
     }
 
     public void addPath(int startx, int starty, int endx, int endy, int color) {
