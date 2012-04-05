@@ -57,7 +57,7 @@ public class Solver {
 
 
         solveButton = new ImageView(context);
-        solveButton.setImageResource(R.drawable.gera2);
+        solveButton.setImageResource(R.drawable.gear);
         solveButton.setVisibility(View.INVISIBLE);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
