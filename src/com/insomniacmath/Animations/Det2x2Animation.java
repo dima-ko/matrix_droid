@@ -1,6 +1,7 @@
 package com.insomniacmath.Animations;
 
 
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -20,7 +21,7 @@ public class Det2x2Animation extends Animation {
         solvationText = new TextView(solvation.getContext());
         solvationText.setTextColor(0xFF3388FF);
         solvationText2 = new TextView(solvation.getContext());
-        solvationText2.setTextColor(0xFF3388FF);
+        solvationText2.setTextColor(0xFF8833FF);
     }
 
     @Override
@@ -34,20 +35,21 @@ public class Det2x2Animation extends Animation {
                 solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationText.setText(Utils.round(parent.m[0][0]));
-                surface.addPath(0,0,1,1);
                 break;
             case 2:
                 solvationText.setText(Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]));
+                surface.addPath(0, 0, 1, 1, 0xFF3388FF);
                 break;
             case 3:
-                solvationText2 = new TextView(solvation.getContext());
+//                solvationText2 = new TextView(solvation.getContext());
                 solvationText2.setTextSize(23);
                 solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationText2.setText("-" + Utils.round(parent.m[0][1]));
                 break;
             case 4:
-                solvationText2.setText("-" +  Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]));
+                solvationText2.setText("-" + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]));
+                surface.addPath(0, 1, 1, 0, 0xFF8833FF);
                 break;
 
 

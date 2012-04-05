@@ -30,10 +30,11 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         public int starty;
         public int endx;
         public int endy;
+        public int lifeCounter = 0;
+        int color;
 
-        public line(int startx, int starty, int endx, int endy) {
-
-
+        public line(int startx, int starty, int endx, int endy, int color) {
+            this.color = color;
             this.startx = startx * shift + shiftX;
             this.starty = starty * shift + shiftY;
             this.endx = endx * shift + shiftX;
@@ -54,8 +55,8 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         onResumeMySurfaceView();
     }
 
-    public void addPath(int startx, int starty, int endx, int endy) {
-        pathList.add(new line(startx, starty, endx, endy));
+    public void addPath(int startx, int starty, int endx, int endy, int color) {
+        pathList.add(new line(startx, starty, endx, endy, color));
     }
 
     public MatrixCanvas(Context context, AttributeSet attrs) {
@@ -97,6 +98,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
 
                 for (int i = 0; i < pathList.size(); i++) {
+                    paint.setColor(pathList.get(i).color);
                     canvas.drawLine(pathList.get(i).startx, pathList.get(i).starty, pathList.get(i).endx, pathList.get(i).endy, paint);
                 }
 
