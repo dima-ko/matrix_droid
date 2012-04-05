@@ -57,4 +57,17 @@ public class MatrixActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+//    protected void onResume() {
+//        // TODO Auto-generated method stub
+//        super.onResume();
+//        radiusSurfaceView.onResumeMySurfaceView();
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        // TODO Auto-generated method stub
+//        super.onPause();
+//        radiusSurfaceView.onPauseMySurfaceView();
+//    }
 }

@@ -34,6 +34,7 @@ public class Det2x2Animation extends Animation {
                 solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationText.setText(Utils.round(parent.m[0][0]));
+                surface.addPath(0,0,1,1);
                 break;
             case 2:
                 solvationText.setText(Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]));

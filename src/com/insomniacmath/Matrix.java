@@ -147,7 +147,7 @@ public class Matrix {
             bodyMatrixRows.addView(gridRows[i], wrapWrap);
         }
 
-        relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
+
 //        relativeLayout.setBackgroundColor(0x22FFFFFF);
 
         grid[0][0].setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -170,7 +170,7 @@ public class Matrix {
         fillFill.addRule(RelativeLayout.ALIGN_BOTTOM,bodyMatrixRows.getId());
         canvas = new MatrixCanvas(context);
         relativeLayout.addView(canvas, fillFill);
-
+        relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
 
         animator = new Animator(canvas,this);
 
