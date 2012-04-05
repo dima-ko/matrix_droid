@@ -39,14 +39,17 @@ public class Det3x3Animation extends Animation {
                 break;
             case 1:
                 solvationTexts[0].setText("+ " + Utils.round(parent.m[0][0]));
+                surface.addCircle(0, 0, cyan);
                 break;
             case 2:
                 solvationTexts[0].setText("+ " + Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]));
                 surface.addPath(0, 0, 1, 1, cyan);
+                surface.addCircle(1, 1, cyan);
                 break;
             case 3:
                 solvationTexts[0].setText("+ " + Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]) + "*" + Utils.round(parent.m[2][2]));
                 surface.addPath(1, 1, 2, 2, cyan);
+                surface.addCircle(2, 2, cyan);
                 break;
 
             case 5:

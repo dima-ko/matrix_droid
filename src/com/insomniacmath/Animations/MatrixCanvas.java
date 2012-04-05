@@ -20,6 +20,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     ArrayList<line> pathList;
+    ArrayList<circle> circleList;
 
     class line {
         final static int shiftX = 40;
@@ -68,6 +69,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         paint.setColor(Color.RED);
         paint.setStrokeWidth(20);
         pathList = new ArrayList<line>();
+        circleList = new ArrayList<circle>();
 
         onResumeMySurfaceView();
     }
@@ -76,8 +78,8 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         pathList.add(new line(startx, starty, endx, endy, color));
     }
 
-    public void addPath(int startx, int starty, int endx, int endy, int color) {
-        pathList.add(new line(startx, starty, endx, endy, color));
+    public void addCircle(int x, int y, int color) {
+        circleList.add(new circle(x, y, color));
     }
 
     public MatrixCanvas(Context context, AttributeSet attrs) {
@@ -117,6 +119,11 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
                 //... actual drawing on canvas
                 canvas.drawColor(Color.TRANSPARENT);
 
+
+                for (int i = 0; i < circleList.size(); i++) {
+                    paint.setColor(circleList.get(i).color);
+                    canvas.drawCircle(circleList.get(i).x, circleList.get(i).y, 20, paint);
+                }
 
                 for (int i = 0; i < pathList.size(); i++) {
                     paint.setColor(pathList.get(i).color);
