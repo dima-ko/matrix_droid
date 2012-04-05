@@ -11,9 +11,9 @@ import com.insomniacmath.Utils;
 public class Det3x3Animation extends Animation {
 
     TextView[] solvationTexts = new TextView[6];
-    final static int cyan = 0xFF3388FF;
-    final static int viol = 0xFF8833FF;
-    final static int ros = 0xFFFF3388;
+    final static int cyan = 0xAA3388FF;
+    final static int viol = 0xAA8833FF;
+    final static int ros = 0xAAFF3388;
 
     public Det3x3Animation(MatrixCanvas surface, LinearLayout solvationView, Matrix parent) {
         super(surface, solvationView, parent);
@@ -51,7 +51,7 @@ public class Det3x3Animation extends Animation {
                 surface.addPath(1, 1, 2, 2, cyan);
                 surface.addCircle(2, 2, cyan);
                 break;
-
+            //-------------------------------------------------------------------------------------------------------------------------------
             case 5:
                 solvationTexts[1].setTextSize(23);
                 solvationTexts[1].setGravity(Gravity.CENTER_HORIZONTAL);
@@ -61,18 +61,22 @@ public class Det3x3Animation extends Animation {
 
             case 6:
                 solvationTexts[1].setText("+ " + Utils.round(parent.m[0][1]));
+                surface.addCircle(1, 0, viol);
                 break;
             case 7:
                 solvationTexts[1].setText("+ " + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][2]));
                 surface.addPath(1, 0, 2, 1, viol);
+                surface.addCircle(2, 1, viol);
                 break;
             case 8:
                 solvationTexts[1].setText("+ " + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][2]) + "*" + Utils.round(parent.m[2][0]));
                 surface.addPath(2, 1, 0, 2, viol);
+                surface.addCircle(0, 2, viol);
                 break;
             case 9:
                 surface.addPath(0, 2, 1, 0, viol);
                 break;
+            //-------------------------------------------------------------------------------------------------------------------------------
             case 10:
                 solvationTexts[2].setTextSize(23);
                 solvationTexts[2].setGravity(Gravity.CENTER_HORIZONTAL);
@@ -82,14 +86,17 @@ public class Det3x3Animation extends Animation {
 
             case 11:
                 solvationTexts[2].setText("+ " + Utils.round(parent.m[1][0]));
+                surface.addCircle(0, 1, ros);
                 break;
             case 12:
                 solvationTexts[2].setText("+ " + Utils.round(parent.m[1][0]) + "*" + Utils.round(parent.m[2][1]));
                 surface.addPath(0, 1, 1, 2, ros);
+                surface.addCircle(1, 2, ros);
                 break;
             case 13:
                 solvationTexts[2].setText("+ " + Utils.round(parent.m[1][0]) + "*" + Utils.round(parent.m[2][1]) + "*" + Utils.round(parent.m[0][2]));
                 surface.addPath(1, 2, 2, 0, ros);
+                surface.addCircle(2, 0, ros);
                 break;
             case 14:
                 surface.addPath(2, 0, 0, 1, ros);

@@ -24,7 +24,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
     class line {
         final static int shiftX = 40;
-        final static int shiftY = 31;
+        final static int shiftY = 34;
         final static int shift = 80;
 
         public int startx;
