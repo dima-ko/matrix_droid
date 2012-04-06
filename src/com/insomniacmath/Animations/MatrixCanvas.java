@@ -22,6 +22,11 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
     ArrayList<line> pathList;
     ArrayList<circle> circleList;
 
+    public void clearPaths() {
+        pathList.clear();
+        circleList.clear();
+    }
+
     class line {
         final static int shiftX = 40;
         final static int shiftY = 40;
@@ -45,7 +50,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
     class circle {
         final static int shiftX = 40;
-        final static int shiftY = 31;
+        final static int shiftY = 40;
         final static int shift = 80;
 
         public int x;
@@ -117,7 +122,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 Canvas canvas = surfaceHolder.lockCanvas();
                 //... actual drawing on canvas
-                canvas.drawColor(Color.TRANSPARENT);
+                canvas.drawColor(Color.BLACK);
 
 
                 for (int i = 0; i < circleList.size(); i++) {
