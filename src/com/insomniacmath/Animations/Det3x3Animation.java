@@ -16,6 +16,7 @@ public class Det3x3Animation extends Animation {
     final static int ros = 0xAAFF3388;
     final static int blu = 0xAA2233FF;
     final static int gree = 0xAA22FF22;
+    final static int yel= 0xAAAAAA22;
 
     public Det3x3Animation(MatrixCanvas surface, LinearLayout solvationView, Matrix parent) {
         super(surface, solvationView, parent);
@@ -30,6 +31,8 @@ public class Det3x3Animation extends Animation {
         solvationTexts[3].setTextColor(blu);
         solvationTexts[4] = new TextView(solvation.getContext());
         solvationTexts[4].setTextColor(gree);
+        solvationTexts[5] = new TextView(solvation.getContext());
+        solvationTexts[5].setTextColor(yel);
     }
 
     @Override
@@ -115,19 +118,19 @@ public class Det3x3Animation extends Animation {
                 solvationTexts[3].setTextSize(23);
                 solvationTexts[3].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[3], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationTexts[3].setText("+ ");
+                solvationTexts[3].setText("- ");
                 break;
             case 17:
-                solvationTexts[3].setText("+ " + Utils.round(parent.m[0][2]));
+                solvationTexts[3].setText("- " + Utils.round(parent.m[0][2]));
                 surface.addCircle(2, 0, blu);
                 break;
             case 18:
-                solvationTexts[3].setText("+ " + Utils.round(parent.m[0][2]) + "*" + Utils.round(parent.m[1][1]));
+                solvationTexts[3].setText("- " + Utils.round(parent.m[0][2]) + "*" + Utils.round(parent.m[1][1]));
                 surface.addPath(2, 0, 1, 1, blu);
                 surface.addCircle(1, 1, blu);
                 break;
             case 19:
-                solvationTexts[3].setText("+ " + Utils.round(parent.m[0][2]) + "*" + Utils.round(parent.m[1][1]) + "*" + Utils.round(parent.m[2][0]));
+                solvationTexts[3].setText("- " + Utils.round(parent.m[0][2]) + "*" + Utils.round(parent.m[1][1]) + "*" + Utils.round(parent.m[2][0]));
                 surface.addPath(1, 1, 0, 2, blu);
                 surface.addCircle(0, 2, blu);
                 break;
@@ -136,51 +139,51 @@ public class Det3x3Animation extends Animation {
                 solvationTexts[4].setTextSize(23);
                 solvationTexts[4].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[4], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationTexts[4].setText("+ ");
+                solvationTexts[4].setText("- ");
                 break;
 
             case 21:
-                solvationTexts[4].setText("+ " + Utils.round(parent.m[0][1]));
+                solvationTexts[4].setText("- " + Utils.round(parent.m[0][1]));
                 surface.addCircle(1, 0, gree);
                 break;
             case 22:
-                solvationTexts[4].setText("+ " + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]));
-                surface.addPath(1, 0, 2, 1, gree);
-                surface.addCircle(2, 1, gree);
+                solvationTexts[4].setText("- " + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]));
+                surface.addPath(1, 0, 0, 1, gree);
+                surface.addCircle(0, 1, gree);
                 break;
             case 23:
-                solvationTexts[4].setText("+ " + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]) + "*" + Utils.round(parent.m[2][2]));
-                surface.addPath(2, 1, 0, 2, gree);
-                surface.addCircle(0, 2, gree);
+                solvationTexts[4].setText("- " + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]) + "*" + Utils.round(parent.m[2][2]));
+                surface.addPath(0, 1, 2, 2, gree);
+                surface.addCircle(2, 2, gree);
                 break;
             case 24:
-                surface.addPath(0, 2, 1, 0, gree);
+                surface.addPath(2, 2, 1, 0, gree);
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
-//            case 25:
-//                solvationTexts[2].setTextSize(23);
-//                solvationTexts[2].setGravity(Gravity.CENTER_HORIZONTAL);
-//                solvation.addView(solvationTexts[2], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                solvationTexts[2].setText("+ ");
-//                break;
-//
-//            case 26:
-//                solvationTexts[2].setText("+ " + Utils.round(parent.m[1][0]));
-//                surface.addCircle(0, 1, ros);
-//                break;
-//            case 27:
-//                solvationTexts[2].setText("+ " + Utils.round(parent.m[1][0]) + "*" + Utils.round(parent.m[2][1]));
-//                surface.addPath(0, 1, 1, 2, ros);
-//                surface.addCircle(1, 2, ros);
-//                break;
-//            case 28:
-//                solvationTexts[2].setText("+ " + Utils.round(parent.m[1][0]) + "*" + Utils.round(parent.m[2][1]) + "*" + Utils.round(parent.m[0][2]));
-//                surface.addPath(1, 2, 2, 0, ros);
-//                surface.addCircle(2, 0, ros);
-//                break;
-//            case 29:
-//                surface.addPath(2, 0, 0, 1, ros);
-//                break;
+            case 25:
+                solvationTexts[5].setTextSize(23);
+                solvationTexts[5].setGravity(Gravity.CENTER_HORIZONTAL);
+                solvation.addView(solvationTexts[5], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvationTexts[5].setText("- ");
+                break;
+
+            case 26:
+                solvationTexts[5].setText("- " + Utils.round(parent.m[1][2]));
+                surface.addCircle(2, 1, yel);
+                break;
+            case 27:
+                solvationTexts[5].setText("- " + Utils.round(parent.m[1][2]) + "*" + Utils.round(parent.m[2][1]));
+                surface.addPath(2, 1, 1, 2, yel);
+                surface.addCircle(1, 2, yel);
+                break;
+            case 28:
+                solvationTexts[5].setText("- " + Utils.round(parent.m[1][2]) + "*" + Utils.round(parent.m[2][1]) + "*" + Utils.round(parent.m[0][0]));
+                surface.addPath(1, 2, 0, 0, yel);
+                surface.addCircle(0, 0, yel);
+                break;
+            case 29:
+                surface.addPath(0, 0, 2, 1, yel);
+                break;
 
 
 //            case 3:
