@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 import android.widget.*;
 
 public class Solver {
@@ -65,13 +67,19 @@ public class Solver {
                     solvationView.setVisibility(View.VISIBLE);
                     startSolvationCast();
                     isShowingSolvation = true;
-                    solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
+                    Animation animation = AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw);
+                    animation.setInterpolator(new Interpolator() {
+                        public float getInterpolation(float v) {
+                            return v;
+                        }
+                    });
+                    solveButton.startAnimation(animation);
 
                 } else {
                     solvationView.setVisibility(View.GONE);
                     stopSolvationCast();
                     isShowingSolvation = false;
-                    solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+                    solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
                 }
             }
         });
@@ -167,7 +175,7 @@ public class Solver {
             resultView.setVisibility(View.VISIBLE);
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
-            solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+           // solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
             if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
                 mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
