@@ -16,7 +16,7 @@ public class Det3x3Animation extends Animation {
     final static int ros = 0xAAFF3388;
     final static int blu = 0xAA2233FF;
     final static int gree = 0xAA22FF22;
-    final static int yel= 0xAAAAAA22;
+    final static int yel= 0xAAFF8800;
 
     public Det3x3Animation(MatrixCanvas surface, LinearLayout solvationView, Matrix parent) {
         super(surface, solvationView, parent);
