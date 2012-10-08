@@ -27,6 +27,10 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         circleList.clear();
     }
 
+    public void onDestroy() {
+        running = false;
+    }
+
     class line {
         final static int shiftX = 40;
         final static int shiftY = 40;

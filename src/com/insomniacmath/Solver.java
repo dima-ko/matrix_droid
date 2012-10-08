@@ -30,6 +30,10 @@ public class Solver {
     boolean isShowingSolvation = false;
 
 
+    public void onDestroy(){
+        mainMatrix.onDestroy();
+    }
+
     public Solver(Context context, LinearLayout mainView) {
 
         _context = context;

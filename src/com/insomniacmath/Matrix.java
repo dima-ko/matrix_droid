@@ -296,4 +296,9 @@ public class Matrix {
             }
 
     }
+
+    public void onDestroy() {
+
+        canvas.onDestroy();
+    }
 }
