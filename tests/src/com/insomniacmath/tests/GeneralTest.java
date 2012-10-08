@@ -1,0 +1,62 @@
+package com.insomniacmath.tests;
+
+import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
+import android.widget.EditText;
+import com.insomniacmath.Matrix;
+import com.insomniacmath.MatrixActivity;
+import com.jayway.android.robotium.solo.Solo;
+
+import java.util.List;
+
+/**
+ * this class was made
+ * by insomniac and angryded
+ * for their purposes
+ */
+public class GeneralTest extends
+        ActivityInstrumentationTestCase2<MatrixActivity> {
+
+    private Solo solo;
+
+    public GeneralTest() {
+        super("com.insomniacmath",
+                MatrixActivity.class);
+    }
+
+    public void setUp() throws Exception {
+        solo = new Solo(getInstrumentation(), getActivity());
+    }
+
+    private void EnterEditByXY(int x, int y, float number) {
+        int id = y * Matrix.MAX_COLUMNS + x;
+        EnterEditByID(id, number);
+    }
+
+    private void EnterEditByID(int id, float number) {
+        EditText numberEdit = (EditText) solo.getView(id);
+        solo.clickOnView(numberEdit);
+        solo.enterText(numberEdit, Float.toString(number));
+    }
+
+    private void clickOnButtonByID(int ID) {
+        // get a list of all ImageButtons on the current activity
+        List<Button> btnList = solo.getCurrentButtons();
+        for (int i = 0; i < btnList.size(); i++) {
+            Button btn = btnList.get(i);
+            // find button by id
+            if (btn.getId() == ID) {
+                // click on the button using index (not id !!!)
+                solo.clickOnButton(i);
+                // check if new activity is the 'About'
+            } else {
+                // other code
+            }
+        }
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
+    }
+}

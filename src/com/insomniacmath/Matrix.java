@@ -14,8 +14,9 @@ import com.insomniacmath.Animations.MatrixCanvas;
 
 public class Matrix {
 
-    private final static int MAX_ROWS = 6;
-    private final static int MAX_COLUMNS = 8;
+    public final static int MAX_ROWS = 6;
+    public final static int MAX_COLUMNS = 8;
+    public static final int BODY_ID = 500;
 
     public float[][] m;
     EditText[][] grid = new EditText[MAX_ROWS][];
@@ -122,6 +123,7 @@ public class Matrix {
             grid[i] = new EditText[MAX_COLUMNS];
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
+                grid[i][j].setId(i * MAX_COLUMNS + i);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
@@ -165,14 +167,14 @@ public class Matrix {
 
         bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
 
-        bodyMatrixRows.setId(2);
-        fillFill.addRule(RelativeLayout.ALIGN_RIGHT,bodyMatrixRows.getId());
-        fillFill.addRule(RelativeLayout.ALIGN_BOTTOM,bodyMatrixRows.getId());
+        bodyMatrixRows.setId(BODY_ID);
+        fillFill.addRule(RelativeLayout.ALIGN_RIGHT, bodyMatrixRows.getId());
+        fillFill.addRule(RelativeLayout.ALIGN_BOTTOM, bodyMatrixRows.getId());
         canvas = new MatrixCanvas(context);
         relativeLayout.addView(canvas, fillFill);
         relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
 
-        animator = new Animator(canvas,this);
+        animator = new Animator(canvas, this);
 
     }
 
