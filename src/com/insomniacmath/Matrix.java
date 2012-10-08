@@ -7,16 +7,15 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
 
 
-public class Matrix {
+public class Matrix implements Constants{
 
-    public final static int MAX_ROWS = 6;
-    public final static int MAX_COLUMNS = 8;
-    public static final int BODY_ID = 500;
+
 
     public float[][] m;
     EditText[][] grid = new EditText[MAX_ROWS][];
@@ -73,6 +72,7 @@ public class Matrix {
         plusMinusHolder.setOrientation(LinearLayout.VERTICAL);
 
         ImageView plusColumn = new ImageView(context);
+        plusColumn.setId(PLUS_COLUMN_ID);
         plusColumn.setImageResource(R.drawable.plus_small);
         plusMinusHolder.addView(plusColumn, editParams);
         plusColumn.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +83,7 @@ public class Matrix {
         });
 
         ImageView minusColumn = new ImageView(context);
+        minusColumn.setId(MINUS_COLUMN_ID);
         minusColumn.setImageResource(R.drawable.minus_small);
         plusMinusHolder.addView(minusColumn, editParams);
         minusColumn.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +124,7 @@ public class Matrix {
             grid[i] = new EditText[MAX_COLUMNS];
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
-                grid[i][j].setId(i * MAX_COLUMNS + i);
+                grid[i][j].setId(i * MAX_COLUMNS + j);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
@@ -131,6 +132,7 @@ public class Matrix {
                 final View a = grid[i][j];
                 grid[i][j].addTextChangedListener(new TextWatcher() {
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        Log.d("clicked on edittext"," id: "+a.getId());
                     }
 
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {

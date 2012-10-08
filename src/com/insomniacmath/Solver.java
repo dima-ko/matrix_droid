@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.*;
 
-public class Solver {
+public class Solver implements Constants {
 
     Matrix mainMatrix;
     LinearLayout mainMatrixView;
@@ -30,7 +30,7 @@ public class Solver {
     boolean isShowingSolvation = false;
 
 
-    public void onDestroy(){
+    public void onDestroy() {
         mainMatrix.onDestroy();
     }
 
@@ -54,10 +54,12 @@ public class Solver {
         RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80, 80);
 
         ImageView plusRow = new ImageView(context);
+        plusRow.setId(PLUS_ROW_ID);
         plusRow.setImageResource(R.drawable.plus_small);
         bottomHolder.addView(plusRow, params1);
 
         ImageView minusRow = new ImageView(context);
+        minusRow.setId(MINUS_ROW_ID);
         minusRow.setImageResource(R.drawable.minus_small);
         bottomHolder.addView(minusRow, params1);
 
@@ -130,6 +132,7 @@ public class Solver {
 
         resultText = new TextView(context);
         resultText.setTextSize(20);
+        resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.addView(resultText, fillWrap);
 
@@ -179,7 +182,7 @@ public class Solver {
             resultView.setVisibility(View.VISIBLE);
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
-           // solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+            // solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
             if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
                 mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
