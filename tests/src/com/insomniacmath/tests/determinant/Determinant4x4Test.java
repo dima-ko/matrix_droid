@@ -20,11 +20,6 @@ public class Determinant4x4Test extends
         clickOnViewByID(PLUS_ROW_ID);
         clickOnViewByID(PLUS_ROW_ID);
 
-//        1, 2 ,0,8
-//        3, 4,2,-7
-//        3, 8,1,-5
-//        9, 4,7,-6
-
         enterEditByXY(0, 0, 1);
         enterEditByXY(1, 0, 2);
         enterEditByXY(2, 0, 0);
