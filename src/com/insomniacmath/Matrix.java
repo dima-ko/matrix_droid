@@ -146,6 +146,11 @@ public class Matrix implements Constants{
                     public void afterTextChanged(Editable editable) {
                     }
                 });
+                grid[i][j].setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+
+                    }
+                });
                 gridRows[i].addView(grid[i][j], editParams);
             }
             bodyMatrixRows.addView(gridRows[i], wrapWrap);
