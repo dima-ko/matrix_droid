@@ -177,9 +177,9 @@ public class Solver implements Constants {
 
 
     public void findDeterminant() {
+        resultView.setVisibility(View.VISIBLE);
         try {
             resultText.setText("Determinant = " + Utils.round(mainMatrix.findDeterminant()));
-            resultView.setVisibility(View.VISIBLE);
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
             // solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
@@ -192,7 +192,7 @@ public class Solver implements Constants {
 
 
         } catch (BadSymbolException e) {
-            resultText.setText("Some elements are unsiutable");
+            resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
         } catch (BadMatrixException e) {
