@@ -1,8 +1,9 @@
-package com.insomniacmath.tests;
+package com.insomniacmath.tests.determinant;
 
 
 import android.widget.TextView;
 import com.insomniacmath.Constants;
+import com.insomniacmath.tests.GeneralTest;
 import junit.framework.Assert;
 
 /**
