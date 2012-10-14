@@ -139,10 +139,31 @@ public class Solver implements Constants {
         resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.addView(resultText, fillWrap);
-
-
         mainView.addView(resultView);
+
+
+        solveButtonHolder = new LinearLayout(_context);
+        Button child = new Button(_context);
+        child.setText("multiply");
+        child.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                addSecondMatrix();
+            }
+        });
+        solveButtonHolder.addView(child);
+        Button child2 = new Button(_context);
+        child2.setText("solve");
+        child2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findMultiplication();
+            }
+        });
+        solveButtonHolder.addView(child2);
+        mainView.addView(solveButtonHolder);
+
     }
+
+    LinearLayout solveButtonHolder;
 
 
     private void stopSolvationCast() {
