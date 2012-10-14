@@ -20,13 +20,11 @@
         <option name="RUN_PROCESS_RESOURCES_MAVEN_TASK" value="true" />
         <option name="GENERATE_UNSIGNED_APK" value="false" />
         <option name="CUSTOM_DEBUG_KEYSTORE_PATH" value="" />
-        <option name="PACK_TEST_CODE" value="true" />
+        <option name="PACK_TEST_CODE" value="false" />
         <option name="RUN_PROGUARD" value="false" />
-        <option name="PROGUARD_CFG_PATH" value="/proguard-project.txt" />
-        <resOverlayFolders>
-          <path>/res-overlay</path>
-        </resOverlayFolders>
-        <includeSystemProguardFile>true</includeSystemProguardFile>
+        <option name="PROGUARD_CFG_PATH" value="/proguard.cfg" />
+        <resOverlayFolders />
+        <includeSystemProguardFile>false</includeSystemProguardFile>
         <additionalNativeLibs />
       </configuration>
     </facet>
@@ -37,13 +35,12 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Android 2.3.3 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android 2.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Metrix" scope="PROVIDED" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/robotium-solo-3.4.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/ejml-0.20.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

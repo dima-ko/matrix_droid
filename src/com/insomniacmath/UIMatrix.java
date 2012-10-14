@@ -16,7 +16,7 @@ import com.insomniacmath.Animations.MatrixCanvas;
 public class UIMatrix implements Constants {
 
 
-    public float[][] m;
+    public double[][] m;
     EditText[][] grid = new EditText[MAX_ROWS][];
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
 
@@ -37,9 +37,9 @@ public class UIMatrix implements Constants {
     public UIMatrix(Context context, LinearLayout view) {
         this.context = context;
         _view = view;
-        m = new float[2][];
+        m = new double[2][];
         for (int i = 0; i < 2; i++) {
-            m[i] = new float[2];
+            m[i] = new double[2];
         }
 
         buildView();
@@ -162,14 +162,14 @@ public class UIMatrix implements Constants {
     public void addRow() {
         if (rows < MAX_ROWS) {
             rows++;
-            float[][] temp = new float[rows][columns];
+            double[][] temp = new double[rows][columns];
             for (int i = 0; i < rows - 1; i++) {
-                temp[i] = new float[columns];
+                temp[i] = new double[columns];
                 for (int j = 0; j < columns; j++) {
                     temp[i][j] = m[i][j];
                 }
             }
-            temp[rows - 1] = new float[columns];
+            temp[rows - 1] = new double[columns];
             m = temp.clone();
         } else
             Toast.makeText(context, "tooobig", 2000).show();
@@ -179,9 +179,9 @@ public class UIMatrix implements Constants {
     public void removeRow() {
         if (rows > 1) {
             rows--;
-            float[][] temp = new float[rows][columns];
+            double[][] temp = new double[rows][columns];
             for (int i = 0; i < rows; i++) {
-                temp[i] = new float[columns];
+                temp[i] = new double[columns];
                 for (int j = 0; j < columns; j++) {
                     temp[i][j] = m[i][j];
                 }
@@ -194,9 +194,9 @@ public class UIMatrix implements Constants {
     public void addColumn() {
         if (columns < MAX_COLUMNS) {
             columns++;
-            float[][] temp = new float[rows][columns];
+            double[][] temp = new double[rows][columns];
             for (int i = 0; i < rows; i++) {
-                temp[i] = new float[columns];
+                temp[i] = new double[columns];
                 for (int j = 0; j < columns - 1; j++) {
                     temp[i][j] = m[i][j];
                 }
@@ -210,9 +210,9 @@ public class UIMatrix implements Constants {
     public void removeColumn() {
         if (columns > 1) {
             columns--;
-            float[][] temp = new float[rows][columns];
+            double[][] temp = new double[rows][columns];
             for (int i = 0; i < rows; i++) {
-                temp[i] = new float[columns];
+                temp[i] = new double[columns];
                 for (int j = 0; j < columns; j++) {
                     temp[i][j] = m[i][j];
                 }
@@ -223,7 +223,7 @@ public class UIMatrix implements Constants {
 
     }
 
-    public float findDeterminant() throws BadMatrixException, BadSymbolException {
+    public double findDeterminant() throws BadMatrixException, BadSymbolException {
         fillMatrixFromGrid();
         if (columns != rows) {
 //            Toast.makeText(context, "no square", 2000).show();
@@ -236,16 +236,16 @@ public class UIMatrix implements Constants {
     }
 
     //    1  2  3
-    private float determin(float[][] m) {                                                                                    //    4  5  6
+    private double determin(double[][] m) {                                                                                    //    4  5  6
         int size = m.length;                                                                                                 //    7  8  9
-        float D = 0;
+        double D = 0;
         if (size == 1)
             return m[0][0];
         else {
             for (int k = 0; k < size; k++) {
-                float[][] temp = new float[size - 1][];
+                double[][] temp = new double[size - 1][];
                 for (int i = 0; i < size - 1; i++) {
-                    temp[i] = new float[size - 1];
+                    temp[i] = new double[size - 1];
                     for (int j = 0; j < size - 1; j++) {
                         temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
                     }
@@ -264,7 +264,7 @@ public class UIMatrix implements Constants {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++) {
                 try {
-                    m[i][j] = Float.parseFloat(grid[i][j].getText().toString());
+                    m[i][j] = Double.parseDouble(grid[i][j].getText().toString());
                     grid[i][j].setTextColor(Color.WHITE);
                 } catch (NumberFormatException e) {
 //                    Toast.makeText(context, "badsymbol", 2000).show();
@@ -287,9 +287,9 @@ public class UIMatrix implements Constants {
     public void adjustSizeTo(int newColumns, int newRows) {
         rows = newRows;
         columns = newColumns;
-        m = new float[rows][];
+        m = new double[rows][];
         for (int i = 0; i < rows; i++) {
-            m[i] = new float[columns];
+            m[i] = new double[columns];
         }
 
     }

@@ -8,6 +8,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.*;
+import org.ejml.simple.SimpleMatrix;
+
 
 public class Solver implements Constants {
 
@@ -19,7 +21,7 @@ public class Solver implements Constants {
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
-    LinearLayout.LayoutParams c80x80= new LinearLayout.LayoutParams(80, 80);
+    LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
     private Context _context;
     private LinearLayout solvationView;
 
@@ -52,7 +54,7 @@ public class Solver implements Constants {
 
         mainUIMatrix = new UIMatrix(context, mainMatrixView);
 
-        scrollWrapper.addView(mainMatrixView,wrapWrap);
+        scrollWrapper.addView(mainMatrixView, wrapWrap);
 
 
         rightPlusHolder = new LinearLayout(context);
@@ -143,8 +145,6 @@ public class Solver implements Constants {
         });
 
         mainView.addView(bottomPlusHolder, fillWrap);
-
-
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -245,11 +245,23 @@ public class Solver implements Constants {
 
     public void findMultiplication() {
 
+        SimpleMatrix a = new SimpleMatrix(mainUIMatrix.m);
+        SimpleMatrix b = new SimpleMatrix(secondUIMatrix.m);
 
+        SimpleMatrix c = a.mult(b);
+
+        LinearLayout resultMatrixLay = new LinearLayout(_context);
+        resultView.addView(resultMatrixLay, fillWrap);
+        UIMatrix resMatrix = new UIMatrix(_context, resultView);
+        resMatrix.adjustSizeTo(c.numRows(),c.numCols());
+        for (int i = 0; i < c.numRows(); i++) {
+            for (int j = 0; j < c.numRows(); j++) {
+                resMatrix.m[i][j] = c.get(i, j);
+            }
+        }
+        resMatrix.refreshVisible();
+        resultView.setVisibility(View.VISIBLE);
     }
-
-
-
 
 
     public void findDeterminant() {
@@ -264,7 +276,7 @@ public class Solver implements Constants {
                 mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
             } else if (mainUIMatrix.rows == 3 && mainUIMatrix.columns == 3) {
                 mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
-            } else ;
+            }
 
 
         } catch (BadSymbolException e) {
