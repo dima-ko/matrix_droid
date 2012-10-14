@@ -13,7 +13,7 @@ import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
 
 
-public class Matrix implements Constants {
+public class UIMatrix implements Constants {
 
 
     public float[][] m;
@@ -34,7 +34,7 @@ public class Matrix implements Constants {
     Animator animator;
     RelativeLayout relativeLayout;
 
-    public Matrix(Context context, LinearLayout view) {
+    public UIMatrix(Context context, LinearLayout view) {
         this.context = context;
         _view = view;
         m = new float[2][];

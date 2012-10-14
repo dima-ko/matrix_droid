@@ -11,7 +11,7 @@ import android.widget.*;
 
 public class Solver implements Constants {
 
-    Matrix mainMatrix;
+    UIMatrix mainUIMatrix;
     LinearLayout mainMatrixView;
     LinearLayout resultView;
     TextView resultText;
@@ -29,11 +29,11 @@ public class Solver implements Constants {
 
     boolean isShowingSolvation = false;
     private LinearLayout secondMatrixView;
-    private Matrix secondMatrix;
+    private UIMatrix secondUIMatrix;
 
 
     public void onDestroy() {
-        mainMatrix.onDestroy();
+        mainUIMatrix.onDestroy();
     }
 
     LinearLayout scrollWrapper;
@@ -50,7 +50,7 @@ public class Solver implements Constants {
         mainMatrixView.setLayoutParams(wrapWrap);
         mainMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainMatrix = new Matrix(context, mainMatrixView);
+        mainUIMatrix = new UIMatrix(context, mainMatrixView);
 
         scrollWrapper.addView(mainMatrixView,wrapWrap);
 
@@ -64,8 +64,8 @@ public class Solver implements Constants {
         rightPlusHolder.addView(plusColumn, c80x80);
         plusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrix.addColumn();
-                mainMatrix.refreshVisible();
+                mainUIMatrix.addColumn();
+                mainUIMatrix.refreshVisible();
             }
         });
 
@@ -75,8 +75,8 @@ public class Solver implements Constants {
         rightPlusHolder.addView(minusColumn, c80x80);
         minusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrix.removeColumn();
-                mainMatrix.refreshVisible();
+                mainUIMatrix.removeColumn();
+                mainUIMatrix.refreshVisible();
             }
         });
 
@@ -130,15 +130,15 @@ public class Solver implements Constants {
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrix.addRow();
-                mainMatrix.refreshVisible();
+                mainUIMatrix.addRow();
+                mainUIMatrix.refreshVisible();
             }
         });
 
         minusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrix.removeRow();
-                mainMatrix.refreshVisible();
+                mainUIMatrix.removeRow();
+                mainUIMatrix.refreshVisible();
             }
         });
 
@@ -153,7 +153,7 @@ public class Solver implements Constants {
         solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        mainMatrix.animator.setView(solvationView);
+        mainUIMatrix.animator.setView(solvationView);
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
@@ -197,13 +197,13 @@ public class Solver implements Constants {
 
     private void stopSolvationCast() {
 
-        mainMatrix.animator.stopSolvation();
+        mainUIMatrix.animator.stopSolvation();
 
     }
 
     private void startSolvationCast() {
 
-        mainMatrix.animator.startSolvation();
+        mainUIMatrix.animator.startSolvation();
 
     }
 
@@ -235,9 +235,9 @@ public class Solver implements Constants {
         secondMatrixView.setLayoutParams(wrapWrap);
         secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        secondMatrix = new Matrix(_context, secondMatrixView);
-        secondMatrix.adjustSizeTo(mainMatrix.rows, mainMatrix.columns);
-        secondMatrix.refreshVisible();
+        secondUIMatrix = new UIMatrix(_context, secondMatrixView);
+        secondUIMatrix.adjustSizeTo(mainUIMatrix.rows, mainUIMatrix.columns);
+        secondUIMatrix.refreshVisible();
 
         mainMatrixView.addView(secondMatrixView);
 
@@ -255,15 +255,15 @@ public class Solver implements Constants {
     public void findDeterminant() {
         resultView.setVisibility(View.VISIBLE);
         try {
-            resultText.setText("Determinant = " + Utils.round(mainMatrix.findDeterminant()));
+            resultText.setText("Determinant = " + Utils.round(mainUIMatrix.findDeterminant()));
             solveButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
             // solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
-            if (mainMatrix.rows == 2 && mainMatrix.columns == 2) {
-                mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
-            } else if (mainMatrix.rows == 3 && mainMatrix.columns == 3) {
-                mainMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
+            if (mainUIMatrix.rows == 2 && mainUIMatrix.columns == 2) {
+                mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
+            } else if (mainUIMatrix.rows == 3 && mainUIMatrix.columns == 3) {
+                mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
             } else ;
 
 
@@ -277,7 +277,7 @@ public class Solver implements Constants {
 //            solvationText.setVisibility(View.GONE);
 
         }
-//        Toast.makeText(_context, mainMatrix.findDeterminant() + "", 2000).show();
+//        Toast.makeText(_context, mainUIMatrix.findDeterminant() + "", 2000).show();
     }
 
 

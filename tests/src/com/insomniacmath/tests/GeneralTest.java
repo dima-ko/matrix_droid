@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.insomniacmath.Constants;
-import com.insomniacmath.Matrix;
 import com.insomniacmath.MatrixActivity;
 import com.jayway.android.robotium.solo.Solo;
 

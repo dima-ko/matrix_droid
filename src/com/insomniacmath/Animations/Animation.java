@@ -1,19 +1,16 @@
 package com.insomniacmath.Animations;
 
 
-import android.view.Surface;
-import android.view.SurfaceView;
 import android.widget.LinearLayout;
-import com.insomniacmath.Matrix;
-import com.insomniacmath.Utils;
+import com.insomniacmath.UIMatrix;
 
 abstract public class Animation {
 
     public MatrixCanvas surface;
     public LinearLayout solvation;
-    public Matrix parent;
+    public UIMatrix parent;
 
-    Animation(MatrixCanvas surface, LinearLayout solvation, Matrix parent) {
+    Animation(MatrixCanvas surface, LinearLayout solvation, UIMatrix parent) {
         this.surface = surface;
         this.solvation = solvation;
         this.parent = parent;
