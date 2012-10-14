@@ -18,6 +18,7 @@ public class MatrixActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         mainView = new LinearLayout(this);
+        mainView.setBackgroundColor(0xff000000);
         mainView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
         mainView.setOrientation(LinearLayout.VERTICAL);
         solver = new Solver(this, mainView);

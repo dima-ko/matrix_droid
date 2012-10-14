@@ -28,7 +28,7 @@ public class Matrix implements Constants {
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-    LinearLayout plusMinusHolder;
+
     ImageView rightBraket, leftBraket;
     MatrixCanvas canvas;
     Animator animator;
@@ -67,32 +67,6 @@ public class Matrix implements Constants {
         refreshVisible();
 
 
-        plusMinusHolder = new LinearLayout(context);
-        plusMinusHolder.setOrientation(LinearLayout.VERTICAL);
-
-        ImageView plusColumn = new ImageView(context);
-        plusColumn.setId(PLUS_COLUMN_ID);
-        plusColumn.setImageResource(R.drawable.plus_small);
-        plusMinusHolder.addView(plusColumn, editParams);
-        plusColumn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                addColumn();
-                refreshVisible();
-            }
-        });
-
-        ImageView minusColumn = new ImageView(context);
-        minusColumn.setId(MINUS_COLUMN_ID);
-        minusColumn.setImageResource(R.drawable.minus_small);
-        plusMinusHolder.addView(minusColumn, editParams);
-        minusColumn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                removeColumn();
-                refreshVisible();
-            }
-        });
-
-        _view.addView(plusMinusHolder, wrapWrap);
 
     }
 

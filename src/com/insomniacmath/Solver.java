@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
@@ -17,13 +16,15 @@ public class Solver implements Constants {
     LinearLayout resultView;
     TextView resultText;
     ImageView solveButton;
-    LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
+    LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
+    LinearLayout.LayoutParams c80x80= new LinearLayout.LayoutParams(80, 80);
     private Context _context;
     private LinearLayout solvationView;
 
-    LinearLayout bottomHolder;
+    LinearLayout bottomPlusHolder;
+    LinearLayout rightPlusHolder;
 
 
     boolean isShowingSolvation = false;
@@ -40,11 +41,10 @@ public class Solver implements Constants {
     public Solver(Context context, LinearLayout mainView) {
 
         _context = context;
-
+        wrapWrap.gravity = Gravity.LEFT;
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
 
         scrollWrapper = new LinearLayout(context);
-        scrollWrapper.setOrientation(LinearLayout.VERTICAL);
         mainMatrixView = new LinearLayout(context);
 
         mainMatrixView.setLayoutParams(wrapWrap);
@@ -52,21 +52,38 @@ public class Solver implements Constants {
 
         mainMatrix = new Matrix(context, mainMatrixView);
 
-        scrollWrapper.addView(mainMatrixView);
+        scrollWrapper.addView(mainMatrixView,wrapWrap);
 
-        bottomHolder = new LinearLayout(context);
-        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80, 80);
 
-        ImageView plusRow = new ImageView(context);
-        plusRow.setId(PLUS_ROW_ID);
-        plusRow.setImageResource(R.drawable.plus_small);
-        bottomHolder.addView(plusRow, params1);
+        rightPlusHolder = new LinearLayout(context);
+        rightPlusHolder.setOrientation(LinearLayout.VERTICAL);
 
-        ImageView minusRow = new ImageView(context);
-        minusRow.setId(MINUS_ROW_ID);
-        minusRow.setImageResource(R.drawable.minus_small);
-        bottomHolder.addView(minusRow, params1);
+        ImageView plusColumn = new ImageView(context);
+        plusColumn.setId(PLUS_COLUMN_ID);
+        plusColumn.setImageResource(R.drawable.plus_small);
+        rightPlusHolder.addView(plusColumn, c80x80);
+        plusColumn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mainMatrix.addColumn();
+                mainMatrix.refreshVisible();
+            }
+        });
 
+        ImageView minusColumn = new ImageView(context);
+        minusColumn.setId(MINUS_COLUMN_ID);
+        minusColumn.setImageResource(R.drawable.minus_small);
+        rightPlusHolder.addView(minusColumn, c80x80);
+        minusColumn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mainMatrix.removeColumn();
+                mainMatrix.refreshVisible();
+            }
+        });
+
+        scrollWrapper.addView(rightPlusHolder, wrapWrap);
+
+        scrollView.addView(scrollWrapper, wrapWrap);
+        mainView.addView(scrollView, wrapWrap);
 
         solveButton = new ImageView(context);
         solveButton.setImageResource(R.drawable.gear);
@@ -93,11 +110,23 @@ public class Solver implements Constants {
                 }
             }
         });
-        c80x80.leftMargin = 100;
-        bottomHolder.addView(solveButton, c80x80);
 
 
-        scrollWrapper.addView(bottomHolder, fillWrap);
+        bottomPlusHolder = new LinearLayout(context);
+        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80, 80);
+
+        ImageView plusRow = new ImageView(context);
+        plusRow.setId(PLUS_ROW_ID);
+        plusRow.setImageResource(R.drawable.plus_small);
+        bottomPlusHolder.addView(plusRow, params1);
+
+        ImageView minusRow = new ImageView(context);
+        minusRow.setId(MINUS_ROW_ID);
+        minusRow.setImageResource(R.drawable.minus_small);
+        bottomPlusHolder.addView(minusRow, params1);
+
+        c80x80left100.leftMargin = 100;
+        bottomPlusHolder.addView(solveButton, c80x80left100);
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -113,10 +142,10 @@ public class Solver implements Constants {
             }
         });
 
-        scrollView.addView(scrollWrapper, wrapWrap);
-        mainView.addView(scrollView, wrapWrap);
+        mainView.addView(bottomPlusHolder, fillWrap);
 
-        wrapWrap.gravity = Gravity.CENTER_HORIZONTAL;
+
+
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
@@ -198,8 +227,8 @@ public class Solver implements Constants {
 
     public void addSecondMatrix() {
 
-        bottomHolder.setVisibility(View.GONE);
-        mainMatrix.plusMinusHolder.setVisibility(View.GONE);
+        bottomPlusHolder.setVisibility(View.GONE);
+        rightPlusHolder.setVisibility(View.GONE);
 
         secondMatrixView = new LinearLayout(_context);
 
@@ -208,7 +237,6 @@ public class Solver implements Constants {
 
         secondMatrix = new Matrix(_context, secondMatrixView);
         secondMatrix.adjustSizeTo(mainMatrix.rows, mainMatrix.columns);
-        secondMatrix.plusMinusHolder.setVisibility(View.GONE);
         secondMatrix.refreshVisible();
 
         mainMatrixView.addView(secondMatrixView);
@@ -219,6 +247,9 @@ public class Solver implements Constants {
 
 
     }
+
+
+
 
 
     public void findDeterminant() {
