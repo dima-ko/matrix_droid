@@ -16,7 +16,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
     Thread thread = null;
     SurfaceHolder surfaceHolder;
-    volatile boolean running = false;
+    volatile static boolean running = false;
 
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     ArrayList<line> pathList;

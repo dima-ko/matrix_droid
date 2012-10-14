@@ -13,8 +13,7 @@ import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
 
 
-public class Matrix implements Constants{
-
+public class Matrix implements Constants {
 
 
     public float[][] m;
@@ -65,7 +64,7 @@ public class Matrix implements Constants{
         rightBraket.setImageResource(R.drawable.right_braket);
         _view.addView(rightBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));
 
-        makeVisible();
+        refreshVisible();
 
 
         plusMinusHolder = new LinearLayout(context);
@@ -78,7 +77,7 @@ public class Matrix implements Constants{
         plusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 addColumn();
-                makeVisible();
+                refreshVisible();
             }
         });
 
@@ -89,7 +88,7 @@ public class Matrix implements Constants{
         minusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 removeColumn();
-                makeVisible();
+                refreshVisible();
             }
         });
 
@@ -97,7 +96,8 @@ public class Matrix implements Constants{
 
     }
 
-    public void makeVisible() {
+
+    public void refreshVisible() {
         for (int i = 0; i < MAX_ROWS; i++)
             for (int j = 0; j < MAX_COLUMNS; j++)
                 if (i < rows && j < columns)
@@ -132,7 +132,7 @@ public class Matrix implements Constants{
                 final View a = grid[i][j];
                 grid[i][j].addTextChangedListener(new TextWatcher() {
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        Log.d("clicked on edittext"," id: "+a.getId());
+                        Log.d("clicked on edittext", " id: " + a.getId());
                     }
 
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -307,7 +307,16 @@ public class Matrix implements Constants{
     }
 
     public void onDestroy() {
-
         canvas.onDestroy();
+    }
+
+    public void adjustSizeTo(int newColumns, int newRows) {
+        rows = newRows;
+        columns = newColumns;
+        m = new float[rows][];
+        for (int i = 0; i < rows; i++) {
+            m[i] = new float[columns];
+        }
+
     }
 }

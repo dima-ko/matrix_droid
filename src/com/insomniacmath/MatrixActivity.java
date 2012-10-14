@@ -41,7 +41,7 @@ public class MatrixActivity extends Activity {
                 solver.findDeterminant();
                 return true;
             case R.id.Multiply:
-                solver.findMultiplication(null);
+                solver.addSecondMatrix();
                 return true;
             case R.id.Invert:
                 solver.findInverse();
@@ -58,7 +58,7 @@ public class MatrixActivity extends Activity {
         }
     }
 
-//    protected void onResume() {
+    //    protected void onResume() {
 //        super.onResume();
 //        radiusSurfaceView.onResumeMySurfaceView();
 //    }

@@ -1,6 +1,5 @@
 package com.insomniacmath;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -28,18 +27,23 @@ public class Solver implements Constants {
 
 
     boolean isShowingSolvation = false;
+    private LinearLayout secondMatrixView;
+    private Matrix secondMatrix;
 
 
     public void onDestroy() {
         mainMatrix.onDestroy();
     }
 
+    LinearLayout scrollWrapper;
+
     public Solver(Context context, LinearLayout mainView) {
 
         _context = context;
 
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
-        LinearLayout scrollWrapper = new LinearLayout(context);
+
+        scrollWrapper = new LinearLayout(context);
         scrollWrapper.setOrientation(LinearLayout.VERTICAL);
         mainMatrixView = new LinearLayout(context);
 
@@ -98,14 +102,14 @@ public class Solver implements Constants {
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrix.addRow();
-                mainMatrix.makeVisible();
+                mainMatrix.refreshVisible();
             }
         });
 
         minusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrix.removeRow();
-                mainMatrix.makeVisible();
+                mainMatrix.refreshVisible();
             }
         });
 
@@ -154,7 +158,7 @@ public class Solver implements Constants {
     }
 
 
-    Dialog d;
+//    Dialog d;
 
 
     public void findProperVectors() {
@@ -171,7 +175,27 @@ public class Solver implements Constants {
 
     }
 
-    public void findMultiplication(Matrix secondMatrix) {
+    public void addSecondMatrix() {
+
+        bottomHolder.setVisibility(View.GONE);
+        mainMatrix.plusMinusHolder.setVisibility(View.GONE);
+
+        secondMatrixView = new LinearLayout(_context);
+
+        secondMatrixView.setLayoutParams(wrapWrap);
+        secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
+
+        secondMatrix = new Matrix(_context, secondMatrixView);
+        secondMatrix.adjustSizeTo(mainMatrix.rows, mainMatrix.columns);
+        secondMatrix.plusMinusHolder.setVisibility(View.GONE);
+        secondMatrix.refreshVisible();
+
+        mainMatrixView.addView(secondMatrixView);
+
+    }
+
+    public void findMultiplication() {
+
 
     }
 
