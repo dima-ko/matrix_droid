@@ -211,9 +211,9 @@ public class Solver implements Constants {
                 findRang();
             }
         });
-        solveVariants.findViewById(R.id.proper).setOnClickListener(new View.OnClickListener() {
+        solveVariants.findViewById(R.id.eigen).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                findProperVectors();
+                findeigenVectors();
             }
         });
     }
@@ -237,7 +237,7 @@ public class Solver implements Constants {
 //    Dialog d;
 
 
-    public void findProperVectors() {
+    public void findeigenVectors() {
 
     }
 

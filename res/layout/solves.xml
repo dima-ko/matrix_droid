@@ -74,7 +74,7 @@
         <com.insomniacmath.roboto.ButtonRoboto
                 android:layout_marginLeft="2pt"
                 android:layout_weight="1"
-                android:id="@+id/proper"
+                android:id="@+id/eigen"
                 android:text="Vectors"
                 android:layout_width="fill_parent"
                 android:layout_height="23pt"
