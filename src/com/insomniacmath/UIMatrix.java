@@ -19,6 +19,7 @@ public class UIMatrix implements Constants {
     public double[][] m;
     EditText[][] grid = new EditText[MAX_ROWS][];
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
+    public int number; // made for testing purposes
 
     int columns = 2, rows = 2;
     private final Context context;
@@ -34,14 +35,14 @@ public class UIMatrix implements Constants {
     Animator animator;
     RelativeLayout relativeLayout;
 
-    public UIMatrix(Context context, LinearLayout view) {
+    public UIMatrix(Context context, LinearLayout view, int number) {
         this.context = context;
         _view = view;
         m = new double[2][];
         for (int i = 0; i < 2; i++) {
             m[i] = new double[2];
         }
-
+        this.number = number;
         buildView();
     }
 
@@ -97,7 +98,7 @@ public class UIMatrix implements Constants {
             grid[i] = new EditText[MAX_COLUMNS];
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
-                grid[i][j].setId(i * MAX_COLUMNS + j);
+                grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);

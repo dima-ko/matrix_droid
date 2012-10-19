@@ -29,6 +29,7 @@ public class Solver implements Constants {
     private Context _context;
     private LinearLayout solvationView;
 
+
     LinearLayout bottomPlusHolder;
     LinearLayout rightPlusHolder;
 
@@ -57,7 +58,7 @@ public class Solver implements Constants {
         mainMatrixView.setLayoutParams(wrapWrap);
         mainMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainUIMatrix = new UIMatrix(context, mainMatrixView);
+        mainUIMatrix = new UIMatrix(context, mainMatrixView, 0);
 
         scrollWrapper.addView(mainMatrixView, wrapWrap);
 
@@ -216,7 +217,7 @@ public class Solver implements Constants {
         secondMatrixView.setLayoutParams(wrapWrap);
         secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        secondUIMatrix = new UIMatrix(_context, secondMatrixView);
+        secondUIMatrix = new UIMatrix(_context, secondMatrixView, 1);
         secondUIMatrix.adjustSizeTo(mainUIMatrix.rows, mainUIMatrix.columns);
         secondUIMatrix.refreshVisible();
 
@@ -254,6 +255,7 @@ public class Solver implements Constants {
             resultText.setTextColor(Color.RED);
             return;
         }
+        resultText.setVisibility(View.GONE);
 
         SimpleMatrix a = new SimpleMatrix(mainUIMatrix.m);
         SimpleMatrix b = new SimpleMatrix(secondUIMatrix.m);
@@ -262,7 +264,7 @@ public class Solver implements Constants {
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        UIMatrix resMatrix = new UIMatrix(_context, resultMatrixLay);
+        UIMatrix resMatrix = new UIMatrix(_context, resultMatrixLay, 2);
         resMatrix.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
             for (int j = 0; j < c.numCols(); j++) {
