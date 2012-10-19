@@ -155,17 +155,18 @@ public class Solver implements Constants {
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        solvationView = new LinearLayout(context);
-        solvationView.setOrientation(LinearLayout.VERTICAL);
-        solvationView.setPadding(15, 15, 0, 0);
-        solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        mainUIMatrix.animator.setView(solvationView);
-        mainView.addView(solvationView);
+//        solvationView = new LinearLayout(context);
+//        solvationView.setOrientation(LinearLayout.VERTICAL);
+//        solvationView.setPadding(15, 15, 0, 0);
+//        solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
+//
+//        mainUIMatrix.animator.setView(solvationView);
+//        mainView.addView(solvationView);
 
         resultView = new RelativeLayout(context);
         resultView.setPadding(0, 20, 0, 0);
         resultView.addView(solvationButton, c80x80left100);
+        resultView.setBackgroundColor(Color.BLUE);
 
 
         resultText = new TextView(context);
@@ -180,7 +181,7 @@ public class Solver implements Constants {
         solveButton.setPadding(30, 30, 30, 30);
         solveButton.setTextColor(Color.WHITE);
         solveButton.setText("Solve");
-        solvationButton.setVisibility(View.GONE);
+//        solvationButton.setVisibility(View.GONE);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         resultView.addView(solveButton, params);
@@ -192,6 +193,7 @@ public class Solver implements Constants {
 
         View solveVeriants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
         resultView.addView(solveVeriants, params);
+        solveVeriants.setBackgroundColor(Color.GRAY);
     }
 
     ButtonRoboto solveButton;
