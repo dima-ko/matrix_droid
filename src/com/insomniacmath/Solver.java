@@ -158,7 +158,7 @@ public class Solver implements Constants {
 
         resultView = new LinearLayout(context);
         resultView.setOrientation(LinearLayout.HORIZONTAL);
-        resultView.setGravity(Gravity.RIGHT);
+        resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setPadding(0, 20, 0, 0);
         resultView.setVisibility(View.GONE);
 
@@ -167,32 +167,9 @@ public class Solver implements Constants {
         resultText.setTextSize(20);
         resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.addView(resultText, fillWrap);
+        resultView.addView(resultText, wrapWrap);
         mainView.addView(resultView);
-
-
-        solveButtonHolder = new LinearLayout(_context);
-        Button child = new Button(_context);
-        child.setText("multiply");
-        child.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                addSecondMatrix();
-            }
-        });
-        solveButtonHolder.addView(child);
-        Button child2 = new Button(_context);
-        child2.setText("solve");
-        child2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                findMultiplication();
-            }
-        });
-        solveButtonHolder.addView(child2);
-        mainView.addView(solveButtonHolder);
-
     }
-
-    LinearLayout solveButtonHolder;
 
 
     private void stopSolvationCast() {
@@ -244,6 +221,21 @@ public class Solver implements Constants {
     }
 
     public void findMultiplication() {
+        resultView.setVisibility(View.VISIBLE);
+
+
+        try {
+            mainUIMatrix.fillMatrixFromGrid();
+        }  catch (BadSymbolException e) {
+            resultText.setText("Some elements are unsuitable");
+            resultText.setTextColor(Color.RED);
+        }
+        try {
+            secondUIMatrix.fillMatrixFromGrid();
+        } catch (BadSymbolException e) {
+            resultText.setText("Some elements are unsuitable");
+            resultText.setTextColor(Color.RED);
+        }
 
         SimpleMatrix a = new SimpleMatrix(mainUIMatrix.m);
         SimpleMatrix b = new SimpleMatrix(secondUIMatrix.m);
@@ -251,16 +243,16 @@ public class Solver implements Constants {
         SimpleMatrix c = a.mult(b);
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultView.addView(resultMatrixLay, fillWrap);
-        UIMatrix resMatrix = new UIMatrix(_context, resultView);
-        resMatrix.adjustSizeTo(c.numRows(),c.numCols());
+        resultView.addView(resultMatrixLay, wrapWrap);
+        UIMatrix resMatrix = new UIMatrix(_context, resultMatrixLay);
+        resMatrix.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
-            for (int j = 0; j < c.numRows(); j++) {
+            for (int j = 0; j < c.numCols(); j++) {
                 resMatrix.m[i][j] = c.get(i, j);
             }
         }
+        resMatrix.fillGridFromMatrix();
         resMatrix.refreshVisible();
-        resultView.setVisibility(View.VISIBLE);
     }
 
 

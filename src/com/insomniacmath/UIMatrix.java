@@ -67,7 +67,6 @@ public class UIMatrix implements Constants {
         refreshVisible();
 
 
-
     }
 
 
@@ -80,7 +79,7 @@ public class UIMatrix implements Constants {
                     grid[i][j].setVisibility(View.GONE);
 
         leftBraket.setImageResource(R.drawable.left_braket);
-        rightBraket.setImageResource(R.drawable.right_braket);   //TODO:asdf
+        rightBraket.setImageResource(R.drawable.right_braket);
     }
 
     private void fillGrid() {
@@ -260,7 +259,7 @@ public class UIMatrix implements Constants {
         return D;
     }
 
-    private void fillMatrixFromGrid() throws BadSymbolException {
+    public void fillMatrixFromGrid() throws BadSymbolException {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++) {
                 try {
@@ -276,6 +275,18 @@ public class UIMatrix implements Constants {
                     throw new BadSymbolException();
                 }
 
+            }
+
+    }
+
+    public void fillGridFromMatrix() {
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++) {
+                double v = m[i][j];
+                if (v % 1 == 0)
+                    grid[i][j].setText((int) v + "");
+                else
+                    grid[i][j].setText(v + "");
             }
 
     }
