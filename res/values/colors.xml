@@ -1,3 +1,4 @@
 <resources>
-    <!--<color name="WHITE">hex_color</color>-->
+    <color name="WHITE">#ffFFFFFF</color>
+    <color name="GRAY_BUTTON">#ff333333</color>
 </resources>
