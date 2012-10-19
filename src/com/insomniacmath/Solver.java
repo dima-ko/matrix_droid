@@ -21,7 +21,7 @@ public class Solver implements Constants {
     TextView resultText;
     ImageView solvationButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams wrapWrapCenter = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    RelativeLayout.LayoutParams wrapWrapCenterHor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     RelativeLayout.LayoutParams fillFillRel = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
@@ -48,7 +48,7 @@ public class Solver implements Constants {
 
         _context = context;
         wrapWrap.gravity = Gravity.LEFT;
-        wrapWrapCenter.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        wrapWrapCenterHor.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
 
         scrollWrapper = new LinearLayout(context);
@@ -171,7 +171,7 @@ public class Solver implements Constants {
         resultText.setTextSize(20);
         resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.addView(resultText, wrapWrapCenter);
+        resultView.addView(resultText, wrapWrapCenterHor);
         mainView.addView(resultView, fillFillRel);
     }
 
@@ -222,7 +222,8 @@ public class Solver implements Constants {
 
         mainMatrixView.addView(secondMatrixView);
         ButtonRoboto solveButton = new ButtonRoboto(_context);
-        solveButton.setPadding(30,30,30,30);
+        solveButton.setPadding(30, 30, 30, 30);
+        solveButton.setTextColor(Color.WHITE);
         solveButton.setText("Solve");
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
@@ -258,7 +259,7 @@ public class Solver implements Constants {
         SimpleMatrix c = a.mult(b);
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultView.addView(resultMatrixLay, wrapWrapCenter);
+        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
         UIMatrix resMatrix = new UIMatrix(_context, resultMatrixLay);
         resMatrix.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
@@ -268,6 +269,7 @@ public class Solver implements Constants {
         }
         resMatrix.fillGridFromMatrix();
         resMatrix.refreshVisible();
+        solvationButton.setVisibility(View.VISIBLE);
 
     }
 
