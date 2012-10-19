@@ -245,12 +245,14 @@ public class Solver implements Constants {
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
+            return;
         }
         try {
             secondUIMatrix.fillMatrixFromGrid();
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
+            return;
         }
 
         SimpleMatrix a = new SimpleMatrix(mainUIMatrix.m);
