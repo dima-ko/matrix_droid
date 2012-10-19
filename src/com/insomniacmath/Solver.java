@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.*;
+import com.insomniacmath.roboto.ButtonRoboto;
 import org.ejml.simple.SimpleMatrix;
 
 
@@ -15,11 +17,13 @@ public class Solver implements Constants {
 
     UIMatrix mainUIMatrix;
     LinearLayout mainMatrixView;
-    LinearLayout resultView;
+    RelativeLayout resultView;
     TextView resultText;
-    ImageView solveButton;
+    ImageView solvationButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    RelativeLayout.LayoutParams wrapWrapCenter = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
+    RelativeLayout.LayoutParams fillFillRel = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
     private Context _context;
@@ -44,6 +48,7 @@ public class Solver implements Constants {
 
         _context = context;
         wrapWrap.gravity = Gravity.LEFT;
+        wrapWrapCenter.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
 
         scrollWrapper = new LinearLayout(context);
@@ -87,10 +92,10 @@ public class Solver implements Constants {
         scrollView.addView(scrollWrapper, wrapWrap);
         mainView.addView(scrollView, wrapWrap);
 
-        solveButton = new ImageView(context);
-        solveButton.setImageResource(R.drawable.gear);
-        solveButton.setVisibility(View.INVISIBLE);
-        solveButton.setOnClickListener(new View.OnClickListener() {
+        solvationButton = new ImageView(context);
+        solvationButton.setImageResource(R.drawable.gear);
+        solvationButton.setVisibility(View.INVISIBLE);
+        solvationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (!isShowingSolvation) {
                     solvationView.setVisibility(View.VISIBLE);
@@ -102,13 +107,13 @@ public class Solver implements Constants {
                             return v;
                         }
                     });
-                    solveButton.startAnimation(animation);
+                    solvationButton.startAnimation(animation);
 
                 } else {
                     solvationView.setVisibility(View.GONE);
                     stopSolvationCast();
                     isShowingSolvation = false;
-                    solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
+                    solvationButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
                 }
             }
         });
@@ -128,7 +133,7 @@ public class Solver implements Constants {
         bottomPlusHolder.addView(minusRow, params1);
 
         c80x80left100.leftMargin = 100;
-        bottomPlusHolder.addView(solveButton, c80x80left100);
+
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -156,19 +161,18 @@ public class Solver implements Constants {
         mainUIMatrix.animator.setView(solvationView);
         mainView.addView(solvationView);
 
-        resultView = new LinearLayout(context);
-        resultView.setOrientation(LinearLayout.HORIZONTAL);
-        resultView.setGravity(Gravity.CENTER_HORIZONTAL);
+        resultView = new RelativeLayout(context);
         resultView.setPadding(0, 20, 0, 0);
         resultView.setVisibility(View.GONE);
+        resultView.addView(solvationButton, c80x80left100);
 
 
         resultText = new TextView(context);
         resultText.setTextSize(20);
         resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.addView(resultText, wrapWrap);
-        mainView.addView(resultView);
+        resultView.addView(resultText, wrapWrapCenter);
+        mainView.addView(resultView, fillFillRel);
     }
 
 
@@ -217,16 +221,27 @@ public class Solver implements Constants {
         secondUIMatrix.refreshVisible();
 
         mainMatrixView.addView(secondMatrixView);
+        ButtonRoboto solveButton = new ButtonRoboto(_context);
+        solveButton.setPadding(30,30,30,30);
+        solveButton.setText("Solve");
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        resultView.addView(solveButton, params);
+        solveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findMultiplication();
+            }
+        });
+
+        resultView.setVisibility(View.VISIBLE);
 
     }
 
     public void findMultiplication() {
-        resultView.setVisibility(View.VISIBLE);
-
 
         try {
             mainUIMatrix.fillMatrixFromGrid();
-        }  catch (BadSymbolException e) {
+        } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
         }
@@ -243,7 +258,7 @@ public class Solver implements Constants {
         SimpleMatrix c = a.mult(b);
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultView.addView(resultMatrixLay, wrapWrap);
+        resultView.addView(resultMatrixLay, wrapWrapCenter);
         UIMatrix resMatrix = new UIMatrix(_context, resultMatrixLay);
         resMatrix.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
@@ -253,16 +268,16 @@ public class Solver implements Constants {
         }
         resMatrix.fillGridFromMatrix();
         resMatrix.refreshVisible();
-    }
 
+    }
 
     public void findDeterminant() {
         resultView.setVisibility(View.VISIBLE);
         try {
             resultText.setText("Determinant = " + Utils.round(mainUIMatrix.findDeterminant()));
-            solveButton.setVisibility(View.VISIBLE);
+            solvationButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
-            // solveButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+            // solvationButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
             if (mainUIMatrix.rows == 2 && mainUIMatrix.columns == 2) {
                 mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);

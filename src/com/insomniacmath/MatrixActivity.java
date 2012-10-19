@@ -17,6 +17,8 @@ public class MatrixActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Utils.resolvePlatform(this);
+
         mainView = new LinearLayout(this);
         mainView.setBackgroundColor(0xff000000);
         mainView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
