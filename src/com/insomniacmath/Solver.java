@@ -95,6 +95,7 @@ public class Solver implements Constants {
         mainView.addView(scrollView, wrapWrap);
 
         solvationButton = new ImageView(context);
+        solvationButton.setVisibility(View.VISIBLE);
         solvationButton.setImageResource(R.drawable.gear);
         solvationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -153,13 +154,13 @@ public class Solver implements Constants {
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-//        solvationView = new LinearLayout(context);
-//        solvationView.setOrientation(LinearLayout.VERTICAL);
-//        solvationView.setPadding(15, 15, 0, 0);
-//        solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-//
-//        mainUIMatrix.animator.setView(solvationView);
-//        mainView.addView(solvationView);
+        solvationView = new LinearLayout(context);
+        solvationView.setOrientation(LinearLayout.VERTICAL);
+        solvationView.setPadding(15, 15, 0, 0);
+        solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        mainUIMatrix.animator.setView(solvationView);
+        mainView.addView(solvationView);
 
         resultView = new RelativeLayout(context);
         resultView.setPadding(0, 20, 0, 0);
@@ -179,7 +180,7 @@ public class Solver implements Constants {
         solveButton.setTextColor(Color.WHITE);
         solveButton.setText("Solve");
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
         resultView.addView(solveButton, params);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -187,8 +188,34 @@ public class Solver implements Constants {
             }
         });
 
-        View solveVeriants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
-        resultView.addView(solveVeriants, params);
+        View solveVariants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
+        resultView.addView(solveVariants, params);
+
+        solveVariants.findViewById(R.id.determinant).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findDeterminant();
+            }
+        });
+        solveVariants.findViewById(R.id.multiply).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                addSecondMatrix();
+            }
+        });
+        solveVariants.findViewById(R.id.inverse).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findInverse();
+            }
+        });
+        solveVariants.findViewById(R.id.rang).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findRang();
+            }
+        });
+        solveVariants.findViewById(R.id.proper).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findProperVectors();
+            }
+        });
     }
 
     ButtonRoboto solveButton;
@@ -279,24 +306,6 @@ public class Solver implements Constants {
         solvationButton.setVisibility(View.VISIBLE);
 
     }
-
-//    case R.id.Determinant:
-//            solver.findDeterminant();
-//    return true;
-//    case R.id.Multiply:
-//            solver.addSecondMatrix();
-//    return true;
-//    case R.id.Invert:
-//            solver.findInverse();
-//    return true;
-//    case R.id.Rang:
-//            solver.findRang();
-//    return true;
-//    case R.id.Vectors:
-//            solver.findProperVectors();
-//    return true;
-//
-//    default:
 
     public void findDeterminant() {
         try {
