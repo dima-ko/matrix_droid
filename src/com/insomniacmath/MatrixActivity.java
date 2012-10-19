@@ -28,45 +28,6 @@ public class MatrixActivity extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.matrix_menu, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-
-        switch (item.getItemId()) {
-            case R.id.Determinant:
-                solver.findDeterminant();
-                return true;
-            case R.id.Multiply:
-                solver.addSecondMatrix();
-                return true;
-            case R.id.Invert:
-                solver.findInverse();
-                return true;
-            case R.id.Rang:
-                solver.findRang();
-                return true;
-            case R.id.Vectors:
-                solver.findProperVectors();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    //    protected void onResume() {
-//        super.onResume();
-//        radiusSurfaceView.onResumeMySurfaceView();
-//    }
-//
-    @Override
     protected void onPause() {
         super.onPause();
         solver.onDestroy();

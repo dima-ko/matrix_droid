@@ -1,6 +1,7 @@
 package com.insomniacmath.roboto;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.TextView;
 import com.insomniacmath.Utils;
@@ -14,6 +15,7 @@ public class TextViewRoboto extends TextView {
     public TextViewRoboto(Context context) {
         super(context);
         setTypeface(Utils.roboto_light);
+
     }
 
     public TextViewRoboto(Context context, AttributeSet attrs) {

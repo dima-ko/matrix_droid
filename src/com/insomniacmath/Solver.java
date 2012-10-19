@@ -1,5 +1,6 @@
 package com.insomniacmath;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -164,7 +165,6 @@ public class Solver implements Constants {
 
         resultView = new RelativeLayout(context);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.setVisibility(View.GONE);
         resultView.addView(solvationButton, c80x80left100);
 
 
@@ -174,7 +174,27 @@ public class Solver implements Constants {
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.addView(resultText, wrapWrapCenterHor);
         mainView.addView(resultView, fillFillRel);
+
+
+        solveButton = new ButtonRoboto(_context);
+        solveButton.setPadding(30, 30, 30, 30);
+        solveButton.setTextColor(Color.WHITE);
+        solveButton.setText("Solve");
+        solvationButton.setVisibility(View.GONE);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        resultView.addView(solveButton, params);
+        solveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                findMultiplication();
+            }
+        });
+
+        View solveVeriants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
+        resultView.addView(solveVeriants, params);
     }
+
+    ButtonRoboto solveButton;
 
 
     private void stopSolvationCast() {
@@ -222,20 +242,6 @@ public class Solver implements Constants {
         secondUIMatrix.refreshVisible();
 
         mainMatrixView.addView(secondMatrixView);
-        ButtonRoboto solveButton = new ButtonRoboto(_context);
-        solveButton.setPadding(30, 30, 30, 30);
-        solveButton.setTextColor(Color.WHITE);
-        solveButton.setText("Solve");
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        resultView.addView(solveButton, params);
-        solveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                findMultiplication();
-            }
-        });
-
-        resultView.setVisibility(View.VISIBLE);
 
     }
 
@@ -277,8 +283,25 @@ public class Solver implements Constants {
 
     }
 
+//    case R.id.Determinant:
+//            solver.findDeterminant();
+//    return true;
+//    case R.id.Multiply:
+//            solver.addSecondMatrix();
+//    return true;
+//    case R.id.Invert:
+//            solver.findInverse();
+//    return true;
+//    case R.id.Rang:
+//            solver.findRang();
+//    return true;
+//    case R.id.Vectors:
+//            solver.findProperVectors();
+//    return true;
+//
+//    default:
+
     public void findDeterminant() {
-        resultView.setVisibility(View.VISIBLE);
         try {
             resultText.setText("Determinant = " + Utils.round(mainUIMatrix.findDeterminant()));
             solvationButton.setVisibility(View.VISIBLE);
