@@ -12,31 +12,35 @@
             android:orientation="horizontal"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
+            android:padding="1pt"
+            android:background="#FF000000"
             >
         <com.insomniacmath.roboto.ButtonRoboto
                 android:id="@+id/determinant"
                 android:text="Determinant"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="23pt"
                 android:layout_weight="1"
                 />
 
 
         <com.insomniacmath.roboto.ButtonRoboto
+                android:layout_marginLeft="2pt"
                 android:id="@+id/multiply"
                 android:text="Multiply"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="23pt"
                 android:layout_weight="1"
                 />
 
 
         <com.insomniacmath.roboto.ButtonRoboto
+                android:layout_marginLeft="2pt"
                 android:layout_weight="1"
                 android:id="@+id/inverse"
                 android:text="Inverse"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="23pt"
                 />
 
     </LinearLayout>
@@ -44,31 +48,35 @@
             android:orientation="horizontal"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
+            android:padding="1pt"
+            android:background="#FF000000"
             >
         <com.insomniacmath.roboto.ButtonRoboto
                 android:layout_weight="1"
                 android:id="@+id/rang"
                 android:text="Rang"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="23pt"
                 />
 
 
         <com.insomniacmath.roboto.ButtonRoboto
+                android:layout_marginLeft="2pt"
                 android:layout_weight="1"
                 android:id="@+id/trace"
                 android:text="Trace"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="23pt"
                 />
 
 
         <com.insomniacmath.roboto.ButtonRoboto
+                android:layout_marginLeft="2pt"
                 android:layout_weight="1"
                 android:id="@+id/proper"
                 android:text="Vectors"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="23pt"
                 />
 
     </LinearLayout>

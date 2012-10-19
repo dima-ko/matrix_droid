@@ -23,8 +23,8 @@ public class Solver implements Constants {
     ImageView solvationButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapCenterHor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-    RelativeLayout.LayoutParams fillFillRel = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    RelativeLayout.LayoutParams fillFillRel = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
     private Context _context;
@@ -96,7 +96,6 @@ public class Solver implements Constants {
 
         solvationButton = new ImageView(context);
         solvationButton.setImageResource(R.drawable.gear);
-        solvationButton.setVisibility(View.INVISIBLE);
         solvationButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (!isShowingSolvation) {
@@ -150,7 +149,6 @@ public class Solver implements Constants {
                 mainUIMatrix.refreshVisible();
             }
         });
-
         mainView.addView(bottomPlusHolder, fillWrap);
 
 
@@ -166,7 +164,6 @@ public class Solver implements Constants {
         resultView = new RelativeLayout(context);
         resultView.setPadding(0, 20, 0, 0);
         resultView.addView(solvationButton, c80x80left100);
-        resultView.setBackgroundColor(Color.BLUE);
 
 
         resultText = new TextView(context);
@@ -181,7 +178,6 @@ public class Solver implements Constants {
         solveButton.setPadding(30, 30, 30, 30);
         solveButton.setTextColor(Color.WHITE);
         solveButton.setText("Solve");
-//        solvationButton.setVisibility(View.GONE);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
         resultView.addView(solveButton, params);
@@ -193,7 +189,6 @@ public class Solver implements Constants {
 
         View solveVeriants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
         resultView.addView(solveVeriants, params);
-        solveVeriants.setBackgroundColor(Color.GRAY);
     }
 
     ButtonRoboto solveButton;
