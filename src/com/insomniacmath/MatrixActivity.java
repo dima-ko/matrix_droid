@@ -27,6 +27,8 @@ public class MatrixActivity extends Activity {
         setContentView(mainView);
     }
 
+
+
     @Override
     protected void onPause() {
         super.onPause();

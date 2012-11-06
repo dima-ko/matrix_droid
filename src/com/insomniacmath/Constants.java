@@ -7,6 +7,11 @@ package com.insomniacmath;
  */
 public interface Constants {
 
+    int STATE_INITIAL = 0;
+    int STATE_DETERMIN_PRESSED = 1;
+    int STATE_MULTIPLY_PRESSED = 2;
+
+
     int MAX_ROWS = 6;
     int MAX_COLUMNS = 8;
 

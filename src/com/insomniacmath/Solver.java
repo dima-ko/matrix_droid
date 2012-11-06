@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
@@ -18,13 +17,12 @@ public class Solver implements Constants {
 
     UIMatrix mainUIMatrix;
     LinearLayout mainMatrixView;
-    RelativeLayout resultView;
+    LinearLayout resultView;
     TextView resultText;
-    ImageView solvationButton;
+    ImageView xplainButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapCenterHor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams fillFillRel = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
     private Context _context;
@@ -45,6 +43,7 @@ public class Solver implements Constants {
     }
 
     LinearLayout scrollWrapper;
+    View solveVariants;
 
     public Solver(Context context, LinearLayout mainView) {
 
@@ -94,10 +93,10 @@ public class Solver implements Constants {
         scrollView.addView(scrollWrapper, wrapWrap);
         mainView.addView(scrollView, wrapWrap);
 
-        solvationButton = new ImageView(context);
-        solvationButton.setVisibility(View.VISIBLE);
-        solvationButton.setImageResource(R.drawable.gear);
-        solvationButton.setOnClickListener(new View.OnClickListener() {
+        xplainButton = new ImageView(context);
+        xplainButton.setVisibility(View.GONE);
+        xplainButton.setImageResource(R.drawable.xplain_but);
+        xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (!isShowingSolvation) {
                     solvationView.setVisibility(View.VISIBLE);
@@ -109,13 +108,13 @@ public class Solver implements Constants {
                             return v;
                         }
                     });
-                    solvationButton.startAnimation(animation);
+                    xplainButton.startAnimation(animation);
 
                 } else {
                     solvationView.setVisibility(View.GONE);
                     stopSolvationCast();
                     isShowingSolvation = false;
-                    solvationButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
+                    xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
                 }
             }
         });
@@ -162,34 +161,38 @@ public class Solver implements Constants {
         mainUIMatrix.animator.setView(solvationView);
         mainView.addView(solvationView);
 
-        resultView = new RelativeLayout(context);
+        resultView = new LinearLayout(context);
+        resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(solvationButton, c80x80left100);
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(213,81));
+        resultView.setBackgroundColor(0x12345678);
 
 
         resultText = new TextView(context);
+        resultText.setVisibility(View.GONE);
         resultText.setTextSize(20);
+        resultText.setPadding(20, 20, 20, 20);
         resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.addView(resultText, wrapWrapCenterHor);
-        mainView.addView(resultView, fillFillRel);
+        mainView.addView(resultView, fillWrap);
 
 
         solveButton = new ButtonRoboto(_context);
         solveButton.setPadding(30, 30, 30, 30);
         solveButton.setTextColor(Color.WHITE);
         solveButton.setText("Solve");
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-        resultView.addView(solveButton, params);
+        solveButton.setVisibility(View.GONE);
+        resultView.addView(solveButton, fillWrap);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 findMultiplication();
             }
         });
 
-        View solveVariants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
-        resultView.addView(solveVariants, params);
+
+        solveVariants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
+        resultView.addView(solveVariants, fillWrap);
 
         solveVariants.findViewById(R.id.determinant).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -267,6 +270,9 @@ public class Solver implements Constants {
 
         mainMatrixView.addView(secondMatrixView);
 
+        solveVariants.setVisibility(View.GONE);
+        solveButton.setVisibility(View.VISIBLE);
+
     }
 
     public void findMultiplication() {
@@ -303,16 +309,18 @@ public class Solver implements Constants {
         }
         resMatrix.fillGridFromMatrix();
         resMatrix.refreshVisible();
-        solvationButton.setVisibility(View.VISIBLE);
+        xplainButton.setVisibility(View.VISIBLE);
 
     }
 
     public void findDeterminant() {
         try {
+            resultView.setVisibility(View.VISIBLE);
+            resultText.setVisibility(View.VISIBLE);
             resultText.setText("Determinant = " + Utils.round(mainUIMatrix.findDeterminant()));
-            solvationButton.setVisibility(View.VISIBLE);
+            xplainButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
-            // solvationButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
             if (mainUIMatrix.rows == 2 && mainUIMatrix.columns == 2) {
                 mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
