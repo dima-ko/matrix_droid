@@ -22,11 +22,6 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
     ArrayList<line> pathList;
     ArrayList<circle> circleList;
 
-    public void clearPaths() {
-        pathList.clear();
-        circleList.clear();
-    }
-
     public void onDestroy() {
         running = false;
     }
@@ -105,6 +100,11 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         running = true;
         thread = new Thread(this);
         thread.start();
+    }
+
+    public void clear(){
+        circleList.clear();
+        pathList.clear();
     }
 
     public void onPauseMySurfaceView() {

@@ -13,7 +13,7 @@ import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
 
 
-public class UIMatrix implements Constants {
+public class MatrixWrapper implements Constants {
 
 
     public double[][] m;
@@ -35,7 +35,7 @@ public class UIMatrix implements Constants {
     Animator animator;
     RelativeLayout relativeLayout;
 
-    public UIMatrix(Context context, LinearLayout view, int number) {
+    public MatrixWrapper(Context context, LinearLayout view, int number) {    //todo: clear editbox on longclick
         this.context = context;
         _view = view;
         m = new double[2][];

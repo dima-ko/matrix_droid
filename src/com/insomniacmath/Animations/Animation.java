@@ -2,15 +2,15 @@ package com.insomniacmath.Animations;
 
 
 import android.widget.LinearLayout;
-import com.insomniacmath.UIMatrix;
+import com.insomniacmath.MatrixWrapper;
 
 abstract public class Animation {
 
     public MatrixCanvas surface;
     public LinearLayout solvation;
-    public UIMatrix parent;
+    public MatrixWrapper parent;
 
-    Animation(MatrixCanvas surface, LinearLayout solvation, UIMatrix parent) {
+    Animation(MatrixCanvas surface, LinearLayout solvation, MatrixWrapper parent) {
         this.surface = surface;
         this.solvation = solvation;
         this.parent = parent;

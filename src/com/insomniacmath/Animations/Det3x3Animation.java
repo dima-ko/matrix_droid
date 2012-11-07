@@ -5,7 +5,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.insomniacmath.UIMatrix;
+import com.insomniacmath.MatrixWrapper;
 import com.insomniacmath.Utils;
 
 public class Det3x3Animation extends Animation {
@@ -18,7 +18,7 @@ public class Det3x3Animation extends Animation {
     final static int gree = 0xAA22FF22;
     final static int yel= 0xAAFF8800;
 
-    public Det3x3Animation(MatrixCanvas surface, LinearLayout solvationView, UIMatrix parent) {
+    public Det3x3Animation(MatrixCanvas surface, LinearLayout solvationView, MatrixWrapper parent) {
         super(surface, solvationView, parent);
 
         solvationTexts[0] = new TextView(solvation.getContext());
@@ -37,8 +37,6 @@ public class Det3x3Animation extends Animation {
 
     @Override
     public void tic(int t) {
-
-
         switch (t) {
             case 0:
                 solvationTexts[0].setTextSize(23);
@@ -111,7 +109,7 @@ public class Det3x3Animation extends Animation {
             surface.addPath(2, 0, 0, 1, ros);
                 break;
             case 15:
-                surface.clearPaths();
+                surface.clear();
                 break;
             //----------------------------------------------------------------------------------------------------------------------------------------
             case 16:

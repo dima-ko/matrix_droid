@@ -27,7 +27,11 @@ public class MatrixActivity extends Activity {
         setContentView(mainView);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if (!solver.onBackPressed())
+            super.onBackPressed();
+    }
 
     @Override
     protected void onPause() {

@@ -5,7 +5,7 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.insomniacmath.UIMatrix;
+import com.insomniacmath.MatrixWrapper;
 import com.insomniacmath.Utils;
 
 public class Det2x2Animation extends Animation {
@@ -14,7 +14,7 @@ public class Det2x2Animation extends Animation {
     TextView solvationText;
     TextView solvationText2;
 
-    public Det2x2Animation(MatrixCanvas surface, LinearLayout solvation, UIMatrix parent) {
+    public Det2x2Animation(MatrixCanvas surface, LinearLayout solvation, MatrixWrapper parent) {
         super(surface, solvation, parent);
 
         solvationText = new TextView(solvation.getContext());

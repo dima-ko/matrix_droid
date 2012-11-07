@@ -9,8 +9,12 @@ public interface Constants {
 
     int STATE_INITIAL = 0;
     int STATE_DETERMIN_PRESSED = 1;
-    int STATE_MULTIPLY_PRESSED = 2;
-    int STATE_MULTIPLY_FIND = 3;
+    int STATE_DETERMIN_EXPLAINING = 2;
+    int STATE_DETERMIN_EXPLAINED = 3;
+    int STATE_MULTIPLY_PRESSED = 4;
+    int STATE_MULTIPLY_FIND = 5;
+    int STATE_MULTIPLY_EXPLAINING = 6;
+    int STATE_MULTIPLY_EXPLAINED = 7;
 
 
     int MAX_ROWS = 6;

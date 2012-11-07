@@ -20,7 +20,7 @@ public class Animator {
 
     //    MatrixCanvas canvas;
     MatrixCanvas canvas;
-    UIMatrix parent;
+    MatrixWrapper parent;
     int animType;
 
     private LinearLayout solvationView;
@@ -35,9 +35,9 @@ public class Animator {
     }
 
 
-    public Animator(MatrixCanvas canvas, UIMatrix UIMatrix) {
+    public Animator(MatrixCanvas canvas, MatrixWrapper MatrixWrapper) {
         this.canvas = canvas;
-        parent = UIMatrix;
+        parent = MatrixWrapper;
     }
 
     public void startExplaining(int state) {
@@ -53,8 +53,8 @@ public class Animator {
     }
 
 
-    public void stopSolvation() {
-
+    public void stopExplain() {
+        canvas.clear();
     }
 
     public void setView(LinearLayout solvationView) {

@@ -17,7 +17,7 @@ public class Solver implements Constants {
 
     int state = STATE_INITIAL;
 
-    UIMatrix mainUIMatrix;
+    MatrixWrapper mainMatrixWrapper;
     LinearLayout mainMatrixView;
     LinearLayout resultView;
     TextView resultText;
@@ -37,11 +37,11 @@ public class Solver implements Constants {
 
     boolean isShowingSolvation = false;
     private LinearLayout secondMatrixView;
-    private UIMatrix secondUIMatrix;
+    private MatrixWrapper secondMatrixWrapper;
 
 
     public void onDestroy() {
-        mainUIMatrix.onDestroy();
+        mainMatrixWrapper.onDestroy();
     }
 
     LinearLayout scrollWrapper;
@@ -60,7 +60,7 @@ public class Solver implements Constants {
         mainMatrixView.setLayoutParams(wrapWrap);
         mainMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainUIMatrix = new UIMatrix(context, mainMatrixView, 0);
+        mainMatrixWrapper = new MatrixWrapper(context, mainMatrixView, 0);
 
         scrollWrapper.addView(mainMatrixView, wrapWrap);
 
@@ -74,8 +74,8 @@ public class Solver implements Constants {
         rightPlusHolder.addView(plusColumn, c80x80);
         plusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainUIMatrix.addColumn();
-                mainUIMatrix.refreshVisible();
+                mainMatrixWrapper.addColumn();
+                mainMatrixWrapper.refreshVisible();
             }
         });
 
@@ -85,8 +85,8 @@ public class Solver implements Constants {
         rightPlusHolder.addView(minusColumn, c80x80);
         minusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainUIMatrix.removeColumn();
-                mainUIMatrix.refreshVisible();
+                mainMatrixWrapper.removeColumn();
+                mainMatrixWrapper.refreshVisible();
             }
         });
 
@@ -100,24 +100,10 @@ public class Solver implements Constants {
         xplainButton.setImageResource(R.drawable.xplain_but);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (!isShowingSolvation) {
-                    solvationView.setVisibility(View.VISIBLE);
-                    startExplain();
-                    isShowingSolvation = true;
-                    Animation animation = AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw);
-                    animation.setInterpolator(new Interpolator() {
-                        public float getInterpolation(float v) {
-                            return v;
-                        }
-                    });
-                    xplainButton.startAnimation(animation);
-
-                } else {
-                    solvationView.setVisibility(View.GONE);
-                    stopSolvationCast();
-                    isShowingSolvation = false;
-                    xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_ccw));
-                }
+                solvationView.setVisibility(View.VISIBLE);
+                startExplain();
+                xplainButton.setVisibility(View.GONE);
+                solvationView.removeAllViews();
             }
         });
 
@@ -140,15 +126,15 @@ public class Solver implements Constants {
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainUIMatrix.addRow();
-                mainUIMatrix.refreshVisible();
+                mainMatrixWrapper.addRow();
+                mainMatrixWrapper.refreshVisible();
             }
         });
 
         minusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainUIMatrix.removeRow();
-                mainUIMatrix.refreshVisible();
+                mainMatrixWrapper.removeRow();
+                mainMatrixWrapper.refreshVisible();
             }
         });
         mainView.addView(bottomPlusHolder, fillWrap);
@@ -160,14 +146,14 @@ public class Solver implements Constants {
 //        solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        mainUIMatrix.animator.setView(solvationView);
+        mainMatrixWrapper.animator.setView(solvationView);
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(xplainButton, new LinearLayout.LayoutParams(213,81));
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(213, 81));
         resultView.setBackgroundColor(0x12345678);
 
 
@@ -227,16 +213,22 @@ public class Solver implements Constants {
     ButtonRoboto solveButton;
 
 
-    private void stopSolvationCast() {
+    private void stopExplain() {
 
-        mainUIMatrix.animator.stopSolvation();
+        mainMatrixWrapper.animator.stopExplain();
 
     }
 
     private void startExplain() {
+        mainMatrixWrapper.animator.startExplaining(state);
+        switch (state) {
+            case STATE_DETERMIN_PRESSED:
+                state = STATE_DETERMIN_EXPLAINING;
+                break;
+            case STATE_MULTIPLY_FIND:
 
-        mainUIMatrix.animator.startExplaining(state);
-
+                break;
+        }
     }
 
 
@@ -268,9 +260,9 @@ public class Solver implements Constants {
         secondMatrixView.setLayoutParams(wrapWrap);
         secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        secondUIMatrix = new UIMatrix(_context, secondMatrixView, 1);
-        secondUIMatrix.adjustSizeTo(mainUIMatrix.rows, mainUIMatrix.columns);
-        secondUIMatrix.refreshVisible();
+        secondMatrixWrapper = new MatrixWrapper(_context, secondMatrixView, 1);
+        secondMatrixWrapper.adjustSizeTo(mainMatrixWrapper.rows, mainMatrixWrapper.columns);
+        secondMatrixWrapper.refreshVisible();
 
         mainMatrixView.addView(secondMatrixView);
 
@@ -282,14 +274,14 @@ public class Solver implements Constants {
     public void findMultiplication() {
 
         try {
-            mainUIMatrix.fillMatrixFromGrid();
+            mainMatrixWrapper.fillMatrixFromGrid();
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
             return;
         }
         try {
-            secondUIMatrix.fillMatrixFromGrid();
+            secondMatrixWrapper.fillMatrixFromGrid();
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
@@ -300,22 +292,22 @@ public class Solver implements Constants {
 
         resultText.setVisibility(View.GONE);
 
-        SimpleMatrix a = new SimpleMatrix(mainUIMatrix.m);
-        SimpleMatrix b = new SimpleMatrix(secondUIMatrix.m);
+        SimpleMatrix a = new SimpleMatrix(mainMatrixWrapper.m);
+        SimpleMatrix b = new SimpleMatrix(secondMatrixWrapper.m);
 
         SimpleMatrix c = a.mult(b);
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        UIMatrix resMatrix = new UIMatrix(_context, resultMatrixLay, 2);
-        resMatrix.adjustSizeTo(c.numRows(), c.numCols());
+        MatrixWrapper resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+        resMatrixWrapper.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
             for (int j = 0; j < c.numCols(); j++) {
-                resMatrix.m[i][j] = c.get(i, j);
+                resMatrixWrapper.m[i][j] = c.get(i, j);
             }
         }
-        resMatrix.fillGridFromMatrix();
-        resMatrix.refreshVisible();
+        resMatrixWrapper.fillGridFromMatrix();
+        resMatrixWrapper.refreshVisible();
         xplainButton.setVisibility(View.VISIBLE);
 
     }
@@ -325,15 +317,15 @@ public class Solver implements Constants {
         try {
             resultView.setVisibility(View.VISIBLE);
             resultText.setVisibility(View.VISIBLE);
-            resultText.setText("Determinant = " + Utils.round(mainUIMatrix.findDeterminant()));
+            resultText.setText("Determinant = " + Utils.round(mainMatrixWrapper.findDeterminant()));
             xplainButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
             // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 
-            if (mainUIMatrix.rows == 2 && mainUIMatrix.columns == 2) {
-                mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
-            } else if (mainUIMatrix.rows == 3 && mainUIMatrix.columns == 3) {
-                mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
+            if (mainMatrixWrapper.rows == 2 && mainMatrixWrapper.columns == 2) {
+                mainMatrixWrapper.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
+            } else if (mainMatrixWrapper.rows == 3 && mainMatrixWrapper.columns == 3) {
+                mainMatrixWrapper.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
             }
 
             state = STATE_DETERMIN_PRESSED;
@@ -349,8 +341,31 @@ public class Solver implements Constants {
 //            solvationText.setVisibility(View.GONE);
 
         }
-//        Toast.makeText(_context, mainUIMatrix.findDeterminant() + "", 2000).show();
+//        Toast.makeText(_context, mainMatrixWrapper.findDeterminant() + "", 2000).show();
     }
 
 
+    public boolean onBackPressed() {
+        switch (state) {
+            case STATE_INITIAL:
+                return false;
+            case STATE_DETERMIN_PRESSED:
+                state = STATE_INITIAL;
+                resultText.setVisibility(View.GONE);
+                solvationView.setVisibility(View.GONE);
+                xplainButton.setVisibility(View.GONE);
+                solveVariants.setVisibility(View.VISIBLE);
+                break;
+            case STATE_DETERMIN_EXPLAINING:
+                mainMatrixWrapper.animator.stopExplain();
+            case STATE_DETERMIN_EXPLAINED:
+                state = STATE_DETERMIN_PRESSED;
+                solvationView.setVisibility(View.GONE);
+                xplainButton.setVisibility(View.VISIBLE);
+                break;
+
+        }
+
+        return true;
+    }
 }
