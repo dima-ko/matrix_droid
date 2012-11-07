@@ -10,6 +10,7 @@ public interface Constants {
     int STATE_INITIAL = 0;
     int STATE_DETERMIN_PRESSED = 1;
     int STATE_MULTIPLY_PRESSED = 2;
+    int STATE_MULTIPLY_FIND = 3;
 
 
     int MAX_ROWS = 6;

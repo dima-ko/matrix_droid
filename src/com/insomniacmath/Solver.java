@@ -15,6 +15,8 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Solver implements Constants {
 
+    int state = STATE_INITIAL;
+
     UIMatrix mainUIMatrix;
     LinearLayout mainMatrixView;
     LinearLayout resultView;
@@ -100,7 +102,7 @@ public class Solver implements Constants {
             public void onClick(View view) {
                 if (!isShowingSolvation) {
                     solvationView.setVisibility(View.VISIBLE);
-                    startSolvationCast();
+                    startExplain();
                     isShowingSolvation = true;
                     Animation animation = AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw);
                     animation.setInterpolator(new Interpolator() {
@@ -155,13 +157,14 @@ public class Solver implements Constants {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
         solvationView.setOrientation(LinearLayout.VERTICAL);
-        solvationView.setPadding(15, 15, 0, 0);
+//        solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
         mainUIMatrix.animator.setView(solvationView);
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
+        resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
         resultView.addView(xplainButton, new LinearLayout.LayoutParams(213,81));
@@ -230,9 +233,9 @@ public class Solver implements Constants {
 
     }
 
-    private void startSolvationCast() {
+    private void startExplain() {
 
-        mainUIMatrix.animator.startSolvation();
+        mainUIMatrix.animator.startExplaining(state);
 
     }
 
@@ -256,6 +259,7 @@ public class Solver implements Constants {
 
     public void addSecondMatrix() {
 
+        state = STATE_MULTIPLY_PRESSED;
         bottomPlusHolder.setVisibility(View.GONE);
         rightPlusHolder.setVisibility(View.GONE);
 
@@ -291,6 +295,9 @@ public class Solver implements Constants {
             resultText.setTextColor(Color.RED);
             return;
         }
+
+        state = STATE_MULTIPLY_FIND;
+
         resultText.setVisibility(View.GONE);
 
         SimpleMatrix a = new SimpleMatrix(mainUIMatrix.m);
@@ -314,6 +321,7 @@ public class Solver implements Constants {
     }
 
     public void findDeterminant() {
+
         try {
             resultView.setVisibility(View.VISIBLE);
             resultText.setVisibility(View.VISIBLE);
@@ -328,6 +336,8 @@ public class Solver implements Constants {
                 mainUIMatrix.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
             }
 
+            state = STATE_DETERMIN_PRESSED;
+            solveVariants.setVisibility(View.GONE);
 
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");

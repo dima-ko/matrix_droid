@@ -40,7 +40,7 @@ public class Animator {
         parent = UIMatrix;
     }
 
-    public void startSolvation() {
+    public void startExplaining(int state) {
 
         tic = new TicTac();
         if (animType == ANIM_DETERMINANT_2x2) {
