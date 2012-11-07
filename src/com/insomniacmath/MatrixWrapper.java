@@ -25,7 +25,7 @@ public class MatrixWrapper implements Constants {
     private final Context context;
     private LinearLayout _view;
     LinearLayout bodyMatrix;
-    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(80, 80);
+    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
@@ -103,6 +103,7 @@ public class MatrixWrapper implements Constants {
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);
+                grid[i][j].setMinWidth(80);
                 final View a = grid[i][j];
                 grid[i][j].addTextChangedListener(new TextWatcher() {
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

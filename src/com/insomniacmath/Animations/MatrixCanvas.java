@@ -24,6 +24,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
     public void onDestroy() {
         running = false;
+        thread.interrupt();
     }
 
     class line {
@@ -102,7 +103,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
         thread.start();
     }
 
-    public void clear(){
+    public void clear() {
         circleList.clear();
         pathList.clear();
     }
@@ -126,6 +127,8 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
             if (surfaceHolder.getSurface().isValid()) {
                 Canvas canvas = surfaceHolder.lockCanvas();
                 //... actual drawing on canvas
+                if (canvas == null)
+                    return;
                 canvas.drawColor(Color.BLACK);
 
 
@@ -140,6 +143,13 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
                 }
 
                 surfaceHolder.unlockCanvasAndPost(canvas);
+
+                try {
+                    Thread.sleep(25);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return;
+                }
             }
         }
     }

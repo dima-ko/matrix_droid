@@ -3,6 +3,7 @@ package com.insomniacmath;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animations.Animation;
 import com.insomniacmath.Animations.Det2x2Animation;
@@ -37,11 +38,12 @@ public class Animator {
 
     public Animator(MatrixCanvas canvas, MatrixWrapper MatrixWrapper) {
         this.canvas = canvas;
+        canvas.setVisibility(View.INVISIBLE);
         parent = MatrixWrapper;
     }
 
     public void startExplaining(int state) {
-
+        canvas.setVisibility(View.VISIBLE);
         tic = new TicTac();
         if (animType == ANIM_DETERMINANT_2x2) {
             anim = new Det2x2Animation(canvas, solvationView, parent);

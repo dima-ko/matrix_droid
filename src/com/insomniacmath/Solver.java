@@ -5,9 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
 import android.widget.*;
 import com.insomniacmath.roboto.ButtonRoboto;
 import org.ejml.simple.SimpleMatrix;
@@ -35,7 +32,6 @@ public class Solver implements Constants {
     LinearLayout rightPlusHolder;
 
 
-    boolean isShowingSolvation = false;
     private LinearLayout secondMatrixView;
     private MatrixWrapper secondMatrixWrapper;
 
@@ -205,7 +201,7 @@ public class Solver implements Constants {
         });
         solveVariants.findViewById(R.id.eigen).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                findeigenVectors();
+                findEigenVectors();
             }
         });
     }
@@ -235,7 +231,7 @@ public class Solver implements Constants {
 //    Dialog d;
 
 
-    public void findeigenVectors() {
+    public void findEigenVectors() {
 
     }
 
@@ -362,6 +358,20 @@ public class Solver implements Constants {
                 state = STATE_DETERMIN_PRESSED;
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.VISIBLE);
+                break;
+            case STATE_MULTIPLY_PRESSED:
+                state = STATE_INITIAL;
+                bottomPlusHolder.setVisibility(View.VISIBLE);
+                rightPlusHolder.setVisibility(View.VISIBLE);
+
+                mainMatrixView.removeView(secondMatrixView);
+                secondMatrixWrapper.onDestroy();
+                Thread.yield();
+                secondMatrixView = null;
+                secondMatrixWrapper = null;
+
+                solveVariants.setVisibility(View.VISIBLE);
+                solveButton.setVisibility(View.GONE);
                 break;
 
         }
