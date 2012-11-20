@@ -2,32 +2,30 @@ package com.insomniacmath.Animations;
 
 
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.MatrixWrapper;
+import com.insomniacmath.Solver;
 import com.insomniacmath.Utils;
 
 public class MultiplyAnimation extends Animation {
 
     public static final LinearLayout.LayoutParams FILL_WRAP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    TextView[] solvationTexts = new TextView[6];
+    TextView[] solvationTexts;
+    private MatrixWrapper mW2;
+    private View resultMW;
 
-    public MultiplyAnimation(LinearLayout solvationView, MatrixWrapper mW1) {
-        super( solvationView, mW1);
-
-        solvationTexts[0] = new TextView(solvation.getContext());
-        solvationTexts[0].setTextColor(cyan);
-        solvationTexts[1] = new TextView(solvation.getContext());
-        solvationTexts[1].setTextColor(viol);
-        solvationTexts[2] = new TextView(solvation.getContext());
-        solvationTexts[2].setTextColor(ros);
-        solvationTexts[3] = new TextView(solvation.getContext());
-        solvationTexts[3].setTextColor(blu);
-        solvationTexts[4] = new TextView(solvation.getContext());
-        solvationTexts[4].setTextColor(gree);
-        solvationTexts[5] = new TextView(solvation.getContext());
-        solvationTexts[5].setTextColor(yel);
+    public MultiplyAnimation(LinearLayout solvationView, MatrixWrapper mW1, MatrixWrapper mW2) {
+        super(solvationView, mW1);
+        this.mW2 = mW2;
+        resultMW = solvationView.findViewById(Solver.RESULT_MATRIX);
+        solvationTexts = new TextView[mW1.columns * mW1.columns];
+        for (TextView textView : solvationTexts) {
+            textView = new TextView(solvation.getContext());
+            textView.setVisibility(View.GONE);
+        }
     }
 
 
@@ -102,7 +100,7 @@ public class MultiplyAnimation extends Animation {
                 mW1.getCanvas().addCircle(2, 0, ros);
                 break;
             case 14:
-            mW1.getCanvas().addPath(2, 0, 0, 1, ros);
+                mW1.getCanvas().addPath(2, 0, 0, 1, ros);
                 break;
             case 15:
                 mW1.getCanvas().clear();

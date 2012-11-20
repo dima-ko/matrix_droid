@@ -21,7 +21,7 @@ public class MatrixWrapper implements Constants {
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
     public int number; // made for testing purposes
 
-    int columns = 2, rows = 2;
+    public int columns = 2, rows = 2;
     private final Context context;
     private LinearLayout _view;
     LinearLayout bodyMatrix;

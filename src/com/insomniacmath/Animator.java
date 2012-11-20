@@ -9,9 +9,7 @@ import com.insomniacmath.Animations.*;
 
 public class Animator {
 
-
     static final int ANIM_DETERMINANT = 0;
-
     static final int ANIM_MULTIPLICATION = 1;
 
     TicTac tic;

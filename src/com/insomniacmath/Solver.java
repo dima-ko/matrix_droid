@@ -12,6 +12,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class Solver implements Constants {
 
+    public static final int RESULT_MATRIX = 1000;
     int state = STATE_INITIAL;
 
     MatrixWrapper mainMatrixWrapper;
@@ -294,6 +295,7 @@ public class Solver implements Constants {
         SimpleMatrix c = a.mult(b);
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
+        resultMatrixLay.setId(RESULT_MATRIX);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
         MatrixWrapper resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
         resMatrixWrapper.adjustSizeTo(c.numRows(), c.numCols());
