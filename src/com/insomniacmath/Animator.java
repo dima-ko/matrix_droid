@@ -5,10 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animations.Animation;
-import com.insomniacmath.Animations.Det2x2Animation;
-import com.insomniacmath.Animations.Det3x3Animation;
-import com.insomniacmath.Animations.MatrixCanvas;
+import com.insomniacmath.Animations.*;
 
 public class Animator {
 
@@ -54,14 +51,14 @@ public class Animator {
         tic = new TicTac();
         if (animType == ANIM_DETERMINANT) {
             if (rows == 2)
-                anim = new Det2x2Animation(mainMW.getCanvas(), solvationView, mainMW);
+                anim = new Det2x2Animation(solvationView, mainMW);
             if (rows == 3)
-                anim = new Det3x3Animation(mainMW.getCanvas(), solvationView, mainMW);
+                anim = new Det3x3Animation(solvationView, mainMW);
         } else if (animType == ANIM_MULTIPLICATION) {
-
+            anim = new MultiplyAnimation(solvationView, mainMW, secMW);
         }
-        tic.execute();
 
+        tic.execute();
     }
 
 

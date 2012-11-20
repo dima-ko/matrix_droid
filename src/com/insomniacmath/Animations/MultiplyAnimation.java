@@ -8,18 +8,13 @@ import android.widget.TextView;
 import com.insomniacmath.MatrixWrapper;
 import com.insomniacmath.Utils;
 
-public class Det3x3Animation extends Animation {
+public class MultiplyAnimation extends Animation {
 
+    public static final LinearLayout.LayoutParams FILL_WRAP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     TextView[] solvationTexts = new TextView[6];
-    final static int cyan = 0xAA3388FF;
-    final static int viol = 0xAA8833FF;
-    final static int ros = 0xAAFF3388;
-    final static int blu = 0xAA2233FF;
-    final static int gree = 0xAA22FF22;
-    final static int yel= 0xAAFF8800;
 
-    public Det3x3Animation(LinearLayout solvationView, MatrixWrapper parent) {
-        super(surface, solvationView, parent);
+    public MultiplyAnimation(LinearLayout solvationView, MatrixWrapper mW1) {
+        super( solvationView, mW1);
 
         solvationTexts[0] = new TextView(solvation.getContext());
         solvationTexts[0].setTextColor(cyan);
@@ -35,152 +30,153 @@ public class Det3x3Animation extends Animation {
         solvationTexts[5].setTextColor(yel);
     }
 
+
     @Override
     public void tic(int t) {
         switch (t) {
             case 0:
                 solvationTexts[0].setTextSize(23);
                 solvationTexts[0].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[0], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvation.addView(solvationTexts[0], FILL_WRAP);
                 solvationTexts[0].setText("+ ");
                 break;
             case 1:
                 solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]));
-                surface.addCircle(0, 0, cyan);
+                mW1.getCanvas().addCircle(0, 0, cyan);
                 break;
             case 2:
                 solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
-                surface.addPath(0, 0, 1, 1, cyan);
-                surface.addCircle(1, 1, cyan);
+                mW1.getCanvas().addPath(0, 0, 1, 1, cyan);
+                mW1.getCanvas().addCircle(1, 1, cyan);
                 break;
             case 3:
                 solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]) + "*" + Utils.round(mW1.m[2][2]));
-                surface.addPath(1, 1, 2, 2, cyan);
-                surface.addCircle(2, 2, cyan);
+                mW1.getCanvas().addPath(1, 1, 2, 2, cyan);
+                mW1.getCanvas().addCircle(2, 2, cyan);
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 5:
                 solvationTexts[1].setTextSize(23);
                 solvationTexts[1].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[1], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvation.addView(solvationTexts[1], FILL_WRAP);
                 solvationTexts[1].setText("+ ");
                 break;
 
             case 6:
                 solvationTexts[1].setText("+ " + Utils.round(mW1.m[0][1]));
-                surface.addCircle(1, 0, viol);
+                mW1.getCanvas().addCircle(1, 0, viol);
                 break;
             case 7:
                 solvationTexts[1].setText("+ " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][2]));
-                surface.addPath(1, 0, 2, 1, viol);
-                surface.addCircle(2, 1, viol);
+                mW1.getCanvas().addPath(1, 0, 2, 1, viol);
+                mW1.getCanvas().addCircle(2, 1, viol);
                 break;
             case 8:
                 solvationTexts[1].setText("+ " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][2]) + "*" + Utils.round(mW1.m[2][0]));
-                surface.addPath(2, 1, 0, 2, viol);
-                surface.addCircle(0, 2, viol);
+                mW1.getCanvas().addPath(2, 1, 0, 2, viol);
+                mW1.getCanvas().addCircle(0, 2, viol);
                 break;
             case 9:
-                surface.addPath(0, 2, 1, 0, viol);
+                mW1.getCanvas().addPath(0, 2, 1, 0, viol);
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 10:
                 solvationTexts[2].setTextSize(23);
                 solvationTexts[2].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[2], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvation.addView(solvationTexts[2], FILL_WRAP);
                 solvationTexts[2].setText("+ ");
                 break;
 
             case 11:
                 solvationTexts[2].setText("+ " + Utils.round(mW1.m[1][0]));
-                surface.addCircle(0, 1, ros);
+                mW1.getCanvas().addCircle(0, 1, ros);
                 break;
             case 12:
                 solvationTexts[2].setText("+ " + Utils.round(mW1.m[1][0]) + "*" + Utils.round(mW1.m[2][1]));
-                surface.addPath(0, 1, 1, 2, ros);
-                surface.addCircle(1, 2, ros);
+                mW1.getCanvas().addPath(0, 1, 1, 2, ros);
+                mW1.getCanvas().addCircle(1, 2, ros);
                 break;
             case 13:
                 solvationTexts[2].setText("+ " + Utils.round(mW1.m[1][0]) + "*" + Utils.round(mW1.m[2][1]) + "*" + Utils.round(mW1.m[0][2]));
-                surface.addPath(1, 2, 2, 0, ros);
-                surface.addCircle(2, 0, ros);
+                mW1.getCanvas().addPath(1, 2, 2, 0, ros);
+                mW1.getCanvas().addCircle(2, 0, ros);
                 break;
             case 14:
-            surface.addPath(2, 0, 0, 1, ros);
+            mW1.getCanvas().addPath(2, 0, 0, 1, ros);
                 break;
             case 15:
-                surface.clear();
+                mW1.getCanvas().clear();
                 break;
             //----------------------------------------------------------------------------------------------------------------------------------------
             case 16:
                 solvationTexts[3].setTextSize(23);
                 solvationTexts[3].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[3], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvation.addView(solvationTexts[3], FILL_WRAP);
                 solvationTexts[3].setText("- ");
                 break;
             case 17:
                 solvationTexts[3].setText("- " + Utils.round(mW1.m[0][2]));
-                surface.addCircle(2, 0, blu);
+                mW1.getCanvas().addCircle(2, 0, blu);
                 break;
             case 18:
                 solvationTexts[3].setText("- " + Utils.round(mW1.m[0][2]) + "*" + Utils.round(mW1.m[1][1]));
-                surface.addPath(2, 0, 1, 1, blu);
-                surface.addCircle(1, 1, blu);
+                mW1.getCanvas().addPath(2, 0, 1, 1, blu);
+                mW1.getCanvas().addCircle(1, 1, blu);
                 break;
             case 19:
                 solvationTexts[3].setText("- " + Utils.round(mW1.m[0][2]) + "*" + Utils.round(mW1.m[1][1]) + "*" + Utils.round(mW1.m[2][0]));
-                surface.addPath(1, 1, 0, 2, blu);
-                surface.addCircle(0, 2, blu);
+                mW1.getCanvas().addPath(1, 1, 0, 2, blu);
+                mW1.getCanvas().addCircle(0, 2, blu);
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 20:
                 solvationTexts[4].setTextSize(23);
                 solvationTexts[4].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[4], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvation.addView(solvationTexts[4], FILL_WRAP);
                 solvationTexts[4].setText("- ");
                 break;
 
             case 21:
                 solvationTexts[4].setText("- " + Utils.round(mW1.m[0][1]));
-                surface.addCircle(1, 0, gree);
+                mW1.getCanvas().addCircle(1, 0, gree);
                 break;
             case 22:
                 solvationTexts[4].setText("- " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]));
-                surface.addPath(1, 0, 0, 1, gree);
-                surface.addCircle(0, 1, gree);
+                mW1.getCanvas().addPath(1, 0, 0, 1, gree);
+                mW1.getCanvas().addCircle(0, 1, gree);
                 break;
             case 23:
                 solvationTexts[4].setText("- " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]) + "*" + Utils.round(mW1.m[2][2]));
-                surface.addPath(0, 1, 2, 2, gree);
-                surface.addCircle(2, 2, gree);
+                mW1.getCanvas().addPath(0, 1, 2, 2, gree);
+                mW1.getCanvas().addCircle(2, 2, gree);
                 break;
             case 24:
-                surface.addPath(2, 2, 1, 0, gree);
+                mW1.getCanvas().addPath(2, 2, 1, 0, gree);
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 25:
                 solvationTexts[5].setTextSize(23);
                 solvationTexts[5].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[5], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvation.addView(solvationTexts[5], FILL_WRAP);
                 solvationTexts[5].setText("- ");
                 break;
 
             case 26:
                 solvationTexts[5].setText("- " + Utils.round(mW1.m[1][2]));
-                surface.addCircle(2, 1, yel);
+                mW1.getCanvas().addCircle(2, 1, yel);
                 break;
             case 27:
                 solvationTexts[5].setText("- " + Utils.round(mW1.m[1][2]) + "*" + Utils.round(mW1.m[2][1]));
-                surface.addPath(2, 1, 1, 2, yel);
-                surface.addCircle(1, 2, yel);
+                mW1.getCanvas().addPath(2, 1, 1, 2, yel);
+                mW1.getCanvas().addCircle(1, 2, yel);
                 break;
             case 28:
                 solvationTexts[5].setText("- " + Utils.round(mW1.m[1][2]) + "*" + Utils.round(mW1.m[2][1]) + "*" + Utils.round(mW1.m[0][0]));
-                surface.addPath(1, 2, 0, 0, yel);
-                surface.addCircle(0, 0, yel);
+                mW1.getCanvas().addPath(1, 2, 0, 0, yel);
+                mW1.getCanvas().addCircle(0, 0, yel);
                 break;
             case 29:
-                surface.addPath(0, 0, 2, 1, yel);
+                mW1.getCanvas().addPath(0, 0, 2, 1, yel);
                 break;
 
 
@@ -188,7 +184,7 @@ public class Det3x3Animation extends Animation {
 ////                solvationText2 = new TextView(solvation.getContext());
 //                solvationTexts[1].setTextSize(23);
 //                solvationTexts[1].setGravity(Gravity.CENTER_HORIZONTAL);
-//                solvation.addView(solvationTexts[1], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                solvation.addView(solvationTexts[1], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_mW1, ViewGroup.LayoutParams.WRAP_CONTENT));
 //                solvationTexts[1].setText("-" + Utils.round(mW1.m[0][1]));
 //                break;
 //            case 4:

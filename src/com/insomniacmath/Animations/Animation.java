@@ -2,23 +2,22 @@ package com.insomniacmath.Animations;
 
 
 import android.widget.LinearLayout;
+import com.insomniacmath.Constants;
 import com.insomniacmath.MatrixWrapper;
 
-abstract public class Animation {
+abstract public class Animation implements Constants {
 
-    public MatrixCanvas surface;
     public LinearLayout solvation;
-    public MatrixWrapper parent;
+    public MatrixWrapper mW1;
 
-    Animation(MatrixCanvas surface, LinearLayout solvation, MatrixWrapper parent) {
-        this.surface = surface;
+    Animation( LinearLayout solvation, MatrixWrapper parent) {
         this.solvation = solvation;
-        this.parent = parent;
+        this.mW1 = parent;
     }
 
     public abstract void tic(int t);
 
-//    solvationString = "" + Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]) + " - "
-//            + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]);
+//    solvationString = "" + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]) + " - "
+//            + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]);
 
 }

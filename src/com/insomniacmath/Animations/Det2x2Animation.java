@@ -14,7 +14,7 @@ public class Det2x2Animation extends Animation {
     TextView solvationText;
     TextView solvationText2;
 
-    public Det2x2Animation(MatrixCanvas surface, LinearLayout solvation, MatrixWrapper parent) {
+    public Det2x2Animation(LinearLayout solvation, MatrixWrapper parent) {
         super(surface, solvation, parent);
 
         solvationText = new TextView(solvation.getContext());
@@ -33,10 +33,10 @@ public class Det2x2Animation extends Animation {
                 solvationText.setTextSize(23);
                 solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationText.setText(Utils.round(parent.m[0][0]));
+                solvationText.setText(Utils.round(mW1.m[0][0]));
                 break;
             case 2:
-                solvationText.setText(Utils.round(parent.m[0][0]) + "*" + Utils.round(parent.m[1][1]));
+                solvationText.setText(Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
                 surface.addPath(0, 0, 1, 1, 0xFF3388FF);
                 break;
             case 3:
@@ -44,10 +44,10 @@ public class Det2x2Animation extends Animation {
                 solvationText2.setTextSize(23);
                 solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationText2.setText("-" + Utils.round(parent.m[0][1]));
+                solvationText2.setText("-" + Utils.round(mW1.m[0][1]));
                 break;
             case 4:
-                solvationText2.setText("-" + Utils.round(parent.m[0][1]) + "*" + Utils.round(parent.m[1][0]));
+                solvationText2.setText("-" + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]));
                 surface.addPath(0, 1, 1, 0, 0xFF8833FF);
                 break;
 

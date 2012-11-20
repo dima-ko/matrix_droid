@@ -52,7 +52,6 @@ public class MatrixWrapper implements Constants {
 
     private void buildView() {
 
-
         leftBraket = new ImageView(context);
         leftBraket.setImageResource(R.drawable.left_braket);
         _view.addView(leftBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));

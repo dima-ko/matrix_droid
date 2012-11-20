@@ -20,6 +20,13 @@ public interface Constants {
     int MAX_ROWS = 6;
     int MAX_COLUMNS = 8;
 
+    final static int cyan = 0xAA3388FF;
+    final static int viol = 0xAA8833FF;
+    final static int ros = 0xAAFF3388;
+    final static int blu = 0xAA2233FF;
+    final static int gree = 0xAA22FF22;
+    final static int yel= 0xAAFF8800;
+
 
     int VIEW_IDS = 500;
     int BODY_ID = VIEW_IDS + 1;
