@@ -140,7 +140,7 @@ public class Solver implements Constants {
 //        solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        mainMatrixWrapper.animator.setView(solvationView);
+
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
@@ -202,13 +202,16 @@ public class Solver implements Constants {
                 findEigenVectors();
             }
         });
+
+        animator = new Animator(mainMatrixWrapper);
+        animator.setView(solvationView);
     }
 
     ButtonRoboto solveButton;
 
     private void stopExplain() {
 
-        mainMatrixWrapper.animator.stopExplain();
+        animator.stopExplain();
 
     }
 
@@ -259,6 +262,8 @@ public class Solver implements Constants {
 
         solveVariants.setVisibility(View.GONE);
         solveButton.setVisibility(View.VISIBLE);
+
+        animator.setSecMW(secondMatrixWrapper);
 
     }
 
@@ -343,7 +348,7 @@ public class Solver implements Constants {
                 solveVariants.setVisibility(View.VISIBLE);
                 break;
             case STATE_DETERMIN_EXPLAINING:
-                mainMatrixWrapper.animator.stopExplain();
+                animator.stopExplain();
             case STATE_DETERMIN_EXPLAINED:
                 state = STATE_DETERMIN_PRESSED;
                 solvationView.setVisibility(View.GONE);

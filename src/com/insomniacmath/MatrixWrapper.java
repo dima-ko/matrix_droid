@@ -37,7 +37,6 @@ public class MatrixWrapper implements Constants {
     }
 
     public MatrixCanvas canvas;
-    Animator animator;
     RelativeLayout relativeLayout;
 
     public MatrixWrapper(Context context, LinearLayout view, int number) {    //todo: clear editbox on longclick

@@ -20,9 +20,13 @@ public class Animator {
     TicTac tic;
 
     //    MatrixCanvas canvas;
-    MatrixCanvas canvas;
-    MatrixCanvas canvas2;
-    MatrixWrapper parent;
+    MatrixWrapper mainMW;
+
+    public void setSecMW(MatrixWrapper secMW) {
+        this.secMW = secMW;
+    }
+
+    MatrixWrapper secMW;
     int animType;
     private int rows;
     private int columns;
@@ -40,21 +44,19 @@ public class Animator {
         this.columns = columns;
     }
 
-
-    public Animator(MatrixCanvas canvas, MatrixWrapper MatrixWrapper) {
-        this.canvas = canvas;
-        canvas.setVisibility(View.INVISIBLE);
-        parent = MatrixWrapper;
+    public Animator(MatrixWrapper MatrixWrapper) {
+        mainMW = MatrixWrapper;
+        mainMW.getCanvas().setVisibility(View.INVISIBLE);
     }
 
     public void startExplaining() {
-        canvas.setVisibility(View.VISIBLE);
+        mainMW.getCanvas().setVisibility(View.VISIBLE);
         tic = new TicTac();
         if (animType == ANIM_DETERMINANT) {
             if (rows == 2)
-                anim = new Det2x2Animation(canvas, solvationView, parent);
+                anim = new Det2x2Animation(mainMW.getCanvas(), solvationView, mainMW);
             if (rows == 3)
-                anim = new Det3x3Animation(canvas, solvationView, parent);
+                anim = new Det3x3Animation(mainMW.getCanvas(), solvationView, mainMW);
         } else if (animType == ANIM_MULTIPLICATION) {
 
         }
@@ -64,7 +66,7 @@ public class Animator {
 
 
     public void stopExplain() {
-        canvas.clear();
+        mainMW.getCanvas().clear();
     }
 
     public void setView(LinearLayout solvationView) {
