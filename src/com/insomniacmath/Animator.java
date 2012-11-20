@@ -13,16 +13,19 @@ import com.insomniacmath.Animations.MatrixCanvas;
 public class Animator {
 
 
-    static final int ANIM_DETERMINANT_2x2 = 0;
-    static final int ANIM_DETERMINANT_3x3 = 1;
-    static final int ANIM_DETERMINANT_4x4 = 2;
+    static final int ANIM_DETERMINANT = 0;
+
+    static final int ANIM_MULTIPLICATION = 1;
 
     TicTac tic;
 
     //    MatrixCanvas canvas;
     MatrixCanvas canvas;
+    MatrixCanvas canvas2;
     MatrixWrapper parent;
     int animType;
+    private int rows;
+    private int columns;
 
     private LinearLayout solvationView;
     Animation anim;
@@ -31,8 +34,10 @@ public class Animator {
         return animType;
     }
 
-    public void setAnimType(int animType) {
+    public void setAnimType(int animType, int rows, int columns) {
         this.animType = animType;
+        this.rows = rows;
+        this.columns = columns;
     }
 
 
@@ -42,14 +47,17 @@ public class Animator {
         parent = MatrixWrapper;
     }
 
-    public void startExplaining(int state) {
+    public void startExplaining() {
         canvas.setVisibility(View.VISIBLE);
         tic = new TicTac();
-        if (animType == ANIM_DETERMINANT_2x2) {
-            anim = new Det2x2Animation(canvas, solvationView, parent);
-        } else if (animType == ANIM_DETERMINANT_3x3) {
-            anim = new Det3x3Animation(canvas, solvationView, parent);
-        } else ;
+        if (animType == ANIM_DETERMINANT) {
+            if (rows == 2)
+                anim = new Det2x2Animation(canvas, solvationView, parent);
+            if (rows == 3)
+                anim = new Det3x3Animation(canvas, solvationView, parent);
+        } else if (animType == ANIM_MULTIPLICATION) {
+
+        }
         tic.execute();
 
     }

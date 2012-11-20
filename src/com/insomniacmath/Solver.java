@@ -27,14 +27,12 @@ public class Solver implements Constants {
     private Context _context;
     private LinearLayout solvationView;
 
-
     LinearLayout bottomPlusHolder;
     LinearLayout rightPlusHolder;
 
-
     private LinearLayout secondMatrixView;
     private MatrixWrapper secondMatrixWrapper;
-
+    private Animator animator;
 
     public void onDestroy() {
         mainMatrixWrapper.onDestroy();
@@ -208,7 +206,6 @@ public class Solver implements Constants {
 
     ButtonRoboto solveButton;
 
-
     private void stopExplain() {
 
         mainMatrixWrapper.animator.stopExplain();
@@ -216,20 +213,18 @@ public class Solver implements Constants {
     }
 
     private void startExplain() {
-        mainMatrixWrapper.animator.startExplaining(state);
+        animator.startExplaining();
         switch (state) {
             case STATE_DETERMIN_PRESSED:
                 state = STATE_DETERMIN_EXPLAINING;
                 break;
             case STATE_MULTIPLY_FIND:
-
+                state = STATE_MULTIPLY_EXPLAINING;
                 break;
         }
     }
 
-
 //    Dialog d;
-
 
     public void findEigenVectors() {
 
@@ -305,6 +300,7 @@ public class Solver implements Constants {
         resMatrixWrapper.fillGridFromMatrix();
         resMatrixWrapper.refreshVisible();
         xplainButton.setVisibility(View.VISIBLE);
+        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
     }
 
@@ -317,12 +313,7 @@ public class Solver implements Constants {
             xplainButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
             // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
-
-            if (mainMatrixWrapper.rows == 2 && mainMatrixWrapper.columns == 2) {
-                mainMatrixWrapper.animator.setAnimType(Animator.ANIM_DETERMINANT_2x2);
-            } else if (mainMatrixWrapper.rows == 3 && mainMatrixWrapper.columns == 3) {
-                mainMatrixWrapper.animator.setAnimType(Animator.ANIM_DETERMINANT_3x3);
-            }
+            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
             state = STATE_DETERMIN_PRESSED;
             solveVariants.setVisibility(View.GONE);
@@ -339,7 +330,6 @@ public class Solver implements Constants {
         }
 //        Toast.makeText(_context, mainMatrixWrapper.findDeterminant() + "", 2000).show();
     }
-
 
     public boolean onBackPressed() {
         switch (state) {

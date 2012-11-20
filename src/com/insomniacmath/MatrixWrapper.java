@@ -31,7 +31,12 @@ public class MatrixWrapper implements Constants {
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
 
     ImageView rightBraket, leftBraket;
-    MatrixCanvas canvas;
+
+    public MatrixCanvas getCanvas() {
+        return canvas;
+    }
+
+    public MatrixCanvas canvas;
     Animator animator;
     RelativeLayout relativeLayout;
 
@@ -155,8 +160,6 @@ public class MatrixWrapper implements Constants {
         canvas = new MatrixCanvas(context);
         relativeLayout.addView(canvas, fillFill);
         relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
-
-        animator = new Animator(canvas, this);
 
     }
 
