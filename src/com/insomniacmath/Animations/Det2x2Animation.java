@@ -5,17 +5,17 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.insomniacmath.Animator;
 import com.insomniacmath.MatrixWrapper;
 import com.insomniacmath.Utils;
 
 public class Det2x2Animation extends Animation {
 
-
     TextView solvationText;
     TextView solvationText2;
 
-    public Det2x2Animation(LinearLayout solvation, MatrixWrapper parent) {
-        super(surface, solvation, parent);
+    public Det2x2Animation(Animator animator, LinearLayout solvation, MatrixWrapper parent) {
+        super(animator,solvation, parent);
 
         solvationText = new TextView(solvation.getContext());
         solvationText.setTextColor(0xFF3388FF);
@@ -37,7 +37,7 @@ public class Det2x2Animation extends Animation {
                 break;
             case 2:
                 solvationText.setText(Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
-                surface.addPath(0, 0, 1, 1, 0xFF3388FF);
+                mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
                 break;
             case 3:
 //                solvationText2 = new TextView(solvation.getContext());
@@ -48,11 +48,12 @@ public class Det2x2Animation extends Animation {
                 break;
             case 4:
                 solvationText2.setText("-" + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]));
-                surface.addPath(0, 1, 1, 0, 0xFF8833FF);
+                mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
                 break;
 
 
             default:
+                animator.stopExplain();
                 break;
 
         }

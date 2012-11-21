@@ -2,15 +2,18 @@ package com.insomniacmath.Animations;
 
 
 import android.widget.LinearLayout;
+import com.insomniacmath.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.MatrixWrapper;
 
 abstract public class Animation implements Constants {
 
+    protected Animator animator;
     public LinearLayout solvation;
     public MatrixWrapper mW1;
 
-    Animation( LinearLayout solvation, MatrixWrapper parent) {
+    Animation(Animator animator, LinearLayout solvation, MatrixWrapper parent) {
+        this.animator = animator;
         this.solvation = solvation;
         this.mW1 = parent;
     }

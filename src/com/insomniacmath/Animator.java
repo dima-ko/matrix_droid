@@ -49,11 +49,11 @@ public class Animator {
         tic = new TicTac();
         if (animType == ANIM_DETERMINANT) {
             if (rows == 2)
-                anim = new Det2x2Animation(solvationView, mainMW);
+                anim = new Det2x2Animation(this,solvationView, mainMW);
             if (rows == 3)
-                anim = new Det3x3Animation(solvationView, mainMW);
+                anim = new Det3x3Animation(this,solvationView, mainMW);
         } else if (animType == ANIM_MULTIPLICATION) {
-            anim = new MultiplyAnimation(solvationView, mainMW, secMW);
+            anim = new MultiplyAnimation(this, solvationView, mainMW, secMW);
         }
 
         tic.execute();
@@ -61,6 +61,7 @@ public class Animator {
 
 
     public void stopExplain() {
+        tic.cancel(true);
         mainMW.getCanvas().clear();
     }
 

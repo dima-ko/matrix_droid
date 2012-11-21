@@ -1,14 +1,15 @@
 package com.insomniacmath.Animations;
 
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.insomniacmath.Animator;
 import com.insomniacmath.MatrixWrapper;
 import com.insomniacmath.Solver;
-import com.insomniacmath.Utils;
 
 public class MultiplyAnimation extends Animation {
 
@@ -16,184 +17,93 @@ public class MultiplyAnimation extends Animation {
     TextView[] solvationTexts;
     private MatrixWrapper mW2;
     private View resultMW;
+    int actions;
+    int resMax;
 
-    public MultiplyAnimation(LinearLayout solvationView, MatrixWrapper mW1, MatrixWrapper mW2) {
-        super(solvationView, mW1);
+    public MultiplyAnimation(Animator animator, LinearLayout solvationView, MatrixWrapper mW1, MatrixWrapper mW2) {
+        super(animator, solvationView, mW1);
         this.mW2 = mW2;
         resultMW = solvationView.findViewById(Solver.RESULT_MATRIX);
-        solvationTexts = new TextView[mW1.columns * mW1.columns];
-        for (TextView textView : solvationTexts) {
-            textView = new TextView(solvation.getContext());
-            textView.setVisibility(View.GONE);
+
+        resMax = mW1.columns * mW1.columns;
+        solvationTexts = new TextView[resMax];
+        for (int i = 0; i < resMax; i++) {
+            solvationTexts[i] = new TextView(solvation.getContext());
+//            solvationTexts[i].setVisibility(View.GONE);
         }
+
+        actions = 4 * mW1.columns - 1;
+
+
     }
 
+    /**
+     * converts number to string, wraps with brakets , if number is negative
+     *
+     * @param number
+     * @return
+     */
+    public String bra(double number) {
+        if (number == (int) number) {
+            if (number < 0)
+                return "(" + (int) number + ")";
+            else return (int) number + "";
+        } else {
+            if (number < 0)
+                return "(" + number + ")";
+            else return number + "";
+        }
+
+    }
+
+    StringBuilder builder = new StringBuilder();
 
     @Override
     public void tic(int t) {
-        switch (t) {
+
+        int resCount = t / actions;
+        int rowIter = t % actions;
+
+        int col = resCount / mW1.columns;
+        int ro = resCount / mW1.rows;
+
+        Log.d("ticzzzzz", rowIter + " col " + col + "  row " + ro);
+        switch (rowIter) {
             case 0:
-                solvationTexts[0].setTextSize(23);
-                solvationTexts[0].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[0], FILL_WRAP);
-                solvationTexts[0].setText("+ ");
+                builder = new StringBuilder();
+                solvationTexts[resCount].setTextSize(23);
+                solvationTexts[resCount].setGravity(Gravity.CENTER_HORIZONTAL);
+//                solvationTexts[resCount].setVisibility(View.VISIBLE);
+                solvation.addView(solvationTexts[resCount], FILL_WRAP);
+
+                builder.append(bra(mW1.m[col][ro]));
                 break;
             case 1:
-                solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]));
-                mW1.getCanvas().addCircle(0, 0, cyan);
+                builder.append("*");
                 break;
             case 2:
-                solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
-                mW1.getCanvas().addPath(0, 0, 1, 1, cyan);
-                mW1.getCanvas().addCircle(1, 1, cyan);
+                builder.append(bra(mW2.m[ro][col]));
                 break;
             case 3:
-                solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]) + "*" + Utils.round(mW1.m[2][2]));
-                mW1.getCanvas().addPath(1, 1, 2, 2, cyan);
-                mW1.getCanvas().addCircle(2, 2, cyan);
+                builder.append("+");
                 break;
-            //-------------------------------------------------------------------------------------------------------------------------------
-            case 5:
-                solvationTexts[1].setTextSize(23);
-                solvationTexts[1].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[1], FILL_WRAP);
-                solvationTexts[1].setText("+ ");
-                break;
-
-            case 6:
-                solvationTexts[1].setText("+ " + Utils.round(mW1.m[0][1]));
-                mW1.getCanvas().addCircle(1, 0, viol);
-                break;
-            case 7:
-                solvationTexts[1].setText("+ " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][2]));
-                mW1.getCanvas().addPath(1, 0, 2, 1, viol);
-                mW1.getCanvas().addCircle(2, 1, viol);
-                break;
-            case 8:
-                solvationTexts[1].setText("+ " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][2]) + "*" + Utils.round(mW1.m[2][0]));
-                mW1.getCanvas().addPath(2, 1, 0, 2, viol);
-                mW1.getCanvas().addCircle(0, 2, viol);
-                break;
-            case 9:
-                mW1.getCanvas().addPath(0, 2, 1, 0, viol);
-                break;
-            //-------------------------------------------------------------------------------------------------------------------------------
-            case 10:
-                solvationTexts[2].setTextSize(23);
-                solvationTexts[2].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[2], FILL_WRAP);
-                solvationTexts[2].setText("+ ");
-                break;
-
-            case 11:
-                solvationTexts[2].setText("+ " + Utils.round(mW1.m[1][0]));
-                mW1.getCanvas().addCircle(0, 1, ros);
-                break;
-            case 12:
-                solvationTexts[2].setText("+ " + Utils.round(mW1.m[1][0]) + "*" + Utils.round(mW1.m[2][1]));
-                mW1.getCanvas().addPath(0, 1, 1, 2, ros);
-                mW1.getCanvas().addCircle(1, 2, ros);
-                break;
-            case 13:
-                solvationTexts[2].setText("+ " + Utils.round(mW1.m[1][0]) + "*" + Utils.round(mW1.m[2][1]) + "*" + Utils.round(mW1.m[0][2]));
-                mW1.getCanvas().addPath(1, 2, 2, 0, ros);
-                mW1.getCanvas().addCircle(2, 0, ros);
-                break;
-            case 14:
-                mW1.getCanvas().addPath(2, 0, 0, 1, ros);
-                break;
-            case 15:
-                mW1.getCanvas().clear();
-                break;
-            //----------------------------------------------------------------------------------------------------------------------------------------
-            case 16:
-                solvationTexts[3].setTextSize(23);
-                solvationTexts[3].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[3], FILL_WRAP);
-                solvationTexts[3].setText("- ");
-                break;
-            case 17:
-                solvationTexts[3].setText("- " + Utils.round(mW1.m[0][2]));
-                mW1.getCanvas().addCircle(2, 0, blu);
-                break;
-            case 18:
-                solvationTexts[3].setText("- " + Utils.round(mW1.m[0][2]) + "*" + Utils.round(mW1.m[1][1]));
-                mW1.getCanvas().addPath(2, 0, 1, 1, blu);
-                mW1.getCanvas().addCircle(1, 1, blu);
-                break;
-            case 19:
-                solvationTexts[3].setText("- " + Utils.round(mW1.m[0][2]) + "*" + Utils.round(mW1.m[1][1]) + "*" + Utils.round(mW1.m[2][0]));
-                mW1.getCanvas().addPath(1, 1, 0, 2, blu);
-                mW1.getCanvas().addCircle(0, 2, blu);
-                break;
-            //-------------------------------------------------------------------------------------------------------------------------------
-            case 20:
-                solvationTexts[4].setTextSize(23);
-                solvationTexts[4].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[4], FILL_WRAP);
-                solvationTexts[4].setText("- ");
-                break;
-
-            case 21:
-                solvationTexts[4].setText("- " + Utils.round(mW1.m[0][1]));
-                mW1.getCanvas().addCircle(1, 0, gree);
-                break;
-            case 22:
-                solvationTexts[4].setText("- " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]));
-                mW1.getCanvas().addPath(1, 0, 0, 1, gree);
-                mW1.getCanvas().addCircle(0, 1, gree);
-                break;
-            case 23:
-                solvationTexts[4].setText("- " + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]) + "*" + Utils.round(mW1.m[2][2]));
-                mW1.getCanvas().addPath(0, 1, 2, 2, gree);
-                mW1.getCanvas().addCircle(2, 2, gree);
-                break;
-            case 24:
-                mW1.getCanvas().addPath(2, 2, 1, 0, gree);
-                break;
-            //-------------------------------------------------------------------------------------------------------------------------------
-            case 25:
-                solvationTexts[5].setTextSize(23);
-                solvationTexts[5].setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationTexts[5], FILL_WRAP);
-                solvationTexts[5].setText("- ");
-                break;
-
-            case 26:
-                solvationTexts[5].setText("- " + Utils.round(mW1.m[1][2]));
-                mW1.getCanvas().addCircle(2, 1, yel);
-                break;
-            case 27:
-                solvationTexts[5].setText("- " + Utils.round(mW1.m[1][2]) + "*" + Utils.round(mW1.m[2][1]));
-                mW1.getCanvas().addPath(2, 1, 1, 2, yel);
-                mW1.getCanvas().addCircle(1, 2, yel);
-                break;
-            case 28:
-                solvationTexts[5].setText("- " + Utils.round(mW1.m[1][2]) + "*" + Utils.round(mW1.m[2][1]) + "*" + Utils.round(mW1.m[0][0]));
-                mW1.getCanvas().addPath(1, 2, 0, 0, yel);
-                mW1.getCanvas().addCircle(0, 0, yel);
-                break;
-            case 29:
-                mW1.getCanvas().addPath(0, 0, 2, 1, yel);
-                break;
-
-
-//            case 3:
-////                solvationText2 = new TextView(solvation.getContext());
-//                solvationTexts[1].setTextSize(23);
-//                solvationTexts[1].setGravity(Gravity.CENTER_HORIZONTAL);
-//                solvation.addView(solvationTexts[1], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_mW1, ViewGroup.LayoutParams.WRAP_CONTENT));
-//                solvationTexts[1].setText("-" + Utils.round(mW1.m[0][1]));
-//                break;
-//            case 4:
-//                solvationTexts[1].setText("-" + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]));
-//                surface.addPath(0, 1, 1, 0, 0xFF8833FF);
-//                break;
-
-
-            default:
-                break;
-
         }
+
+        solvationTexts[resCount].setText(builder.toString());
+
+
+//        solvationTexts[0].setText("+ ");
+//        solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]));
+//        mW1.getCanvas().addCircle(0, 0, cyan);
+//        solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
+//        mW1.getCanvas().addPath(0, 0, 1, 1, cyan);
+//        mW1.getCanvas().addCircle(1, 1, cyan);
+//        solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]) + "*" + Utils.round(mW1.m[2][2]));
+//        mW1.getCanvas().addPath(1, 1, 2, 2, cyan);
+//        mW1.getCanvas().addCircle(2, 2, cyan);
+
+        if (t == actions * resMax)
+            animator.stopExplain();
+
     }
 }

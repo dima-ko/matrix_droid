@@ -210,7 +210,7 @@ public class Solver implements Constants {
 
     ButtonRoboto solveButton;
 
-    private void stopExplain() {
+    public void stopExplain() {
 
         animator.stopExplain();
 
