@@ -13,13 +13,15 @@ import org.ejml.simple.SimpleMatrix;
 public class Solver implements Constants {
 
     public static final int RESULT_MATRIX = 1000;
+    public static final int SOLVE_BUTTON_ID = 600;
+    public static final int EXPLAIN_BUTTON_ID = 900;
     int state = STATE_INITIAL;
 
     MatrixWrapper mainMatrixWrapper;
     LinearLayout mainMatrixView;
     LinearLayout resultView;
     TextView resultText;
-    ImageView xplainButton;
+    Button xplainButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapCenterHor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -90,9 +92,10 @@ public class Solver implements Constants {
         scrollView.addView(scrollWrapper, wrapWrap);
         mainView.addView(scrollView, wrapWrap);
 
-        xplainButton = new ImageView(context);
+        xplainButton = new Button(context);
         xplainButton.setVisibility(View.GONE);
-        xplainButton.setImageResource(R.drawable.xplain_but);
+        xplainButton.setId(EXPLAIN_BUTTON_ID);
+        xplainButton.setBackgroundResource(R.drawable.xplain_but);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 solvationView.setVisibility(View.VISIBLE);
@@ -167,6 +170,7 @@ public class Solver implements Constants {
         solveButton.setTextColor(Color.WHITE);
         solveButton.setText("Solve");
         solveButton.setVisibility(View.GONE);
+        solveButton.setId(SOLVE_BUTTON_ID);
         resultView.addView(solveButton, fillWrap);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -357,6 +361,9 @@ public class Solver implements Constants {
                 xplainButton.setVisibility(View.VISIBLE);
                 break;
             case STATE_MULTIPLY_PRESSED:
+            case STATE_MULTIPLY_FIND:
+            case STATE_MULTIPLY_EXPLAINING:
+            case STATE_MULTIPLY_EXPLAINED:
                 state = STATE_INITIAL;
                 bottomPlusHolder.setVisibility(View.VISIBLE);
                 rightPlusHolder.setVisibility(View.VISIBLE);
