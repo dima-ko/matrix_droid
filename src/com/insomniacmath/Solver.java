@@ -301,7 +301,8 @@ public class Solver implements Constants {
         LinearLayout resultMatrixLay = new LinearLayout(_context);
         resultMatrixLay.setId(RESULT_MATRIX);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        MatrixWrapper resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
         resMatrixWrapper.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
             for (int j = 0; j < c.numCols(); j++) {
@@ -312,8 +313,9 @@ public class Solver implements Constants {
         resMatrixWrapper.refreshVisible();
         xplainButton.setVisibility(View.VISIBLE);
         animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
-
     }
+
+    MatrixWrapper resMatrixWrapper;
 
     public void findDeterminant() {
 
@@ -370,6 +372,10 @@ public class Solver implements Constants {
 
                 mainMatrixView.removeView(secondMatrixView);
                 secondMatrixWrapper.onDestroy();
+
+                resultView.removeAllViews();
+                resMatrixWrapper.onDestroy();
+
                 Thread.yield();
                 secondMatrixView = null;
                 secondMatrixWrapper = null;

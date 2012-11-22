@@ -80,20 +80,21 @@ public class MultiplyAnimation extends Animation {
         }
 
         int elementIter = rowIter / 4;
-        int ro = resCount / mW1.columns;
-        int col = resCount % mW1.columns;
+        int ro = resCount / mW1.rows;
+        int col = resCount % mW1.rows;
 
 
+        Log.d("ticzzzzz", " resCount " + resCount + "  mW1.columns " + mW1.columns);
         Log.d("ticzzzzz", rowIter + " col " + elementIter + "  row " + ro);
         switch (rowIter % 4) {
             case 0:
-                builder.append(bra(mW1.m[ro][col + elementIter]));
+                builder.append(bra(mW1.m[ro][elementIter]));
                 break;
             case 1:
                 builder.append("*");
                 break;
             case 2:
-                builder.append(bra(mW2.m[col + elementIter][ro]));
+                builder.append(bra(mW2.m[elementIter][col]));
                 break;
             case 3:
                 builder.append("+");
