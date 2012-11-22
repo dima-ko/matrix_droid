@@ -162,7 +162,7 @@ public class Solver implements Constants {
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(xplainButton, new LinearLayout.LayoutParams(320 , 128));
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(320, 128));
         resultView.setBackgroundColor(0x12345678);
 
 
@@ -257,7 +257,48 @@ public class Solver implements Constants {
     }
 
     public void findInverse() {
+        SimpleMatrix inverse = null;
 
+        try {
+            resultView.setVisibility(View.VISIBLE);
+            resultText.setVisibility(View.VISIBLE);
+
+            inverse = mainMatrixWrapper.findInverse();
+
+            xplainButton.setVisibility(View.VISIBLE);
+            resultText.setTextColor(Color.WHITE);
+            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+//            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
+
+            state = STATE_INVERT_FIND;
+            solveVariants.setVisibility(View.GONE);
+
+        } catch (BadSymbolException e) {
+            resultText.setText("Some elements are unsuitable");
+            resultText.setTextColor(Color.RED);
+//            solvationText.setVisibility(View.GONE);
+        } catch (BadMatrixException e) {
+            resultText.setText("Matrix must be square");
+            resultText.setTextColor(Color.RED);
+//            solvationText.setVisibility(View.GONE);
+        }
+
+        LinearLayout resultMatrixLay = new LinearLayout(_context);
+        resultMatrixLay.setId(RESULT_MATRIX);
+        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
+
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+        resMatrixWrapper.adjustSizeTo(inverse.numRows(), inverse.numCols());
+        for (int i = 0; i < inverse.numRows(); i++) {
+            for (int j = 0; j < inverse.numCols(); j++) {
+                resMatrixWrapper.m[i][j] = inverse.get(i, j);
+            }
+        }
+        resMatrixWrapper.fillGridFromMatrix();
+        resMatrixWrapper.refreshVisible();
+        animator.setResultMW(resMatrixWrapper);
+        xplainButton.setVisibility(View.VISIBLE);
+        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
     }
 
@@ -364,7 +405,7 @@ public class Solver implements Constants {
             case STATE_DETERMIN_PRESSED:
                 state = STATE_INITIAL;
                 resultText.setVisibility(View.GONE);
-                solvationView.setVisibility(View.GONE);
+                solvationView.setVisibility(View.GONE);        //todo: format output in matrix
                 xplainButton.setVisibility(View.GONE);
                 solveVariants.setVisibility(View.VISIBLE);
                 break;

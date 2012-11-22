@@ -8,9 +8,13 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
+import org.ejml.simple.SimpleMatrix;
 
 
 public class MatrixWrapper implements Constants {
@@ -304,6 +308,18 @@ public class MatrixWrapper implements Constants {
         m = new double[rows][];
         for (int i = 0; i < rows; i++) {
             m[i] = new double[columns];
+        }
+
+    }
+
+    public SimpleMatrix findInverse() throws BadMatrixException, BadSymbolException {
+        fillMatrixFromGrid();
+        if (columns != rows) {
+//            Toast.makeText(context, "no square", 2000).show();
+            throw new BadMatrixException();
+        } else {
+            SimpleMatrix orig = new SimpleMatrix(m);
+            return orig.invert();
         }
 
     }

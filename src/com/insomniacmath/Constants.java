@@ -15,6 +15,9 @@ public interface Constants {
     int STATE_MULTIPLY_FIND = 5;
     int STATE_MULTIPLY_EXPLAINING = 6;
     int STATE_MULTIPLY_EXPLAINED = 7;
+    int STATE_INVERT_FIND = 8;
+    int STATE_INVERT_EXPLAINING = 9;
+    int STATE_INVERT_EXPLAINED = 10;
 
 
     int MAX_ROWS = 6;
@@ -25,7 +28,7 @@ public interface Constants {
     final static int ros = 0xAAFF3388;
     final static int blu = 0xAA2233FF;
     final static int gree = 0xAA22FF22;
-    final static int yel= 0xAAFF8800;
+    final static int yel = 0xAAFF8800;
 
 
     int VIEW_IDS = 500;
