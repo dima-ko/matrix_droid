@@ -197,7 +197,7 @@ public class Det3x3Animation extends Animation {
 //                surface.addPath(0, 1, 1, 0, 0xFF8833FF);
 //                break;
 
-            default:
+            case 30:
                 animator.stopExplain();
                 break;
 

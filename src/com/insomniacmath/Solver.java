@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import com.insomniacmath.roboto.ButtonRoboto;
@@ -140,6 +141,16 @@ public class Solver implements Constants {
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
+        solvationView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    downX = motionEvent.getX();
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+                    animator.changeSpeed((motionEvent.getX() - downX) > 0);
+                return true;
+            }
+        });
+
         solvationView.setOrientation(LinearLayout.VERTICAL);
 //        solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -151,7 +162,7 @@ public class Solver implements Constants {
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(xplainButton, new LinearLayout.LayoutParams(213, 81));
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(320 , 128));
         resultView.setBackgroundColor(0x12345678);
 
 
@@ -219,6 +230,8 @@ public class Solver implements Constants {
         animator.stopExplain();
 
     }
+
+    float downX;
 
     private void startExplain() {
         animator.startExplaining();
@@ -340,7 +353,6 @@ public class Solver implements Constants {
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
-
         }
 //        Toast.makeText(_context, mainMatrixWrapper.findDeterminant() + "", 2000).show();
     }

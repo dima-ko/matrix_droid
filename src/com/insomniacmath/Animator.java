@@ -5,7 +5,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animations.*;
+import com.insomniacmath.Animations.Animation;
+import com.insomniacmath.Animations.Det2x2Animation;
+import com.insomniacmath.Animations.Det3x3Animation;
+import com.insomniacmath.Animations.MultiplyAnimation;
 
 public class Animator {
 
@@ -54,11 +57,11 @@ public class Animator {
         tic = new TicTac();
         if (animType == ANIM_DETERMINANT) {
             if (rows == 2)
-                anim = new Det2x2Animation(this,solvationView, mainMW);
+                anim = new Det2x2Animation(this, solvationView, mainMW);
             if (rows == 3)
-                anim = new Det3x3Animation(this,solvationView, mainMW);
+                anim = new Det3x3Animation(this, solvationView, mainMW);
         } else if (animType == ANIM_MULTIPLICATION) {
-            anim = new MultiplyAnimation(this, solvationView, mainMW, secMW , resMW);
+            anim = new MultiplyAnimation(this, solvationView, mainMW, secMW, resMW);
         }
 
         tic.execute();
@@ -74,6 +77,11 @@ public class Animator {
         this.solvationView = solvationView;
     }
 
+    public void changeSpeed(boolean b) {
+        timeout *= b ? 0.5f : 2;
+    }
+
+    static int timeout = 1000;
 
     class TicTac extends AsyncTask {
 
@@ -83,8 +91,8 @@ public class Animator {
         protected Object doInBackground(Object... objects) {
             while (!this.isCancelled()) {
                 try {
-                    int time = 1000;
-                    Thread.sleep(time);
+
+                    Thread.sleep(timeout);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

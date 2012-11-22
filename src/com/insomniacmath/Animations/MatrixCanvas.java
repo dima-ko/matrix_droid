@@ -82,17 +82,16 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
     }
 
     public void addPath(int startx, int starty, int endx, int endy, int color) {
-        float angle;
-        if (endx == startx)
-            angle = (float) (Math.signum(endy - starty) * Math.PI / 2);
-        else
-            angle = (float) Math.atan((endy - starty) / (endx - startx));
 
-        int startSX = (int) (startx * line.shift + CIRCLE_RADIUS_MIN * Math.cos(angle) * Math.signum(endx - startx));
-        int startSY = (int) (starty * line.shift + CIRCLE_RADIUS_MIN * Math.sin(angle) * Math.signum(-endy + starty));
+        int lengthX = endx - startx;
+        int lengthY = endy - starty;
+        float diagon = (float) Math.sqrt(lengthX * lengthX + lengthY * lengthY);
 
-        int endSX = (int) (endx * line.shift + CIRCLE_RADIUS_MIN * Math.cos(angle) * Math.signum(-endx + startx));
-        int endSY = (int) (endy * line.shift + CIRCLE_RADIUS_MIN * Math.sin(angle) * Math.signum(endy - starty));
+        int startSX = (int) (startx * line.shift + (float) CIRCLE_RADIUS_MIN * (endx - startx) / diagon);
+        int startSY = (int) (starty * line.shift + (float) CIRCLE_RADIUS_MIN * (endy - starty) / diagon);
+
+        int endSX = (int) (endx * line.shift + (float) CIRCLE_RADIUS_MIN * (-endx + startx) / diagon);
+        int endSY = (int) (endy * line.shift + (float) CIRCLE_RADIUS_MIN * (-endy + starty) / diagon);
 
         pathList.add(new line(startSX, startSY, endSX, endSY, color));
     }
