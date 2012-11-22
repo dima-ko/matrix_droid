@@ -311,6 +311,7 @@ public class Solver implements Constants {
         }
         resMatrixWrapper.fillGridFromMatrix();
         resMatrixWrapper.refreshVisible();
+        animator.setResultMW(resMatrixWrapper);
         xplainButton.setVisibility(View.VISIBLE);
         animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
     }
@@ -366,6 +367,7 @@ public class Solver implements Constants {
             case STATE_MULTIPLY_FIND:
             case STATE_MULTIPLY_EXPLAINING:
             case STATE_MULTIPLY_EXPLAINED:
+
                 state = STATE_INITIAL;
                 bottomPlusHolder.setVisibility(View.VISIBLE);
                 rightPlusHolder.setVisibility(View.VISIBLE);
@@ -375,6 +377,8 @@ public class Solver implements Constants {
 
                 resultView.removeAllViews();
                 resMatrixWrapper.onDestroy();
+
+                solvationView.removeAllViews();
 
                 Thread.yield();
                 secondMatrixView = null;

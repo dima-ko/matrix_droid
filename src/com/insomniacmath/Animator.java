@@ -16,9 +16,14 @@ public class Animator {
 
     //    MatrixCanvas canvas;
     MatrixWrapper mainMW;
+    private MatrixWrapper resMW;
 
     public void setSecMW(MatrixWrapper secMW) {
         this.secMW = secMW;
+    }
+
+    public void setResultMW(MatrixWrapper resMW) {
+        this.resMW = resMW;
     }
 
     MatrixWrapper secMW;
@@ -53,7 +58,7 @@ public class Animator {
             if (rows == 3)
                 anim = new Det3x3Animation(this,solvationView, mainMW);
         } else if (animType == ANIM_MULTIPLICATION) {
-            anim = new MultiplyAnimation(this, solvationView, mainMW, secMW);
+            anim = new MultiplyAnimation(this, solvationView, mainMW, secMW , resMW);
         }
 
         tic.execute();

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 public class MatrixCanvas extends SurfaceView implements Runnable {
 
 
+    public static final int CIRCLE_RADIUS = 20;
+    public static final int CIRCLE_RADIUS_MIN = 18;
     Thread thread = null;
     SurfaceHolder surfaceHolder;
     volatile static boolean running = false;
@@ -41,10 +43,10 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
         public line(int startx, int starty, int endx, int endy, int color) {
             this.color = color;
-            this.startx = startx * shift + shiftX;
-            this.starty = starty * shift + shiftY;
-            this.endx = endx * shift + shiftX;
-            this.endy = endy * shift + shiftY;
+            this.startx = startx + shiftX;
+            this.starty = starty + shiftY;
+            this.endx = endx + shiftX;
+            this.endy = endy + shiftY;
         }
     }
 
@@ -80,7 +82,19 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
     }
 
     public void addPath(int startx, int starty, int endx, int endy, int color) {
-        pathList.add(new line(startx, starty, endx, endy, color));
+        float angle;
+        if (endx == startx)
+            angle = (float) (Math.signum(endy - starty) * Math.PI / 2);
+        else
+            angle = (float) Math.atan((endy - starty) / (endx - startx));
+
+        int startSX = (int) (startx * line.shift + CIRCLE_RADIUS_MIN * Math.cos(angle) * Math.signum(endx - startx));
+        int startSY = (int) (starty * line.shift + CIRCLE_RADIUS_MIN * Math.sin(angle) * Math.signum(-endy + starty));
+
+        int endSX = (int) (endx * line.shift + CIRCLE_RADIUS_MIN * Math.cos(angle) * Math.signum(-endx + startx));
+        int endSY = (int) (endy * line.shift + CIRCLE_RADIUS_MIN * Math.sin(angle) * Math.signum(endy - starty));
+
+        pathList.add(new line(startSX, startSY, endSX, endSY, color));
     }
 
     public void addCircle(int x, int y, int color) {
@@ -134,7 +148,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
 
                 for (int i = 0; i < circleList.size(); i++) {
                     paint.setColor(circleList.get(i).color);
-                    canvas.drawCircle(circleList.get(i).x, circleList.get(i).y, 20, paint);
+                    canvas.drawCircle(circleList.get(i).x, circleList.get(i).y, CIRCLE_RADIUS, paint);
                 }
 
                 for (int i = 0; i < pathList.size(); i++) {
