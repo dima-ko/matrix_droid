@@ -158,7 +158,7 @@ public class Solver implements Constants {
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(xplainButton, new LinearLayout.LayoutParams(320, 128));
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(160, 64));
         resultView.setBackgroundColor(0x12345678);
 
 
@@ -188,7 +188,6 @@ public class Solver implements Constants {
                     findMultiplication();
             }
         });
-
 
         solveVariants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
         resultView.addView(solveVariants, fillWrap);
