@@ -182,7 +182,10 @@ public class Solver implements Constants {
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 solveButton.setVisibility(View.GONE);
-                findMultiplication();
+                if (state == STATE_SIDE_COLUMN_ADDED) {
+                    findSystemSolvation();
+                } else if (state == STATE_MULTIPLY_PRESSED)
+                    findMultiplication();
             }
         });
 
@@ -213,6 +216,9 @@ public class Solver implements Constants {
         solveVariants.findViewById(R.id.solve_sys).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixWrapper.addSideColumn();
+                solveVariants.setVisibility(View.GONE);
+                solveButton.setVisibility(View.VISIBLE);
+                state = STATE_SIDE_COLUMN_ADDED;
             }
         });
         solveVariants.findViewById(R.id.eigen).setOnClickListener(new View.OnClickListener() {
@@ -223,6 +229,43 @@ public class Solver implements Constants {
 
         animator = new Animator(mainMatrixWrapper);
         animator.setView(solvationView);
+    }
+
+    private void findSystemSolvation() {
+        try {
+            resultView.setVisibility(View.VISIBLE);
+            resultText.setVisibility(View.VISIBLE);
+
+            SimpleMatrix inverse = mainMatrixWrapper.solveSLE();
+
+            xplainButton.setVisibility(View.VISIBLE);
+            resultText.setTextColor(Color.WHITE);
+            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+//            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
+
+            state = STATE_INVERT_FIND;
+            solveVariants.setVisibility(View.GONE);
+
+            LinearLayout resultMatrixLay = new LinearLayout(_context);
+            resultMatrixLay.setId(RESULT_MATRIX);
+            resultView.addView(resultMatrixLay, wrapWrapCenterHor);
+
+            resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+            resMatrixWrapper.adjustSizeTo(inverse.numCols(), inverse.numRows());
+            for (int i = 0; i < inverse.numRows(); i++) {
+                for (int j = 0; j < inverse.numCols(); j++) {
+                    double v = inverse.get(i, j);
+                    resMatrixWrapper.m[i][j] = v;
+                }
+            }
+            resMatrixWrapper.fillGridFromMatrix(true);
+            resMatrixWrapper.refreshVisible();
+            animator.setResultMW(resMatrixWrapper);
+            xplainButton.setVisibility(View.VISIBLE);
+
+        } catch (BadSymbolException e) {
+            e.printStackTrace();
+        }
     }
 
     ButtonRoboto solveButton;
@@ -305,7 +348,6 @@ public class Solver implements Constants {
             xplainButton.setVisibility(View.VISIBLE);
             animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
-
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
@@ -340,7 +382,6 @@ public class Solver implements Constants {
         solveButton.setVisibility(View.VISIBLE);
 
         animator.setSecMW(secondMatrixWrapper);
-
     }
 
     public void findMultiplication() {

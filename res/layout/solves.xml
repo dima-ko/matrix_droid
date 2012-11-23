@@ -65,7 +65,7 @@
                 android:layout_marginLeft="2pt"
                 android:layout_weight="1"
                 android:id="@+id/solve_sys"
-                android:text="Solve system"
+                android:text="Solve"
                 android:layout_width="fill_parent"
                 android:layout_height="23pt"
                 />
@@ -75,7 +75,7 @@
                 android:layout_marginLeft="2pt"
                 android:layout_weight="1"
                 android:id="@+id/eigen"
-                android:text="Eigen vectors"
+                android:text="Eigen "
                 android:layout_width="fill_parent"
                 android:layout_height="23pt"
                 />

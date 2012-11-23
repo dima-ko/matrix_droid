@@ -312,12 +312,9 @@ public class MatrixWrapper implements Constants {
                         temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
                     }
                 }
-
                 D += Math.pow(-1, k) * m[0][k] * determin(temp);
-
             }
         }
-
 
         return D;
     }
@@ -389,12 +386,24 @@ public class MatrixWrapper implements Constants {
             SimpleMatrix orig = new SimpleMatrix(m);
             return orig.invert();
         }
-
     }
 
     public double findRang() throws BadSymbolException {
         fillMatrixFromGrid();
         SimpleMatrix orig = new SimpleMatrix(m);
         return orig.svd(true).rank();
+    }
+
+    public SimpleMatrix solveSLE() throws BadSymbolException {
+        fillMatrixFromGrid();
+        double[][] rightPart = new double[rows][];
+        for (int i = 0; i < rows; i++) {
+            rightPart[i] = new double[1];
+            rightPart[i][0] = sideColumnGrid[i];
+        }
+        SimpleMatrix A = new SimpleMatrix(m);
+        SimpleMatrix b = new SimpleMatrix(rightPart);
+
+        return A.solve(b);
     }
 }
