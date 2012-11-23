@@ -46,7 +46,7 @@ public class Det3x3Animation extends Animation {
                 solvationTexts[0].setText("+ ");
                 break;
             case 1:
-                solvationTexts[0].setText("+ " + Utils.bra(mW1.m[0][0], true));    //todo: round?
+                solvationTexts[0].setText("+ " + Utils.bra(mW1.m[0][0], true));
                 mW1.getCanvas().addCircle(0, 0, cyan);
                 break;
             case 2:

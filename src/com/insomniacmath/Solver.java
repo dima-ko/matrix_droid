@@ -253,8 +253,23 @@ public class Solver implements Constants {
     }
 
     public void findRang() {
+        try {
+            resultView.setVisibility(View.VISIBLE);
+            resultText.setVisibility(View.VISIBLE);
+            resultText.setText("Rang = " + Utils.bra(mainMatrixWrapper.findRang(), false));
+            xplainButton.setVisibility(View.VISIBLE);
+            resultText.setTextColor(Color.WHITE);
+            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
+            state = STATE_RANG_FIND;
+            solveVariants.setVisibility(View.GONE);
 
+        } catch (BadSymbolException e) {
+            resultText.setText("Some elements are unsuitable");
+            resultText.setTextColor(Color.RED);
+//            solvationText.setVisibility(View.GONE);
+        }
     }
 
     public void findInverse() {
@@ -294,7 +309,7 @@ public class Solver implements Constants {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
-        } catch (BadMatrixException e) {
+        } catch (NotSquareException e) {
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
@@ -390,12 +405,11 @@ public class Solver implements Constants {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
-        } catch (BadMatrixException e) {
+        } catch (NotSquareException e) {
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
         }
-//        Toast.makeText(_context, mainMatrixWrapper.findDeterminant() + "", 2000).show();
     }
 
     public boolean onBackPressed() {
@@ -405,7 +419,7 @@ public class Solver implements Constants {
             case STATE_DETERMIN_PRESSED:
                 state = STATE_INITIAL;
                 resultText.setVisibility(View.GONE);
-                solvationView.setVisibility(View.GONE);        //todo: format output in matrix
+                solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.GONE);
                 solveVariants.setVisibility(View.VISIBLE);
                 break;
@@ -420,6 +434,8 @@ public class Solver implements Constants {
             case STATE_MULTIPLY_FIND:
             case STATE_MULTIPLY_EXPLAINING:
             case STATE_MULTIPLY_EXPLAINED:
+            case STATE_INVERT_FIND:
+            case STATE_RANG_FIND:
 
                 state = STATE_INITIAL;
                 bottomPlusHolder.setVisibility(View.VISIBLE);

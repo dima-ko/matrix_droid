@@ -129,7 +129,6 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

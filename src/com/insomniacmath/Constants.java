@@ -18,6 +18,9 @@ public interface Constants {
     int STATE_INVERT_FIND = 8;
     int STATE_INVERT_EXPLAINING = 9;
     int STATE_INVERT_EXPLAINED = 10;
+    int STATE_RANG_FIND = 11;
+    int STATE_RANG_EXPLAINING = 12;
+    int STATE_RANG_EXPLAINED = 13;
 
 
     int MAX_ROWS = 6;

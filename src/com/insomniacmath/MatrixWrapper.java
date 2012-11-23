@@ -230,11 +230,11 @@ public class MatrixWrapper implements Constants {
 
     }
 
-    public double findDeterminant() throws BadMatrixException, BadSymbolException {
+    public double findDeterminant() throws NotSquareException, BadSymbolException {
         fillMatrixFromGrid();
         if (columns != rows) {
 //            Toast.makeText(context, "no square", 2000).show();
-            throw new BadMatrixException();
+            throw new NotSquareException();
         } else {
             return determin(m);
         }
@@ -321,18 +321,22 @@ public class MatrixWrapper implements Constants {
         for (int i = 0; i < rows; i++) {
             m[i] = new double[columns];
         }
-
     }
 
-    public SimpleMatrix findInverse() throws BadMatrixException, BadSymbolException {
+    public SimpleMatrix findInverse() throws NotSquareException, BadSymbolException {
         fillMatrixFromGrid();
         if (columns != rows) {
-//            Toast.makeText(context, "no square", 2000).show();
-            throw new BadMatrixException();
+            throw new NotSquareException();
         } else {
             SimpleMatrix orig = new SimpleMatrix(m);
             return orig.invert();
         }
 
+    }
+
+    public double findRang() throws BadSymbolException {
+        fillMatrixFromGrid();
+        SimpleMatrix orig = new SimpleMatrix(m);
+        return orig.svd(true).rank();
     }
 }
