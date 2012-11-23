@@ -271,9 +271,7 @@ public class Solver implements Constants {
     ButtonRoboto solveButton;
 
     public void stopExplain() {
-
         animator.stopExplain();
-
     }
 
     float downX;
