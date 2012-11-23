@@ -14,11 +14,12 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
+import org.apache.commons.math.fraction.Fraction;
+import org.apache.commons.math.fraction.FractionConversionException;
 import org.ejml.simple.SimpleMatrix;
 
 
 public class MatrixWrapper implements Constants {
-
 
     public double[][] m;
     EditText[][] grid = new EditText[MAX_ROWS][];
@@ -286,15 +287,26 @@ public class MatrixWrapper implements Constants {
 
     }
 
-    public void fillGridFromMatrix() {
+    public void fillGridFromMatrix(boolean useFractions) {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++) {
                 double v = m[i][j];
                 if (v % 1 == 0)
                     grid[i][j].setText((int) v + "");
-                else
-                    grid[i][j].setText(v + "");
+                else {
+                    if (useFractions) {
+                        try {
+                            Fraction fraction = new Fraction(v);
+                            grid[i][j].setText(fraction.getNumerator() +
+                                    "/" + fraction.getDenominator() + "");
+                        } catch (FractionConversionException e) {
+                            grid[i][j].setText(v + "");
+                        }
+                    } else
+                        grid[i][j].setText(v + "");
+                }
             }
+
 
     }
 

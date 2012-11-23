@@ -283,7 +283,7 @@ public class Solver implements Constants {
                     resMatrixWrapper.m[i][j] = inverse.get(i, j);
                 }
             }
-            resMatrixWrapper.fillGridFromMatrix();
+            resMatrixWrapper.fillGridFromMatrix(true);
             resMatrixWrapper.refreshVisible();
             animator.setResultMW(resMatrixWrapper);
             xplainButton.setVisibility(View.VISIBLE);
@@ -364,7 +364,7 @@ public class Solver implements Constants {
                 resMatrixWrapper.m[i][j] = c.get(i, j);
             }
         }
-        resMatrixWrapper.fillGridFromMatrix();
+        resMatrixWrapper.fillGridFromMatrix(true);
         resMatrixWrapper.refreshVisible();
         animator.setResultMW(resMatrixWrapper);
         xplainButton.setVisibility(View.VISIBLE);
