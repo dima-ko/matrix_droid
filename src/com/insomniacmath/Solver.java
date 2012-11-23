@@ -158,7 +158,7 @@ public class Solver implements Constants {
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.VERTICAL);
         resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(xplainButton, new LinearLayout.LayoutParams(160, 64));
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(240, 96));
         resultView.setBackgroundColor(0x12345678);
 
 
@@ -473,6 +473,12 @@ public class Solver implements Constants {
             case STATE_MULTIPLY_FIND:
             case STATE_MULTIPLY_EXPLAINING:
             case STATE_MULTIPLY_EXPLAINED:
+                mainMatrixView.removeView(secondMatrixView);
+                secondMatrixWrapper.onDestroy();
+
+                resultView.removeAllViews();
+                resMatrixWrapper.onDestroy();
+
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:
 
@@ -480,11 +486,6 @@ public class Solver implements Constants {
                 bottomPlusHolder.setVisibility(View.VISIBLE);
                 rightPlusHolder.setVisibility(View.VISIBLE);
 
-                mainMatrixView.removeView(secondMatrixView);
-                secondMatrixWrapper.onDestroy();
-
-                resultView.removeAllViews();
-                resMatrixWrapper.onDestroy();
 
                 solvationView.removeAllViews();
 
