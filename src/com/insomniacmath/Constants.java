@@ -22,8 +22,7 @@ public interface Constants {
     int STATE_RANG_EXPLAINING = 12;
     int STATE_RANG_EXPLAINED = 13;
 
-
-    int MAX_ROWS = 6;
+    int MAX_ROWS = 8;
     int MAX_COLUMNS = 8;
 
     final static int cyan = 0xAA3388FF;

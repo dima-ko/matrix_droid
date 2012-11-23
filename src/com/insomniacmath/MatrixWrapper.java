@@ -22,6 +22,7 @@ import org.ejml.simple.SimpleMatrix;
 public class MatrixWrapper implements Constants {
 
     public double[][] m;
+    EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     EditText[][] grid = new EditText[MAX_ROWS][];
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
     public int number; // made for testing purposes
@@ -35,6 +36,7 @@ public class MatrixWrapper implements Constants {
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
 
+    boolean isSideColumnVisible = false;
     ImageView rightBraket, leftBraket;
 
     public MatrixCanvas getCanvas() {
@@ -43,6 +45,8 @@ public class MatrixWrapper implements Constants {
 
     public MatrixCanvas canvas;
     RelativeLayout relativeLayout;
+    LinearLayout sideColumn;
+    LinearLayout divider;
 
     public MatrixWrapper(Context context, LinearLayout view, int number) {    //todo: clear editbox on longclick
         this.context = context;
@@ -61,23 +65,55 @@ public class MatrixWrapper implements Constants {
         leftBraket.setImageResource(R.drawable.left_braket);
         _view.addView(leftBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));
 
-
         bodyMatrix = new LinearLayout(context);
         bodyMatrix.setOrientation(LinearLayout.VERTICAL);
         fillGrid();
 
         _view.addView(bodyMatrix, /*new LinearLayout.LayoutParams(200, 200)*/wrapWrap);
 
+        divider = new LinearLayout(context);
+        divider.setBackgroundColor(Color.WHITE);
+        _view.addView(divider, new LinearLayout.LayoutParams(5, ViewGroup.LayoutParams.FILL_PARENT));
+
+        sideColumn = new LinearLayout(context);
+        sideColumn.setOrientation(LinearLayout.VERTICAL);
+        sideColumn.setGravity(Gravity.CENTER);
+        _view.addView(sideColumn, new LinearLayout.LayoutParams(wrapWrap));
+
+        for (int i = 0; i < MAX_ROWS; i++) {
+            sideColumnEdits[i] = new EditText(context);
+            sideColumnEdits[i].setId(i + 150 * number);
+            sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
+            sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
+            sideColumnEdits[i].setTextColor(Color.WHITE);
+            sideColumnEdits[i].setGravity(Gravity.CENTER);
+            sideColumnEdits[i].setMinWidth(80);
+            final View a = sideColumnEdits[i];
+            sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    Log.d("clicked on edittext", " id: " + a.getId());
+                }
+
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    ((EditText) a).setTextColor(Color.WHITE);
+                    if (charSequence.toString().equals(""))
+                        a.setBackgroundResource(R.drawable.edit);
+                    else
+                        a.setBackgroundResource(0);
+                }
+
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+            sideColumn.addView(sideColumnEdits[i], editParams);
+        }
 
         rightBraket = new ImageView(context);
         rightBraket.setImageResource(R.drawable.right_braket);
         _view.addView(rightBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));
 
         refreshVisible();
-
-
     }
-
 
     public void refreshVisible() {
         for (int i = 0; i < MAX_ROWS; i++)
@@ -89,11 +125,24 @@ public class MatrixWrapper implements Constants {
 
         leftBraket.setImageResource(R.drawable.left_braket);
         rightBraket.setImageResource(R.drawable.right_braket);
+
+        if (isSideColumnVisible) {
+            sideColumn.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.VISIBLE);
+            for (int i = 0; i < MAX_ROWS; i++)
+                if (i < rows)
+                    sideColumnEdits[i].setVisibility(View.VISIBLE);
+                else
+                    sideColumnEdits[i].setVisibility(View.GONE);
+        } else {
+            sideColumn.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+
+        }
+
     }
 
     private void fillGrid() {
-
-        bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
 
         relativeLayout = new RelativeLayout(context);
         LinearLayout bodyMatrixRows = new LinearLayout(context);
@@ -139,9 +188,6 @@ public class MatrixWrapper implements Constants {
             bodyMatrixRows.addView(gridRows[i], wrapWrap);
         }
 
-
-//        relativeLayout.setBackgroundColor(0x22FFFFFF);
-
         grid[0][0].setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -152,10 +198,8 @@ public class MatrixWrapper implements Constants {
         });
         grid[0][0].requestFocus();    //TODO: klavu align
 
-
         bodyMatrix.addView(relativeLayout, wrapWrap);
 
-        bodyMatrix.addView(new LinearLayout(context), new LinearLayout.LayoutParams(20, 15));
 
         bodyMatrixRows.setId(BODY_ID);
         fillFill.addRule(RelativeLayout.ALIGN_RIGHT, bodyMatrixRows.getId());
@@ -180,7 +224,7 @@ public class MatrixWrapper implements Constants {
             m = temp.clone();
         } else
             Toast.makeText(context, "tooobig", 2000).show();
-
+        refreshVisible();
     }
 
     public void removeRow() {
@@ -196,6 +240,7 @@ public class MatrixWrapper implements Constants {
             m = temp.clone();
         } else
             Toast.makeText(context, "tooosmall", 2000).show();
+        refreshVisible();
     }
 
     public void addColumn() {
@@ -212,6 +257,7 @@ public class MatrixWrapper implements Constants {
             m = temp.clone();
         } else
             Toast.makeText(context, "tooobig", 2000).show();
+        refreshVisible();
     }
 
     public void removeColumn() {
@@ -227,7 +273,17 @@ public class MatrixWrapper implements Constants {
             m = temp.clone();
         } else
             Toast.makeText(context, "tooosmall", 2000).show();
+        refreshVisible();
+    }
 
+    public void addSideColumn() {
+        isSideColumnVisible = true;
+        refreshVisible();
+    }
+
+    public void removeSideColumn() {
+        isSideColumnVisible = false;
+        refreshVisible();
     }
 
     public double findDeterminant() throws NotSquareException, BadSymbolException {
@@ -242,9 +298,8 @@ public class MatrixWrapper implements Constants {
 
     }
 
-    //    1  2  3
-    private double determin(double[][] m) {                                                                                    //    4  5  6
-        int size = m.length;                                                                                                 //    7  8  9
+    private double determin(double[][] m) {
+        int size = m.length;
         double D = 0;
         if (size == 1)
             return m[0][0];
@@ -268,7 +323,8 @@ public class MatrixWrapper implements Constants {
     }
 
     public void fillMatrixFromGrid() throws BadSymbolException {
-        for (int i = 0; i < rows; i++)
+        sideColumnGrid = new Double[rows];
+        for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 try {
                     m[i][j] = Double.parseDouble(grid[i][j].getText().toString());
@@ -282,10 +338,12 @@ public class MatrixWrapper implements Constants {
                     }
                     throw new BadSymbolException();
                 }
-
             }
-
+            sideColumnGrid[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
+        }
     }
+
+    Double[] sideColumnGrid;
 
     public void fillGridFromMatrix(boolean useFractions) {
         for (int i = 0; i < rows; i++)

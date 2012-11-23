@@ -73,7 +73,6 @@ public class Solver implements Constants {
         plusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixWrapper.addColumn();
-                mainMatrixWrapper.refreshVisible();
             }
         });
 
@@ -84,7 +83,6 @@ public class Solver implements Constants {
         minusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixWrapper.removeColumn();
-                mainMatrixWrapper.refreshVisible();
             }
         });
 
@@ -126,14 +124,12 @@ public class Solver implements Constants {
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixWrapper.addRow();
-                mainMatrixWrapper.refreshVisible();
             }
         });
 
         minusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixWrapper.removeRow();
-                mainMatrixWrapper.refreshVisible();
             }
         });
         mainView.addView(bottomPlusHolder, fillWrap);
@@ -212,6 +208,11 @@ public class Solver implements Constants {
         solveVariants.findViewById(R.id.rang).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 findRang();
+            }
+        });
+        solveVariants.findViewById(R.id.solve_sys).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                mainMatrixWrapper.addSideColumn();
             }
         });
         solveVariants.findViewById(R.id.eigen).setOnClickListener(new View.OnClickListener() {
