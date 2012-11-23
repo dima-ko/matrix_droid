@@ -10,21 +10,19 @@ import com.insomniacmath.Animator;
 import com.insomniacmath.MatrixWrapper;
 import com.insomniacmath.Utils;
 
-public class MultiplyAnimation extends Animation {
+public class InverseAnimation extends Animation {
 
     public static final LinearLayout.LayoutParams FILL_WRAP =
             new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     TextView[] solvationTexts;
-    private MatrixWrapper mW2;
     private MatrixWrapper resultMW;
     int actions;
     int resMax;
 
     int[] colors = new int[]{cyan, viol, ros, blu, gree, yel};
 
-    public MultiplyAnimation(Animator animator, LinearLayout solvationView, MatrixWrapper mW1, MatrixWrapper mW2, MatrixWrapper resMW) {
+    public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixWrapper mW1,  MatrixWrapper resMW) {
         super(animator, solvationView, mW1);
-        this.mW2 = mW2;
         resultMW = resMW;
 
         resMax = mW1.rows * mW1.rows;
@@ -51,7 +49,6 @@ public class MultiplyAnimation extends Animation {
         if (t == actions * resMax) {
             animator.stopExplain();
             mW1.getCanvas().clear();
-            mW2.getCanvas().clear();
             return;
         }
 
@@ -65,7 +62,6 @@ public class MultiplyAnimation extends Animation {
             solvationTexts[resCount].setTextColor(colors[resCount % 6]);
             solvation.addView(solvationTexts[resCount], FILL_WRAP);
             mW1.getCanvas().clear();
-            mW2.getCanvas().clear();
         }
 
         int elementIter = rowIter / 4;
@@ -90,15 +86,6 @@ public class MultiplyAnimation extends Animation {
                     break;
                 case 1:
                     builder.append("*");
-                    break;
-                case 2:
-                    builder.append(Utils.bra(mW2.m[elementIter][col], true));
-                    mW2.getCanvas().addCircle(col, elementIter, colors[resCount % 6]);
-                    if (elementIter != 0)
-                        mW2.getCanvas().addPath(col, elementIter, col, elementIter - 1, colors[resCount % 6]);
-                    break;
-                case 3:
-                    builder.append("+");
                     break;
             }
 
