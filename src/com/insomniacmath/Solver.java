@@ -185,6 +185,7 @@ public class Solver implements Constants {
         resultView.addView(solveButton, fillWrap);
         solveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                solveButton.setVisibility(View.GONE);
                 findMultiplication();
             }
         });
@@ -377,7 +378,7 @@ public class Solver implements Constants {
         try {
             resultView.setVisibility(View.VISIBLE);
             resultText.setVisibility(View.VISIBLE);
-            resultText.setText("Determinant = " + Utils.round(mainMatrixWrapper.findDeterminant()));
+            resultText.setText("Determinant = " + Utils.bra(mainMatrixWrapper.findDeterminant(), false));
             xplainButton.setVisibility(View.VISIBLE);
             resultText.setTextColor(Color.WHITE);
             // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));

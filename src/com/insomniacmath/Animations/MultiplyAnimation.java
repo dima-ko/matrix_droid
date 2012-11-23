@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animator;
 import com.insomniacmath.MatrixWrapper;
+import com.insomniacmath.Utils;
 
 public class MultiplyAnimation extends Animation {
 
@@ -40,18 +41,7 @@ public class MultiplyAnimation extends Animation {
      * @param number
      * @return
      */
-    public String bra(double number) {
-        if (number == (int) number) {
-            if (number < 0)
-                return "(" + (int) number + ")";
-            else return (int) number + "";
-        } else {
-            if (number < 0)
-                return "(" + number + ")";
-            else return number + "";
-        }
 
-    }
 
     StringBuilder builder = new StringBuilder();
 
@@ -91,12 +81,12 @@ public class MultiplyAnimation extends Animation {
         if (rowIter == actions - 2) {
             builder.append(" = ");
         } else if (rowIter == actions - 1) {
-            builder.append(bra(resultMW.m[ro][col]));
+            builder.append(Utils.bra(resultMW.m[ro][col], false));
             resultMW.getCanvas().addCircle(col, ro, colors[resCount % 6]);
         } else
             switch (rowIter % 4) {
                 case 0:
-                    builder.append(bra(mW1.m[ro][elementIter]));
+                    builder.append(Utils.bra(mW1.m[ro][elementIter], true));
                     mW1.getCanvas().addCircle(elementIter, ro, colors[resCount % 6]);
                     if (elementIter != 0)
                         mW1.getCanvas().addPath(elementIter, ro, elementIter - 1, ro, colors[resCount % 6]);
@@ -105,7 +95,7 @@ public class MultiplyAnimation extends Animation {
                     builder.append("*");
                     break;
                 case 2:
-                    builder.append(bra(mW2.m[elementIter][col]));
+                    builder.append(Utils.bra(mW2.m[elementIter][col], true));
                     mW2.getCanvas().addCircle(col, elementIter, colors[resCount % 6]);
                     if (elementIter != 0)
                         mW2.getCanvas().addPath(col, elementIter, col, elementIter - 1, colors[resCount % 6]);
@@ -117,15 +107,6 @@ public class MultiplyAnimation extends Animation {
 
         solvationTexts[resCount].setText(builder.toString());
 
-//        solvationTexts[0].setText("+ ");
-//        solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]));
-//        mW1.getCanvas().addCircle(0, 0, cyan);
-//        solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
-//        mW1.getCanvas().addPath(0, 0, 1, 1, cyan);
-//
-//        solvationTexts[0].setText("+ " + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]) + "*" + Utils.round(mW1.m[2][2]));
-//        mW1.getCanvas().addPath(1, 1, 2, 2, cyan);
-//        mW1.getCanvas().addCircle(2, 2, cyan);
 
 
     }

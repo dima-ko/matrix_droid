@@ -48,11 +48,17 @@ public class Utils {
         roboto_light = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
     }
 
-    public  static String round(double i) {
-        if (i % 1 == 0)
-            return Integer.toString((int) i);
-        else
-            return Double.toString(i);
+    public static String bra(double number, boolean needBraketNegative) {
+        if (number == (int) number) {
+            if (number < 0 && needBraketNegative)
+                return "(" + (int) number + ")";
+            else return (int) number + "";
+        } else {
+            if (number < 0 && needBraketNegative)
+                return "(" + number + ")";
+            else return number + "";
+        }
+
     }
 
 }

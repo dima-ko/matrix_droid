@@ -33,11 +33,11 @@ public class Det2x2Animation extends Animation {
                 solvationText.setTextSize(23);
                 solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationText.setText(Utils.round(mW1.m[0][0]));
+                solvationText.setText(Utils.bra(mW1.m[0][0],true));
                 mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
                 break;
             case 2:
-                solvationText.setText(Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]));
+                solvationText.setText(Utils.bra(mW1.m[0][0],true) + "*" + Utils.bra(mW1.m[1][1],true));
                 mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
                 mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
                 break;
@@ -46,11 +46,11 @@ public class Det2x2Animation extends Animation {
                 solvationText2.setTextSize(23);
                 solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationText2.setText("-" + Utils.round(mW1.m[0][1]));
+                solvationText2.setText("-" + Utils.bra(mW1.m[0][1],true));
                 mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
                 break;
             case 4:
-                solvationText2.setText("-" + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]));
+                solvationText2.setText("-" + Utils.bra(mW1.m[0][1],true) + "*" + Utils.bra(mW1.m[1][0],true));
                 mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
                 mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
                 break;
