@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import com.insomniacmath.roboto.ButtonRoboto;
-import org.apache.commons.math.fraction.Fraction;
 import org.ejml.simple.SimpleMatrix;
 
 

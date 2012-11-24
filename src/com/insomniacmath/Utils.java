@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import org.apache.commons.math.fraction.Fraction;
 
 public class Utils {
 

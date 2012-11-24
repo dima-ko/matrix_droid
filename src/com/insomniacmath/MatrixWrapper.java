@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
-import org.apache.commons.math.fraction.Fraction;
 import org.ejml.simple.SimpleMatrix;
 
 
@@ -355,7 +354,7 @@ public class MatrixWrapper implements Constants {
             for (int j = 0; j < columns; j++) {
                 try {
                     int integer = Integer.parseInt(grid[i][j].getText().toString());
-                    mFrac[i][j] = newFrac(integer);
+                    mFrac[i][j] = new Fraction(integer);
                 } catch (NumberFormatException e) {
                     sideFrac = null;
                     mFrac = null;
@@ -363,26 +362,19 @@ public class MatrixWrapper implements Constants {
                 }
             }
             int sideInt = Integer.parseInt(sideColumnEdits[i].getText().toString());
-            sideFrac[i] = newFrac(sideInt);
+            sideFrac[i] = new Fraction(sideInt);
         }
         Log.d("zzzzzzzzzzzz", "end fillGrid" + System.currentTimeMillis());
 
         elementsFractions = true;
     }
 
-    public Fraction newFrac(int i) {
-        long start = System.currentTimeMillis();
-        Fraction fraction = new Fraction(i,1);
-        Log.d("zzzzzzzzzzzz", "end   new Frac " + (System.currentTimeMillis() - start));
-        return fraction;
-    }
-
     public void fillGridFromMatrix() {
         if (mFrac != null) {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {
-                    String fracText = mFrac[i][j].getNumerator() + "";
-                    int denominator = mFrac[i][j].getDenominator();
+                    String fracText = mFrac[i][j].getNum() + "";
+                    int denominator = mFrac[i][j].getDenom();
                     if (denominator != 1)
                         fracText += "/" + denominator;
                     grid[i][j].setText(fracText);
