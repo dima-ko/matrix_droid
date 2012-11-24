@@ -21,13 +21,13 @@ import org.ejml.simple.SimpleMatrix;
 public class MatrixWrapper implements Constants {
 
     public double[][] m;
-    public Fraction[][] mFrac;
-    Double[] sideGrid;
-    public Fraction[] sideFracGrid;
+    public Fraction[][] mFrac = null;
+    Double[] side;
+    public Fraction[] sideFrac;
     public int columns = 2, rows = 2;
     public int number; // made for testing purposes
     boolean isSideColumnVisible = false;
-
+    boolean isMutable = true;
 
     EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     EditText[][] grid = new EditText[MAX_ROWS][];
@@ -41,15 +41,17 @@ public class MatrixWrapper implements Constants {
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     ImageView rightBraket, leftBraket;
+
     public MatrixCanvas getCanvas() {
         return canvas;
     }
+
     public MatrixCanvas canvas;
     RelativeLayout relativeLayout;
     LinearLayout sideColumn;
     LinearLayout divider;
 
-    public MatrixWrapper(Context context, LinearLayout view, int number) {    //todo: clear editbox on longclick
+    public MatrixWrapper(Context context, LinearLayout view, int number, boolean isMutable) {    //todo: clear editbox on longclick
         this.context = context;
         _view = view;
         m = new double[2][];
@@ -150,7 +152,6 @@ public class MatrixWrapper implements Constants {
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
 
         for (int i = 0; i < MAX_ROWS; i++) {
-
             gridRows[i] = new LinearLayout(context);
             gridRows[i].setOrientation(LinearLayout.HORIZONTAL);
             grid[i] = new EditText[MAX_COLUMNS];
@@ -324,7 +325,7 @@ public class MatrixWrapper implements Constants {
 
     public void fillMatrixFromGrid() throws BadSymbolException {
         elementsFractions = false;
-        sideGrid = new Double[rows];
+        side = new Double[rows];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 try {
@@ -340,10 +341,10 @@ public class MatrixWrapper implements Constants {
                     throw new BadSymbolException();
                 }
             }
-            sideGrid[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
+            side[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
         }
         /*parse fractions*/
-        sideFracGrid = new Fraction[rows];
+        sideFrac = new Fraction[rows];
         mFrac = new Fraction[rows][];
         for (int i = 0; i < rows; i++) {
             mFrac[i] = new Fraction[columns];
@@ -352,41 +353,38 @@ public class MatrixWrapper implements Constants {
                     int integer = Integer.parseInt(grid[i][j].getText().toString());
                     mFrac[i][j] = new Fraction(integer);
                 } catch (NumberFormatException e) {
-                    sideFracGrid = null;
+                    sideFrac = null;
                     mFrac = null;
                     return;
                 }
             }
-            sideFracGrid[i] = new Fraction(Integer.parseInt(sideColumnEdits[i].getText().toString()));
+            sideFrac[i] = new Fraction(Integer.parseInt(sideColumnEdits[i].getText().toString()));
         }
         elementsFractions = true;
     }
 
     public void fillGridFromMatrix() {
-        for (int i = 0; i < rows; i++)
-            for (int j = 0; j < columns; j++) {
-                double v = m[i][j];
-                if (v % 1 == 0)
-                    grid[i][j].setText((int) v + "");
-                else {
-//                    if (useFractions) {
-//                        long start = System.currentTimeMillis();
-//                        Fraction fraction = null;
-//                        try {
-//                            fraction = new Fraction(v, 30);
-//                        } catch (FractionConversionException e) {
-//                            grid[i][j].setText(v + "");
-//                            continue;
-//                        }
-//                        grid[i][j].setText(fraction.getNumerator() + "/" + fraction.getDenominator() + "");
-//
-//                        Log.d("zzzzzzz", fraction.getDenominator() + ":denom  0.001, 100 time " + (System.currentTimeMillis() - start));
-//
-//                    } else
-                    grid[i][j].setText(v + "");
-                }
-            }
 
+        if (mFrac != null) {
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < columns; j++) {
+                    String fracText = mFrac[i][j].getNumerator() + "";
+                    int denominator = mFrac[i][j].getDenominator();
+                    if (denominator != 1)
+                        fracText += "/" + denominator;
+                    grid[i][j].setText(fracText);
+                }
+        } else {
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < columns; j++) {
+                    double v = m[i][j];
+                    if (v % 1 == 0)
+                        grid[i][j].setText((int) v + "");
+                    else {
+                        grid[i][j].setText(v + "");
+                    }
+                }
+        }
     }
 
     public void onDestroy() {
@@ -422,7 +420,7 @@ public class MatrixWrapper implements Constants {
         double[][] rightPart = new double[rows][];
         for (int i = 0; i < rows; i++) {
             rightPart[i] = new double[1];
-            rightPart[i][0] = sideGrid[i];
+            rightPart[i][0] = side[i];
         }
         SimpleMatrix A = new SimpleMatrix(m);
         SimpleMatrix b = new SimpleMatrix(rightPart);
@@ -430,12 +428,7 @@ public class MatrixWrapper implements Constants {
     }
 
     public Fraction[] solveSLEFraction() {
-        double[][] rightPart = new double[rows][];
-        for (int i = 0; i < rows; i++) {
-            rightPart[i] = new double[1];
-            rightPart[i][0] = sideGrid[i];
-        }
-        return new Fraction[5];
+        return Utils.gauss(mFrac, sideFrac);
     }
 
 

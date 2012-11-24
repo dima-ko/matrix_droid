@@ -59,7 +59,7 @@ public class Solver implements Constants {
         mainMatrixView.setLayoutParams(wrapWrap);
         mainMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainMatrixWrapper = new MatrixWrapper(context, mainMatrixView, 0);
+        mainMatrixWrapper = new MatrixWrapper(context, mainMatrixView, 0, true);
 
         scrollWrapper.addView(mainMatrixView, wrapWrap);
 
@@ -242,19 +242,21 @@ public class Solver implements Constants {
         LinearLayout resultMatrixLay = new LinearLayout(_context);
         resultMatrixLay.setId(RESULT_MATRIX);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2, false);
 
         if (mainMatrixWrapper.elementsFractions) {
             Fraction[] result = mainMatrixWrapper.solveSLEFraction();
             resMatrixWrapper.adjustSizeTo(1, result.length);
+            resMatrixWrapper.mFrac = new Fraction[result.length][];
+
             for (int i = 0; i < result.length; i++) {
-                Fraction v = result[i];
-                resMatrixWrapper.mFrac[i][0] = v;
+                resMatrixWrapper.mFrac[i] = new Fraction[1];
+                resMatrixWrapper.mFrac[i][0] = result[i];
             }
+
         } else {
             SimpleMatrix result = mainMatrixWrapper.solveSLEDouble();
             resMatrixWrapper.adjustSizeTo(result.numCols(), result.numRows());
-//
             for (int i = 0; i < result.numRows(); i++) {
                 for (int j = 0; j < result.numCols(); j++) {
                     double v = result.get(i, j);
@@ -262,6 +264,7 @@ public class Solver implements Constants {
                 }
             }
         }
+
         resMatrixWrapper.fillGridFromMatrix();
         resMatrixWrapper.refreshVisible();
 
@@ -343,7 +346,7 @@ public class Solver implements Constants {
             resultMatrixLay.setId(RESULT_MATRIX);
             resultView.addView(resultMatrixLay, wrapWrapCenterHor);
 
-            resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+            resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2, false);
             resMatrixWrapper.adjustSizeTo(inverse.numRows(), inverse.numCols());
             for (int i = 0; i < inverse.numRows(); i++) {
                 for (int j = 0; j < inverse.numCols(); j++) {
@@ -380,7 +383,7 @@ public class Solver implements Constants {
         secondMatrixView.setLayoutParams(wrapWrap);
         secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        secondMatrixWrapper = new MatrixWrapper(_context, secondMatrixView, 1);
+        secondMatrixWrapper = new MatrixWrapper(_context, secondMatrixView, 1, true);
         secondMatrixWrapper.adjustSizeTo(mainMatrixWrapper.rows, mainMatrixWrapper.columns);
         secondMatrixWrapper.refreshVisible();
 
@@ -422,7 +425,7 @@ public class Solver implements Constants {
         resultMatrixLay.setId(RESULT_MATRIX);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
 
-        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2, false);
         resMatrixWrapper.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
             for (int j = 0; j < c.numCols(); j++) {

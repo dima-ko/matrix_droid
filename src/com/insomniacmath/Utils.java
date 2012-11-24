@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import org.apache.commons.math.fraction.Fraction;
 
 public class Utils {
 
@@ -60,5 +61,59 @@ public class Utils {
         }
 
     }
+
+    private static final double EPSILON = 1e-10;
+
+    public static Fraction[] gauss(Fraction[][] A, Fraction[] b) {
+        int N = b.length;
+
+        for (int p = 0; p < N; p++) {
+
+            // find pivot row and swap
+            int max = p;
+            for (int i = p + 1; i < N; i++) {
+                if (Math.abs(A[i][p].doubleValue()) > Math.abs(A[max][p].doubleValue())) {
+                    max = i;
+                }
+            }
+            Fraction[] temp = A[p];
+            A[p] = A[max];
+            A[max] = temp;
+            Fraction t = b[p];
+            b[p] = b[max];
+            b[max] = t;
+
+            // singular or nearly singular
+            if (Math.abs(A[p][p].doubleValue()) <= EPSILON) {
+                throw new RuntimeException("Matrix is singular or nearly singular");
+            }
+
+            // pivot within A and b
+            for (int i = p + 1; i < N; i++) {
+                Fraction alpha = A[i][p].divide(A[p][p]);
+                b[i] = b[i].subtract(alpha.multiply(b[p]));
+                for (int j = p; j < N; j++) {
+                    A[i][j] = A[i][j].subtract(alpha.multiply(A[p][j]));
+                }
+            }
+        }
+
+        // back substitution
+        Fraction[] x = new Fraction[N];
+        for (int i = N - 1; i >= 0; i--) {
+            Fraction sum = new Fraction(0);
+            for (int j = i + 1; j < N; j++) {
+                sum = sum.add(A[i][j].multiply(x[j]));
+            }
+            x[i] = (b[i].subtract(sum)).divide(A[i][i]);
+        }
+        return x;
+    }
+
+//     2 + 3 = 4
+//     4 + 4 = 6
+//
+//    1/2 , 1
+
 
 }
