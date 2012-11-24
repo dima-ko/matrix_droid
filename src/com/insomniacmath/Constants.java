@@ -27,6 +27,11 @@ public interface Constants {
     int MAX_ROWS = 8;
     int MAX_COLUMNS = 8;
 
+    int DOWN = 0;
+    int UP = 1;
+    int LEFT = 2;
+    int RIGHT = 3;
+
     final static int cyan = 0xAA3388FF;
     final static int viol = 0xAA8833FF;
     final static int ros = 0xAAFF3388;

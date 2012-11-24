@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/determinant"
+          android:icon="@drawable/det"
           android:title="@string/determinant"/>
     <item android:id="@+id/multiply"
+          android:icon="@drawable/mult"
           android:title="@string/multiply"/>
     <item android:id="@+id/invers"
+          android:icon="@drawable/invert"
           android:title="@string/invert"/>
     <item android:id="@+id/rank"
+          android:icon="@drawable/rank"
           android:title="@string/rank"/>
     <item android:id="@+id/solve"
+          android:icon="@drawable/sys"
           android:title="@string/solve"/>
     <item android:id="@+id/eigen"
           android:title="@string/eigen"/>
