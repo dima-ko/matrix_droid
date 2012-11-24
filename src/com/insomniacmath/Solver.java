@@ -3,6 +3,7 @@ package com.insomniacmath;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -231,40 +232,42 @@ public class Solver implements Constants {
     }
 
     private void findSystemSolvation() {
+
+        SimpleMatrix result = null;
         try {
-            resultView.setVisibility(View.VISIBLE);
-            resultText.setVisibility(View.VISIBLE);
-
-            SimpleMatrix inverse = mainMatrixWrapper.solveSLE();
-
-            xplainButton.setVisibility(View.VISIBLE);
-            resultText.setTextColor(Color.WHITE);
-            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
-//            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
-
-            state = STATE_INVERT_FIND;
-            solveVariants.setVisibility(View.GONE);
-
-            LinearLayout resultMatrixLay = new LinearLayout(_context);
-            resultMatrixLay.setId(RESULT_MATRIX);
-            resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-
-            resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
-            resMatrixWrapper.adjustSizeTo(inverse.numCols(), inverse.numRows());
-            for (int i = 0; i < inverse.numRows(); i++) {
-                for (int j = 0; j < inverse.numCols(); j++) {
-                    double v = inverse.get(i, j);
-                    resMatrixWrapper.m[i][j] = v;
-                }
-            }
-            resMatrixWrapper.fillGridFromMatrix(true);
-            resMatrixWrapper.refreshVisible();
-            animator.setResultMW(resMatrixWrapper);
-            xplainButton.setVisibility(View.VISIBLE);
-
+            result = mainMatrixWrapper.solveSLE();
         } catch (BadSymbolException e) {
             e.printStackTrace();
+            return;
         }
+
+        resultView.setVisibility(View.VISIBLE);
+        resultText.setVisibility(View.VISIBLE);
+
+        xplainButton.setVisibility(View.VISIBLE);
+        resultText.setTextColor(Color.WHITE);
+        // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+//            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
+        state = STATE_INVERT_FIND;
+        solveVariants.setVisibility(View.GONE);
+
+        LinearLayout resultMatrixLay = new LinearLayout(_context);
+        resultMatrixLay.setId(RESULT_MATRIX);
+        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+        resMatrixWrapper.adjustSizeTo(result.numCols(), result.numRows());
+
+        for (int i = 0; i < result.numRows(); i++) {
+            for (int j = 0; j < result.numCols(); j++) {
+                double v = result.get(i, j);
+                resMatrixWrapper.m[i][j] = v;
+            }
+        }
+        resMatrixWrapper.fillGridFromMatrix(true);
+        resMatrixWrapper.refreshVisible();
+        animator.setResultMW(resMatrixWrapper);
+        xplainButton.setVisibility(View.VISIBLE);
+
     }
 
     ButtonRoboto solveButton;
@@ -286,8 +289,6 @@ public class Solver implements Constants {
                 break;
         }
     }
-
-//    Dialog d;
 
     public void findEigenVectors() {
 
@@ -481,11 +482,12 @@ public class Solver implements Constants {
 
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:
+            case STATE_SIDE_COLUMN_ADDED:
+            case STATE_SYSTEM_SOLVED:
 
                 state = STATE_INITIAL;
                 bottomPlusHolder.setVisibility(View.VISIBLE);
                 rightPlusHolder.setVisibility(View.VISIBLE);
-
 
                 solvationView.removeAllViews();
 

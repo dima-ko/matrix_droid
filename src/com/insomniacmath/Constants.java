@@ -22,6 +22,7 @@ public interface Constants {
     int STATE_RANG_EXPLAINING = 12;
     int STATE_RANG_EXPLAINED = 13;
     int STATE_SIDE_COLUMN_ADDED = 14;
+    int STATE_SYSTEM_SOLVED = 15;
 
     int MAX_ROWS = 8;
     int MAX_COLUMNS = 8;

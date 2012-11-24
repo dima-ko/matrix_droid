@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
-import org.apache.commons.math.fraction.Fraction;
-import org.apache.commons.math.fraction.FractionConversionException;
 import org.ejml.simple.SimpleMatrix;
 
 
@@ -349,21 +347,26 @@ public class MatrixWrapper implements Constants {
                 if (v % 1 == 0)
                     grid[i][j].setText((int) v + "");
                 else {
-                    if (useFractions) {
-                        try {
-                            Fraction fraction = new Fraction(v);
-                            grid[i][j].setText(fraction.getNumerator() +
-                                    "/" + fraction.getDenominator() + "");
-                        } catch (FractionConversionException e) {
-                            grid[i][j].setText(v + "");
-                        }
-                    } else
-                        grid[i][j].setText(v + "");
+//                    if (useFractions) {
+//                        long start = System.currentTimeMillis();
+//                        Fraction fraction = null;
+//                        try {
+//                            fraction = new Fraction(v, 30);
+//                        } catch (FractionConversionException e) {
+//                            grid[i][j].setText(v + "");
+//                            continue;
+//                        }
+//                        grid[i][j].setText(fraction.getNumerator() + "/" + fraction.getDenominator() + "");
+//
+//                        Log.d("zzzzzzz", fraction.getDenominator() + ":denom  0.001, 100 time " + (System.currentTimeMillis() - start));
+//
+//                    } else
+                    grid[i][j].setText(v + "");
                 }
             }
 
-
     }
+
 
     public void onDestroy() {
         canvas.onDestroy();

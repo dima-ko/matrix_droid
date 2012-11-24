@@ -2,7 +2,6 @@ package com.insomniacmath;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.*;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -18,6 +17,8 @@ public class MatrixActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Utils.resolvePlatform(this);
+        double v = 13d / 34;
+        long start;
 
         mainView = new LinearLayout(this);
         mainView.setBackgroundColor(0xff000000);
@@ -25,6 +26,7 @@ public class MatrixActivity extends Activity {
         mainView.setOrientation(LinearLayout.VERTICAL);
         solver = new Solver(this, mainView);
         setContentView(mainView);
+
     }
 
     @Override
@@ -37,5 +39,10 @@ public class MatrixActivity extends Activity {
     protected void onPause() {
         super.onPause();
         solver.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }
