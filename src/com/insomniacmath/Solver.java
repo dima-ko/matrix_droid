@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
-import com.insomniacmath.roboto.ButtonRoboto;
 import org.ejml.simple.SimpleMatrix;
 
 
@@ -25,6 +24,7 @@ public class Solver implements Constants {
     Button xplainButton;
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapCenterHor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams fillFill = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
@@ -160,33 +160,18 @@ public class Solver implements Constants {
         resultView.addView(xplainButton, new LinearLayout.LayoutParams(240, 96));
         resultView.setBackgroundColor(0x12345678);
 
-
-        resultText = new TextView(context);
-        resultText.setVisibility(View.GONE);
-        resultText.setTextSize(20);
-        resultText.setPadding(20, 20, 20, 20);
-        resultText.setId(RESULT_ID);
-        resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.addView(resultText, wrapWrapCenterHor);
-        mainView.addView(resultView, fillWrap);
+        mainView.addView(resultView, fillFill);
 
 
-        solveButton = new ButtonRoboto(_context);
-        solveButton.setPadding(30, 30, 30, 30);
-        solveButton.setTextColor(Color.WHITE);
-        solveButton.setText("Solve");
-        solveButton.setVisibility(View.GONE);
-        solveButton.setId(SOLVE_BUTTON_ID);
-        resultView.addView(solveButton, fillWrap);
-        solveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                solveButton.setVisibility(View.GONE);
-                if (state == STATE_SIDE_COLUMN_ADDED) {
-                    findSystemSolvation();
-                } else if (state == STATE_MULTIPLY_PRESSED)
-                    findMultiplication();
-            }
-        });
+//        solveButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                solveButton.setVisibility(View.GONE);
+//                if (state == STATE_SIDE_COLUMN_ADDED) {
+//                    findSystemSolvation();
+//                } else if (state == STATE_MULTIPLY_PRESSED)
+//                    findMultiplication();
+//            }
+//        });
 
         animator = new Animator(mainMatrixWrapper);
         animator.setView(solvationView);
@@ -196,7 +181,7 @@ public class Solver implements Constants {
 
         Log.d("zzzzzzzzzzzz", "start beforefill at" + System.currentTimeMillis());
         try {
-            mainMatrixWrapper.fillMatrixFromGrid();
+            mainMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
             e.printStackTrace();
         }
@@ -228,10 +213,9 @@ public class Solver implements Constants {
             }
         }
 
-        resMatrixWrapper.fillGridFromMatrix();
+        resMatrixWrapper.fillViewsFromMatrix();
         resMatrixWrapper.refreshVisible();
 
-        resultView.setVisibility(View.VISIBLE);
         resultText.setVisibility(View.VISIBLE);
 
         xplainButton.setVisibility(View.VISIBLE);
@@ -245,7 +229,6 @@ public class Solver implements Constants {
 
     }
 
-    ButtonRoboto solveButton;
 
     public void stopExplain() {
         animator.stopExplain();
@@ -270,6 +253,14 @@ public class Solver implements Constants {
     }
 
     public void findRang() {
+
+        resultText = new TextView(_context);
+        resultText.setVisibility(View.GONE);
+        resultText.setTextSize(20);
+        resultText.setPadding(20, 20, 20, 20);
+        resultText.setId(RESULT_ID);
+        resultText.setGravity(Gravity.CENTER_HORIZONTAL);
+        resultView.addView(resultText, wrapWrapCenterHor);
         try {
             resultView.setVisibility(View.VISIBLE);
             resultText.setVisibility(View.VISIBLE);
@@ -290,13 +281,10 @@ public class Solver implements Constants {
 
     public void findInverse() {
         try {
-            resultView.setVisibility(View.VISIBLE);
-            resultText.setVisibility(View.VISIBLE);
 
             SimpleMatrix inverse = mainMatrixWrapper.findInverse();
 
             xplainButton.setVisibility(View.VISIBLE);
-            resultText.setTextColor(Color.WHITE);
             // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 //            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
@@ -313,17 +301,31 @@ public class Solver implements Constants {
                     resMatrixWrapper.m[i][j] = inverse.get(i, j);
                 }
             }
-            resMatrixWrapper.fillGridFromMatrix();
+            resMatrixWrapper.fillViewsFromMatrix();
             resMatrixWrapper.refreshVisible();
             animator.setResultMW(resMatrixWrapper);
             xplainButton.setVisibility(View.VISIBLE);
             animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
         } catch (BadSymbolException e) {
+            resultText = new TextView(_context);
+            resultText.setVisibility(View.GONE);
+            resultText.setTextSize(20);
+            resultText.setPadding(20, 20, 20, 20);
+            resultText.setId(RESULT_ID);
+            resultText.setGravity(Gravity.CENTER_HORIZONTAL);
+            resultView.addView(resultText, wrapWrapCenterHor);
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
         } catch (NotSquareException e) {
+            resultText = new TextView(_context);
+            resultText.setVisibility(View.GONE);
+            resultText.setTextSize(20);
+            resultText.setPadding(20, 20, 20, 20);
+            resultText.setId(RESULT_ID);
+            resultText.setGravity(Gravity.CENTER_HORIZONTAL);
+            resultView.addView(resultText, wrapWrapCenterHor);
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
@@ -349,23 +351,35 @@ public class Solver implements Constants {
 
         mainMatrixView.addView(secondMatrixView);
 
-        solveButton.setVisibility(View.VISIBLE);
-
         animator.setSecMW(secondMatrixWrapper);
     }
 
     public void findMultiplication() {
 
         try {
-            mainMatrixWrapper.fillMatrixFromGrid();
+            mainMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
+            resultText = new TextView(_context);
+            resultText.setVisibility(View.GONE);
+            resultText.setTextSize(20);
+            resultText.setPadding(20, 20, 20, 20);
+            resultText.setId(RESULT_ID);
+            resultText.setGravity(Gravity.CENTER_HORIZONTAL);
+            resultView.addView(resultText, wrapWrapCenterHor);
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
             return;
         }
         try {
-            secondMatrixWrapper.fillMatrixFromGrid();
+            secondMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
+            resultText = new TextView(_context);
+            resultText.setVisibility(View.GONE);
+            resultText.setTextSize(20);
+            resultText.setPadding(20, 20, 20, 20);
+            resultText.setId(RESULT_ID);
+            resultText.setGravity(Gravity.CENTER_HORIZONTAL);
+            resultView.addView(resultText, wrapWrapCenterHor);
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
             return;
@@ -391,7 +405,7 @@ public class Solver implements Constants {
                 resMatrixWrapper.m[i][j] = c.get(i, j);
             }
         }
-        resMatrixWrapper.fillGridFromMatrix();
+        resMatrixWrapper.fillViewsFromMatrix();
         resMatrixWrapper.refreshVisible();
         animator.setResultMW(resMatrixWrapper);
         xplainButton.setVisibility(View.VISIBLE);
@@ -416,15 +430,12 @@ public class Solver implements Constants {
                 break;
             case R.id.solve:
                 mainMatrixWrapper.addSideColumn();
-                solveButton.setVisibility(View.VISIBLE);
                 state = STATE_SIDE_COLUMN_ADDED;
                 break;
             case R.id.eigen:
                 findEigenVectors();
                 break;
-
         }
-
     }
 
     public void findDeterminant() {
@@ -491,8 +502,6 @@ public class Solver implements Constants {
                 Thread.yield();
                 secondMatrixView = null;
                 secondMatrixWrapper = null;
-
-                solveButton.setVisibility(View.GONE);
                 break;
 
         }

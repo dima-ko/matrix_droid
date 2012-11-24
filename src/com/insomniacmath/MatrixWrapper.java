@@ -288,7 +288,7 @@ public class MatrixWrapper implements Constants {
     }
 
     public double findDeterminant() throws NotSquareException, BadSymbolException {
-        fillMatrixFromGrid();
+        fillMatrixFromViews();
         if (columns != rows) {
 //            Toast.makeText(context, "no square", 2000).show();
             throw new NotSquareException();
@@ -322,8 +322,7 @@ public class MatrixWrapper implements Constants {
 
     public boolean elementsFractions = false;
 
-    public void fillMatrixFromGrid() throws BadSymbolException {
-
+    public void fillMatrixFromViews() throws BadSymbolException {
         Log.d("zzzzzzzzzzzz", "start fillGrid" + System.currentTimeMillis());
         elementsFractions = false;
         side = new Double[rows];
@@ -341,7 +340,8 @@ public class MatrixWrapper implements Constants {
                     throw new BadSymbolException();
                 }
             }
-            side[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
+            if (isSideColumnVisible)
+                side[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
         }
         Log.d("zzzzzzzzzzzz", "middle fillGrid" + System.currentTimeMillis());
 
@@ -361,19 +361,21 @@ public class MatrixWrapper implements Constants {
                     return;
                 }
             }
-            int sideInt = Integer.parseInt(sideColumnEdits[i].getText().toString());
-            sideFrac[i] = new Fraction(sideInt);
+            if (isSideColumnVisible) {
+                int sideInt = Integer.parseInt(sideColumnEdits[i].getText().toString());
+                sideFrac[i] = new Fraction(sideInt);
+            }
         }
         Log.d("zzzzzzzzzzzz", "end fillGrid" + System.currentTimeMillis());
 
         elementsFractions = true;
     }
 
-    public void fillGridFromMatrix() {
+    public void fillViewsFromMatrix() {
         if (mFrac != null) {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {
-                    grid[i][j].setText( mFrac[i][j].toString());
+                    grid[i][j].setText(mFrac[i][j].toString());
                 }
         } else {
             for (int i = 0; i < rows; i++)
@@ -402,7 +404,7 @@ public class MatrixWrapper implements Constants {
     }
 
     public SimpleMatrix findInverse() throws NotSquareException, BadSymbolException {
-        fillMatrixFromGrid();
+        fillMatrixFromViews();
         if (columns != rows) {
             throw new NotSquareException();
         } else {
@@ -412,7 +414,7 @@ public class MatrixWrapper implements Constants {
     }
 
     public double findRang() throws BadSymbolException {
-        fillMatrixFromGrid();
+        fillMatrixFromViews();
         SimpleMatrix orig = new SimpleMatrix(m);
         return orig.svd(true).rank();
     }
