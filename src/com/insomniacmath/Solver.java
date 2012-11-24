@@ -3,6 +3,7 @@ package com.insomniacmath;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -233,11 +234,13 @@ public class Solver implements Constants {
 
     private void findSystemSolvation() {
 
+        Log.d("zzzzzzzzzzzz", "start beforefill at" + System.currentTimeMillis());
         try {
             mainMatrixWrapper.fillMatrixFromGrid();
         } catch (BadSymbolException e) {
             e.printStackTrace();
         }
+        Log.d("zzzzzzzzzzzz", "start afterfill at" + System.currentTimeMillis());
 
         LinearLayout resultMatrixLay = new LinearLayout(_context);
         resultMatrixLay.setId(RESULT_MATRIX);

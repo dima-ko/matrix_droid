@@ -324,6 +324,8 @@ public class MatrixWrapper implements Constants {
     public boolean elementsFractions = false;
 
     public void fillMatrixFromGrid() throws BadSymbolException {
+
+        Log.d("zzzzzzzzzzzz", "start fillGrid" + System.currentTimeMillis());
         elementsFractions = false;
         side = new Double[rows];
         for (int i = 0; i < rows; i++) {
@@ -332,7 +334,6 @@ public class MatrixWrapper implements Constants {
                     m[i][j] = Double.parseDouble(grid[i][j].getText().toString());
                     grid[i][j].setTextColor(Color.WHITE);
                 } catch (NumberFormatException e) {
-//                    Toast.makeText(context, "badsymbol", 2000).show();
                     if (grid[i][j].getText().toString().length() == 0) {
                         grid[i][j].setBackgroundResource(R.drawable.red_edit);
                     } else {
@@ -343,6 +344,9 @@ public class MatrixWrapper implements Constants {
             }
             side[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
         }
+        Log.d("zzzzzzzzzzzz", "middle fillGrid" + System.currentTimeMillis());
+
+
         /*parse fractions*/
         sideFrac = new Fraction[rows];
         mFrac = new Fraction[rows][];
@@ -351,20 +355,29 @@ public class MatrixWrapper implements Constants {
             for (int j = 0; j < columns; j++) {
                 try {
                     int integer = Integer.parseInt(grid[i][j].getText().toString());
-                    mFrac[i][j] = new Fraction(integer);
+                    mFrac[i][j] = newFrac(integer);
                 } catch (NumberFormatException e) {
                     sideFrac = null;
                     mFrac = null;
                     return;
                 }
             }
-            sideFrac[i] = new Fraction(Integer.parseInt(sideColumnEdits[i].getText().toString()));
+            int sideInt = Integer.parseInt(sideColumnEdits[i].getText().toString());
+            sideFrac[i] = newFrac(sideInt);
         }
+        Log.d("zzzzzzzzzzzz", "end fillGrid" + System.currentTimeMillis());
+
         elementsFractions = true;
     }
 
-    public void fillGridFromMatrix() {
+    public Fraction newFrac(int i) {
+        long start = System.currentTimeMillis();
+        Fraction fraction = new Fraction(i,1);
+        Log.d("zzzzzzzzzzzz", "end   new Frac " + (System.currentTimeMillis() - start));
+        return fraction;
+    }
 
+    public void fillGridFromMatrix() {
         if (mFrac != null) {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {

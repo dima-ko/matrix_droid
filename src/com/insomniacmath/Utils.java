@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import org.apache.commons.math.fraction.Fraction;
 
 public class Utils {
@@ -59,14 +60,13 @@ public class Utils {
                 return "(" + number + ")";
             else return number + "";
         }
-
     }
 
     private static final double EPSILON = 1e-10;
 
     public static Fraction[] gauss(Fraction[][] A, Fraction[] b) {
         int N = b.length;
-
+        Log.d("zzzzzzzzzzzz", "start gaussat at" + System.currentTimeMillis());
         for (int p = 0; p < N; p++) {
 
             // find pivot row and swap
@@ -107,6 +107,9 @@ public class Utils {
             }
             x[i] = (b[i].subtract(sum)).divide(A[i][i]);
         }
+
+        Log.d("zzzzzzzzzzzz", "end gauss at" + System.currentTimeMillis());
+
         return x;
     }
 
