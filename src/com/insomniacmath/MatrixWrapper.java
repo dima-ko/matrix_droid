@@ -373,11 +373,7 @@ public class MatrixWrapper implements Constants {
         if (mFrac != null) {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {
-                    String fracText = mFrac[i][j].getNum() + "";
-                    int denominator = mFrac[i][j].getDenom();
-                    if (denominator != 1)
-                        fracText += "/" + denominator;
-                    grid[i][j].setText(fracText);
+                    grid[i][j].setText( mFrac[i][j].toString());
                 }
         } else {
             for (int i = 0; i < rows; i++)

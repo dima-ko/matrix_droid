@@ -21,8 +21,8 @@ class Fraction {
         this.num = num;
         this.denom = denom;
         if (denom < 0) {
-            num = num * -1;
-            denom = denom * -1;
+            this.num = num * -1;
+            this.denom = denom * -1;
         }
     }
 
@@ -30,27 +30,30 @@ class Fraction {
         this(num, 1);
     }
 
-
     // reduce to lowest terms
 
     public void simplify() {
-
         // use Euclid's algorithm to find gcd
-
         int gcd = GreatestCommonDivisor(num, denom);
-
         num /= gcd;
-
         denom /= gcd;
-
+        if (denom < 0) {
+            num = num * -1;
+            denom = denom * -1;
+        }
     }
 
+    @Override
+    public String toString() {
+        String fracText = getNum() + "";
+        if (denom != 1)
+            fracText += "/" + denom;
+        return fracText;
+    }
 
     //Euclids algorithm
 
-    public int GreatestCommonDivisor(int a, int b)
-
-    {
+    public int GreatestCommonDivisor(int a, int b) {
         a = Math.abs(a);
         b = Math.abs(b);
         int temp = a % b;

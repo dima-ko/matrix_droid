@@ -68,24 +68,24 @@ public class Utils {
         Log.d("zzzzzzzzzzzz", "start gaussat at" + System.currentTimeMillis());
         for (int p = 0; p < N; p++) {
 
-            // find pivot row and swap
-            int max = p;
-            for (int i = p + 1; i < N; i++) {
-                if (Math.abs(A[i][p].doubleValue()) > Math.abs(A[max][p].doubleValue())) {
-                    max = i;
-                }
-            }
-            Fraction[] temp = A[p];
-            A[p] = A[max];
-            A[max] = temp;
-            Fraction t = b[p];
-            b[p] = b[max];
-            b[max] = t;
-
-            // singular or nearly singular
-            if (Math.abs(A[p][p].doubleValue()) <= EPSILON) {
-                throw new RuntimeException("Matrix is singular or nearly singular");
-            }
+            // find pivot row and swap     //todo
+//            int max = p;
+//            for (int i = p + 1; i < N; i++) {
+//                if (Math.abs(A[i][p].doubleValue()) > Math.abs(A[max][p].doubleValue())) {
+//                    max = i;
+//                }
+//            }
+//            Fraction[] temp = A[p];
+//            A[p] = A[max];
+//            A[max] = temp;
+//            Fraction t = b[p];
+//            b[p] = b[max];
+//            b[max] = t;
+//
+//            // singular or nearly singular
+//            if (Math.abs(A[p][p].doubleValue()) <= EPSILON) {
+//                throw new RuntimeException("Matrix is singular or nearly singular");
+//            }
 
             // pivot within A and b
             for (int i = p + 1; i < N; i++) {

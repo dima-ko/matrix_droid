@@ -2,9 +2,11 @@ package com.insomniacmath;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import org.apache.commons.math.fraction.Fraction;
 
 public class MatrixActivity extends Activity {
     /**
@@ -26,6 +28,19 @@ public class MatrixActivity extends Activity {
         solver = new Solver(this, mainView);
         setContentView(mainView);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        solver.onMenu(item.getItemId());
+        return true;
     }
 
     @Override

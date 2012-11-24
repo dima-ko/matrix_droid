@@ -1,6 +1,5 @@
 package com.insomniacmath;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -44,7 +43,6 @@ public class Solver implements Constants {
     }
 
     LinearLayout scrollWrapper;
-    View solveVariants;
 
     public Solver(Context context, LinearLayout mainView) {
 
@@ -190,43 +188,6 @@ public class Solver implements Constants {
             }
         });
 
-        solveVariants = (((Activity) _context).getLayoutInflater()).inflate(R.layout.solves, null);
-        resultView.addView(solveVariants, fillWrap);
-
-        solveVariants.findViewById(R.id.determinant).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                findDeterminant();
-            }
-        });
-        solveVariants.findViewById(R.id.multiply).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                addSecondMatrix();
-            }
-        });
-        solveVariants.findViewById(R.id.inverse).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                findInverse();
-            }
-        });
-        solveVariants.findViewById(R.id.rang).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                findRang();
-            }
-        });
-        solveVariants.findViewById(R.id.solve_sys).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                mainMatrixWrapper.addSideColumn();
-                solveVariants.setVisibility(View.GONE);
-                solveButton.setVisibility(View.VISIBLE);
-                state = STATE_SIDE_COLUMN_ADDED;
-            }
-        });
-        solveVariants.findViewById(R.id.eigen).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                findEigenVectors();
-            }
-        });
-
         animator = new Animator(mainMatrixWrapper);
         animator.setView(solvationView);
     }
@@ -278,7 +239,6 @@ public class Solver implements Constants {
         // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 //            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
         state = STATE_INVERT_FIND;
-        solveVariants.setVisibility(View.GONE);
 
         animator.setResultMW(resMatrixWrapper);
         xplainButton.setVisibility(View.VISIBLE);
@@ -320,7 +280,6 @@ public class Solver implements Constants {
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
             state = STATE_RANG_FIND;
-            solveVariants.setVisibility(View.GONE);
 
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
@@ -342,7 +301,6 @@ public class Solver implements Constants {
 //            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
             state = STATE_INVERT_FIND;
-            solveVariants.setVisibility(View.GONE);
 
             LinearLayout resultMatrixLay = new LinearLayout(_context);
             resultMatrixLay.setId(RESULT_MATRIX);
@@ -391,7 +349,6 @@ public class Solver implements Constants {
 
         mainMatrixView.addView(secondMatrixView);
 
-        solveVariants.setVisibility(View.GONE);
         solveButton.setVisibility(View.VISIBLE);
 
         animator.setSecMW(secondMatrixWrapper);
@@ -443,6 +400,33 @@ public class Solver implements Constants {
 
     MatrixWrapper resMatrixWrapper;
 
+    public void onMenu(int i) {
+        switch (i) {
+            case R.id.determinant:
+                findDeterminant();
+                break;
+            case R.id.multiply:
+                addSecondMatrix();
+                break;
+            case R.id.invers:
+                findInverse();
+                break;
+            case R.id.rank:
+                findRang();
+                break;
+            case R.id.solve:
+                mainMatrixWrapper.addSideColumn();
+                solveButton.setVisibility(View.VISIBLE);
+                state = STATE_SIDE_COLUMN_ADDED;
+                break;
+            case R.id.eigen:
+                findEigenVectors();
+                break;
+
+        }
+
+    }
+
     public void findDeterminant() {
         try {
             resultView.setVisibility(View.VISIBLE);
@@ -454,7 +438,6 @@ public class Solver implements Constants {
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
 
             state = STATE_DETERMIN_PRESSED;
-            solveVariants.setVisibility(View.GONE);
 
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
@@ -476,7 +459,6 @@ public class Solver implements Constants {
                 resultText.setVisibility(View.GONE);
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.GONE);
-                solveVariants.setVisibility(View.VISIBLE);
                 break;
             case STATE_DETERMIN_EXPLAINING:
                 animator.stopExplain();
@@ -510,7 +492,6 @@ public class Solver implements Constants {
                 secondMatrixView = null;
                 secondMatrixWrapper = null;
 
-                solveVariants.setVisibility(View.VISIBLE);
                 solveButton.setVisibility(View.GONE);
                 break;
 
