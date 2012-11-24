@@ -3,12 +3,12 @@ package com.insomniacmath;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import com.insomniacmath.roboto.ButtonRoboto;
+import org.apache.commons.math.fraction.Fraction;
 import org.ejml.simple.SimpleMatrix;
 
 
@@ -233,13 +233,37 @@ public class Solver implements Constants {
 
     private void findSystemSolvation() {
 
-        SimpleMatrix result = null;
         try {
-            result = mainMatrixWrapper.solveSLE();
+            mainMatrixWrapper.fillMatrixFromGrid();
         } catch (BadSymbolException e) {
             e.printStackTrace();
-            return;
         }
+
+        LinearLayout resultMatrixLay = new LinearLayout(_context);
+        resultMatrixLay.setId(RESULT_MATRIX);
+        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
+
+        if (mainMatrixWrapper.elementsFractions) {
+            Fraction[] result = mainMatrixWrapper.solveSLEFraction();
+            resMatrixWrapper.adjustSizeTo(1, result.length);
+            for (int i = 0; i < result.length; i++) {
+                Fraction v = result[i];
+                resMatrixWrapper.mFrac[i][0] = v;
+            }
+        } else {
+            SimpleMatrix result = mainMatrixWrapper.solveSLEDouble();
+            resMatrixWrapper.adjustSizeTo(result.numCols(), result.numRows());
+//
+            for (int i = 0; i < result.numRows(); i++) {
+                for (int j = 0; j < result.numCols(); j++) {
+                    double v = result.get(i, j);
+                    resMatrixWrapper.m[i][j] = v;
+                }
+            }
+        }
+        resMatrixWrapper.fillGridFromMatrix();
+        resMatrixWrapper.refreshVisible();
 
         resultView.setVisibility(View.VISIBLE);
         resultText.setVisibility(View.VISIBLE);
@@ -251,20 +275,6 @@ public class Solver implements Constants {
         state = STATE_INVERT_FIND;
         solveVariants.setVisibility(View.GONE);
 
-        LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultMatrixLay.setId(RESULT_MATRIX);
-        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2);
-        resMatrixWrapper.adjustSizeTo(result.numCols(), result.numRows());
-
-        for (int i = 0; i < result.numRows(); i++) {
-            for (int j = 0; j < result.numCols(); j++) {
-                double v = result.get(i, j);
-                resMatrixWrapper.m[i][j] = v;
-            }
-        }
-        resMatrixWrapper.fillGridFromMatrix(true);
-        resMatrixWrapper.refreshVisible();
         animator.setResultMW(resMatrixWrapper);
         xplainButton.setVisibility(View.VISIBLE);
 
@@ -340,7 +350,7 @@ public class Solver implements Constants {
                     resMatrixWrapper.m[i][j] = inverse.get(i, j);
                 }
             }
-            resMatrixWrapper.fillGridFromMatrix(true);
+            resMatrixWrapper.fillGridFromMatrix();
             resMatrixWrapper.refreshVisible();
             animator.setResultMW(resMatrixWrapper);
             xplainButton.setVisibility(View.VISIBLE);
@@ -419,7 +429,7 @@ public class Solver implements Constants {
                 resMatrixWrapper.m[i][j] = c.get(i, j);
             }
         }
-        resMatrixWrapper.fillGridFromMatrix(true);
+        resMatrixWrapper.fillGridFromMatrix();
         resMatrixWrapper.refreshVisible();
         animator.setResultMW(resMatrixWrapper);
         xplainButton.setVisibility(View.VISIBLE);

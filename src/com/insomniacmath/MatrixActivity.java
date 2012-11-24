@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import org.apache.commons.math.fraction.Fraction;
 
 public class MatrixActivity extends Activity {
     /**
@@ -17,8 +18,6 @@ public class MatrixActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Utils.resolvePlatform(this);
-        double v = 13d / 34;
-        long start;
 
         mainView = new LinearLayout(this);
         mainView.setBackgroundColor(0xff000000);

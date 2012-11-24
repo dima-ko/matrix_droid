@@ -14,18 +14,25 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
+import org.apache.commons.math.fraction.Fraction;
 import org.ejml.simple.SimpleMatrix;
 
 
 public class MatrixWrapper implements Constants {
 
     public double[][] m;
+    public Fraction[][] mFrac;
+    Double[] sideGrid;
+    public Fraction[] sideFracGrid;
+    public int columns = 2, rows = 2;
+    public int number; // made for testing purposes
+    boolean isSideColumnVisible = false;
+
+
     EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     EditText[][] grid = new EditText[MAX_ROWS][];
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
-    public int number; // made for testing purposes
 
-    public int columns = 2, rows = 2;
     private final Context context;
     private LinearLayout _view;
     LinearLayout bodyMatrix;
@@ -33,14 +40,10 @@ public class MatrixWrapper implements Constants {
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-
-    boolean isSideColumnVisible = false;
     ImageView rightBraket, leftBraket;
-
     public MatrixCanvas getCanvas() {
         return canvas;
     }
-
     public MatrixCanvas canvas;
     RelativeLayout relativeLayout;
     LinearLayout sideColumn;
@@ -317,8 +320,11 @@ public class MatrixWrapper implements Constants {
         return D;
     }
 
+    public boolean elementsFractions = false;
+
     public void fillMatrixFromGrid() throws BadSymbolException {
-        sideColumnGrid = new Double[rows];
+        elementsFractions = false;
+        sideGrid = new Double[rows];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 try {
@@ -334,13 +340,29 @@ public class MatrixWrapper implements Constants {
                     throw new BadSymbolException();
                 }
             }
-            sideColumnGrid[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
+            sideGrid[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
         }
+        /*parse fractions*/
+        sideFracGrid = new Fraction[rows];
+        mFrac = new Fraction[rows][];
+        for (int i = 0; i < rows; i++) {
+            mFrac[i] = new Fraction[columns];
+            for (int j = 0; j < columns; j++) {
+                try {
+                    int integer = Integer.parseInt(grid[i][j].getText().toString());
+                    mFrac[i][j] = new Fraction(integer);
+                } catch (NumberFormatException e) {
+                    sideFracGrid = null;
+                    mFrac = null;
+                    return;
+                }
+            }
+            sideFracGrid[i] = new Fraction(Integer.parseInt(sideColumnEdits[i].getText().toString()));
+        }
+        elementsFractions = true;
     }
 
-    Double[] sideColumnGrid;
-
-    public void fillGridFromMatrix(boolean useFractions) {
+    public void fillGridFromMatrix() {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++) {
                 double v = m[i][j];
@@ -366,7 +388,6 @@ public class MatrixWrapper implements Constants {
             }
 
     }
-
 
     public void onDestroy() {
         canvas.onDestroy();
@@ -397,16 +418,25 @@ public class MatrixWrapper implements Constants {
         return orig.svd(true).rank();
     }
 
-    public SimpleMatrix solveSLE() throws BadSymbolException {
-        fillMatrixFromGrid();
+    public SimpleMatrix solveSLEDouble() {
         double[][] rightPart = new double[rows][];
         for (int i = 0; i < rows; i++) {
             rightPart[i] = new double[1];
-            rightPart[i][0] = sideColumnGrid[i];
+            rightPart[i][0] = sideGrid[i];
         }
         SimpleMatrix A = new SimpleMatrix(m);
         SimpleMatrix b = new SimpleMatrix(rightPart);
-
         return A.solve(b);
     }
+
+    public Fraction[] solveSLEFraction() {
+        double[][] rightPart = new double[rows][];
+        for (int i = 0; i < rows; i++) {
+            rightPart[i] = new double[1];
+            rightPart[i][0] = sideGrid[i];
+        }
+        return new Fraction[5];
+    }
+
+
 }
