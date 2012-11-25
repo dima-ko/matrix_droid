@@ -63,6 +63,32 @@ public class Utils {
 
     private static final double EPSILON = 1e-10;
 
+    public static double determin(double[][] m) {
+        int size = m.length;
+        double D = 0;
+        if (size == 1)
+            return m[0][0];
+        else {
+            for (int k = 0; k < size; k++) {
+                double[][] temp = new double[size - 1][];
+                for (int i = 0; i < size - 1; i++) {
+                    temp[i] = new double[size - 1];
+                    for (int j = 0; j < size - 1; j++) {
+                        temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
+                    }
+                }
+                D += Math.pow(-1, k) * m[0][k] * determin(temp);
+            }
+        }
+        return D;
+    }
+
+    public double[][] matrixOfCofactors(double orig[][]) {
+        int size = orig.length;
+
+        return null;
+    }
+
     public static Fraction[] gauss(Fraction[][] A, Fraction[] b) {
         int N = b.length;
         Log.d("zzzzzzzzzzzz", "start gaussat at" + System.currentTimeMillis());
@@ -112,10 +138,10 @@ public class Utils {
         return x;
     }
 
-//     2 + 3 = 4
-//     4 + 4 = 6
-//
-//    1/2 , 1
+    public static Fraction[][] inverse(Fraction[][] A) {
+        int size = A.length;
 
+        return null;
+    }
 
 }

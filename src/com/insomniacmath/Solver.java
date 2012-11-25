@@ -285,7 +285,6 @@ public class Solver implements Constants {
             Fraction[][] result = mainMatrixWrapper.findInverseFraction();
             resMatrixWrapper.adjustSizeTo(result[0].length, result.length);
             resMatrixWrapper.mFrac = result;
-
         } else {
             SimpleMatrix inverse = mainMatrixWrapper.findInverseDouble();
             resMatrixWrapper.adjustSizeTo(inverse.numCols(), inverse.numRows());

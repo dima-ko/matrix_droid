@@ -179,11 +179,11 @@ public class MatrixWrapper implements Constants {
                     public void afterTextChanged(Editable editable) {
                     }
                 });
-                grid[i][j].setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View view) {
-
-                    }
-                });
+//                grid[i][j].setOnClickListener(new View.OnClickListener() {
+//                    public void onClick(View view) {
+//
+//                    }
+//                });
                 gridRows[i].addView(grid[i][j], editParams);
             }
             bodyMatrixRows.addView(gridRows[i], wrapWrap);
@@ -293,31 +293,9 @@ public class MatrixWrapper implements Constants {
 //            Toast.makeText(context, "no square", 2000).show();
             throw new NotSquareException();
         } else {
-            return determin(m);
+            return Utils.determin(m);
         }
 
-
-    }
-
-    private double determin(double[][] m) {
-        int size = m.length;
-        double D = 0;
-        if (size == 1)
-            return m[0][0];
-        else {
-            for (int k = 0; k < size; k++) {
-                double[][] temp = new double[size - 1][];
-                for (int i = 0; i < size - 1; i++) {
-                    temp[i] = new double[size - 1];
-                    for (int j = 0; j < size - 1; j++) {
-                        temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
-                    }
-                }
-                D += Math.pow(-1, k) * m[0][k] * determin(temp);
-            }
-        }
-
-        return D;
     }
 
     public boolean elementsFractions = false;
