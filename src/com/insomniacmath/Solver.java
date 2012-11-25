@@ -16,6 +16,7 @@ public class Solver implements Constants {
     public static final int SOLVE_BUTTON_ID = 600;
     public static final int EXPLAIN_BUTTON_ID = 900;
     int state = STATE_INITIAL;
+    public static int curEditId = 0;
 
     MatrixWrapper mainMatrixWrapper;
     LinearLayout mainMatrixView;
@@ -91,20 +92,6 @@ public class Solver implements Constants {
         scrollView.addView(scrollWrapper, wrapWrap);
         mainView.addView(scrollView, wrapWrap);
 
-        xplainButton = new Button(context);
-        xplainButton.setVisibility(View.GONE);
-        xplainButton.setId(EXPLAIN_BUTTON_ID);
-        xplainButton.setBackgroundResource(R.drawable.xplain_but);
-        xplainButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                solvationView.setVisibility(View.VISIBLE);
-                startExplain();
-                xplainButton.setVisibility(View.GONE);
-                solvationView.removeAllViews();
-            }
-        });
-
-
         bottomPlusHolder = new LinearLayout(context);
         RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80, 80);
 
@@ -119,7 +106,6 @@ public class Solver implements Constants {
         bottomPlusHolder.addView(minusRow, params1);
 
         c80x80left100.leftMargin = 100;
-
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -151,14 +137,12 @@ public class Solver implements Constants {
 //        solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
 
-
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.setOrientation(LinearLayout.VERTICAL);
-        resultView.setPadding(0, 20, 0, 0);
-        resultView.addView(xplainButton, new LinearLayout.LayoutParams(240, 96));
+        resultView.setOrientation(LinearLayout.HORIZONTAL);
+        resultView.setPadding(0, 10, 0, 0);
         resultView.setBackgroundColor(0x12345678);
         resultView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -169,9 +153,9 @@ public class Solver implements Constants {
                     float dx = (motionEvent.getX() - downX);
                     float dy = (motionEvent.getY() - downY);
                     if (Math.abs(dx) > Math.abs(dy)) {
-                        moveToEdit(dx > 0 ? LEFT : RIGHT);
+                        moveToEdit(dx < 0 ? LEFT : RIGHT);
                     } else {
-                        moveToEdit(dy > 0 ? UP : DOWN);
+                        moveToEdit(dy < 0 ? UP : DOWN);
                     }
                 }
                 return true;
@@ -180,26 +164,29 @@ public class Solver implements Constants {
 
         mainView.addView(resultView, fillFill);
 
-//        solveButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                solveButton.setVisibility(View.GONE);
-//                if (state == STATE_SIDE_COLUMN_ADDED) {
-//                    findSystemSolvation();
-//                } else if (state == STATE_MULTIPLY_PRESSED)
-//                    findMultiplication();
-//            }
-//        });
-
         animator = new Animator(mainMatrixWrapper);
         animator.setView(solvationView);
     }
 
-    public void moveToEdit(int direction) {
 
+    public void moveToEdit(int direction) {
+        int newId;
+        EditText input2;
+        if (curEditId < 100) {
+            newId = mainMatrixWrapper.getNextEdit(direction, curEditId);
+            input2 = (EditText) mainMatrixWrapper.bodyMatrix.findViewById(newId);
+        } else {
+            newId = secondMatrixWrapper.getNextEdit(direction, curEditId - 100);
+            input2 = (EditText) secondMatrixWrapper.bodyMatrix.findViewById(newId);
+        }
+        if (newId != -1) {
+            input2.requestFocus();
+            curEditId = newId;
+        }
     }
 
     private void findSystemSolvation() {
-
+        resultView.removeAllViews();
         Log.d("zzzzzzzzzzzz", "start beforefill at" + System.currentTimeMillis());
         try {
             mainMatrixWrapper.fillMatrixFromViews();
@@ -236,20 +223,12 @@ public class Solver implements Constants {
 
         resMatrixWrapper.fillViewsFromMatrix();
         resMatrixWrapper.refreshVisible();
-
-        resultText.setVisibility(View.VISIBLE);
-
-        xplainButton.setVisibility(View.VISIBLE);
-        resultText.setTextColor(Color.WHITE);
         // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
 //            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
         state = STATE_INVERT_FIND;
-
         animator.setResultMW(resMatrixWrapper);
-        xplainButton.setVisibility(View.VISIBLE);
 
     }
-
 
     public void stopExplain() {
         animator.stopExplain();
@@ -274,7 +253,7 @@ public class Solver implements Constants {
     }
 
     public void findRang() {
-
+        resultView.removeAllViews();
         addResultText();
         try {
             resultText.setText("Rang = " + Utils.bra(mainMatrixWrapper.findRang(), false));
@@ -294,15 +273,31 @@ public class Solver implements Constants {
 
     private void addResultText() {
         resultText = new TextView(_context);
-        resultText.setVisibility(View.GONE);
         resultText.setTextSize(20);
-        resultText.setPadding(20, 20, 20, 20);
+        resultText.setPadding(20, 10, 20, 10);
         resultText.setId(RESULT_ID);
         resultText.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.addView(resultText, wrapWrapCenterHor);
     }
 
+    private void addXplainButton() {
+        xplainButton = new Button(_context);
+        xplainButton.setId(EXPLAIN_BUTTON_ID);
+        xplainButton.setBackgroundResource(R.drawable.xplain_but);
+        xplainButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                solvationView.setVisibility(View.VISIBLE);
+                startExplain();
+                xplainButton.setVisibility(View.GONE);
+                solvationView.removeAllViews();
+            }
+        });
+        resultView.addView(xplainButton, new LinearLayout.LayoutParams(160, 64));
+    }
+
+
     public void findInverse() {
+        resultView.removeAllViews();
         try {
             SimpleMatrix inverse = mainMatrixWrapper.findInverse();
             xplainButton.setVisibility(View.VISIBLE);
@@ -332,12 +327,10 @@ public class Solver implements Constants {
             addResultText();
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);
-//            solvationText.setVisibility(View.GONE);
         } catch (NotSquareException e) {
             addResultText();
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
-//            solvationText.setVisibility(View.GONE);
         }
     }
 
@@ -362,7 +355,7 @@ public class Solver implements Constants {
     }
 
     public void findMultiplication() {
-
+        resultView.removeAllViews();
         try {
             mainMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
@@ -423,12 +416,18 @@ public class Solver implements Constants {
             case R.id.rank:
                 findRang();
                 break;
-            case R.id.solve:
+            case R.id.solve_sys:
                 mainMatrixWrapper.addSideColumn();
                 state = STATE_SIDE_COLUMN_ADDED;
                 break;
             case R.id.eigen:
                 findEigenVectors();
+                break;
+            case R.id.solve:
+                if (state == STATE_SIDE_COLUMN_ADDED) {
+                    findSystemSolvation();
+                } else if (state == STATE_MULTIPLY_PRESSED)
+                    findMultiplication();
                 break;
         }
     }
@@ -437,14 +436,11 @@ public class Solver implements Constants {
         resultView.removeAllViews();
         addResultText();
         try {
-            resultText.setText("Determinant = " + Utils.bra(mainMatrixWrapper.findDeterminant(), false));
-            xplainButton.setVisibility(View.VISIBLE);
+            resultText.setText("det = " + Utils.bra(mainMatrixWrapper.findDeterminant(), false));
             resultText.setTextColor(Color.WHITE);
-            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
-
             state = STATE_DETERMIN_PRESSED;
-
+            addXplainButton();
         } catch (BadSymbolException e) {
             resultText.setText("Some elements are unsuitable");
             resultText.setTextColor(Color.RED);

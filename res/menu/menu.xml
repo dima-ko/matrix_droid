@@ -12,9 +12,9 @@
     <item android:id="@+id/rank"
           android:icon="@drawable/rank"
           android:title="@string/rank"/>
-    <item android:id="@+id/solve"
+    <item android:id="@+id/solve_sys"
           android:icon="@drawable/sys"
-          android:title="@string/solve"/>
+          android:title="@string/lin_sys"/>
     <item android:id="@+id/eigen"
           android:title="@string/eigen"/>
 </menu>

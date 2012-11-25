@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Xplain.Matrix</string>
     <string name="eigen">Eigen</string>
+    <string name="lin_sys">Linear system</string>
     <string name="solve">Solve</string>
     <string name="rank">Rank</string>
     <string name="invert">Inverse</string>

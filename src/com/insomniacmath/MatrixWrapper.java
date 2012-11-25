@@ -26,7 +26,7 @@ public class MatrixWrapper implements Constants {
     public int columns = 2, rows = 2;
     public int number; // made for testing purposes
     boolean isSideColumnVisible = false;
-    boolean isMutable = true;
+    boolean isMutable = true;  //todo
 
     EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     EditText[][] grid = new EditText[MAX_ROWS][];
@@ -34,7 +34,7 @@ public class MatrixWrapper implements Constants {
 
     private final Context context;
     private LinearLayout _view;
-    LinearLayout bodyMatrix;
+    public LinearLayout bodyMatrix;
     LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -84,7 +84,7 @@ public class MatrixWrapper implements Constants {
 
         for (int i = 0; i < MAX_ROWS; i++) {
             sideColumnEdits[i] = new EditText(context);
-            sideColumnEdits[i].setId(i + 150 * number);
+            sideColumnEdits[i].setId(i + 100 * number);
             sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
             sideColumnEdits[i].setTextColor(Color.WHITE);
@@ -434,5 +434,23 @@ public class MatrixWrapper implements Constants {
         return Utils.gauss(mFrac, sideFrac);
     }
 
+    public int getNextEdit(int direction, int curEditId) {
+        int column = curEditId % MAX_COLUMNS;
+        int row = curEditId / MAX_COLUMNS;
+        if (direction == RIGHT) {
+            if (column != columns - 1)
+                return curEditId + 1;
+        } else if (direction == LEFT) {
+            if (column != 0)
+                return curEditId - 1;
+        } else if (direction == UP) {
+            if (row != 0)
+                return curEditId - MAX_COLUMNS;
+        } else if (direction == DOWN) {
+            if (row != rows - 1)
+                return curEditId + MAX_COLUMNS;
+        }
 
+        return -1;
+    }
 }
