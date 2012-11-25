@@ -24,6 +24,7 @@ class Fraction {
             this.num = num * -1;
             this.denom = denom * -1;
         }
+        simplify();
     }
 
     public Fraction(int num) {

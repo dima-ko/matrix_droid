@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import org.ejml.simple.SimpleMatrix;
 
 public class Utils {
 
@@ -83,10 +84,19 @@ public class Utils {
         return D;
     }
 
-    public double[][] matrixOfCofactors(double orig[][]) {
+    public static int[][] matrixOfCofactors(double orig[][]) {
         int size = orig.length;
-
-        return null;
+        int[][] result = new int[size][];
+        SimpleMatrix origM = new SimpleMatrix(orig);
+        SimpleMatrix inverted = origM.invert();
+        double determin = origM.determinant();
+        for (int i = 0; i < size; i++) {
+            result[i] = new int[size];
+            for (int j = 0; j < size; j++) {
+                result[i][j] = (int) (inverted.get(i, j) * determin);
+            }
+        }
+        return result;
     }
 
     public static Fraction[] gauss(Fraction[][] A, Fraction[] b) {
@@ -138,10 +148,19 @@ public class Utils {
         return x;
     }
 
-    public static Fraction[][] inverse(Fraction[][] A) {
+    public static Fraction[][] inverse(double[][] A) {
         int size = A.length;
-
-        return null;
+        int cofac[][] = matrixOfCofactors(A);
+        SimpleMatrix origM = new SimpleMatrix(A);
+        int determin = (int) origM.determinant();
+        Fraction[][] result = new Fraction[size][];
+        for (int i = 0; i < size; i++) {
+            result[i] = new Fraction[size];
+            for (int j = 0; j < size; j++) {
+                result[i][j] = new Fraction(cofac[i][j], determin);
+            }
+        }
+        return result;
     }
 
 }

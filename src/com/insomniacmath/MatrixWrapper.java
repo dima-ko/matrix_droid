@@ -387,7 +387,7 @@ public class MatrixWrapper implements Constants {
     }
 
     public Fraction[][] findInverseFraction() {
-        return null;
+        return Utils.inverse(m);
     }
 
     public double findRang() throws BadSymbolException {
