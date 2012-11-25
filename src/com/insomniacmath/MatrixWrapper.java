@@ -403,14 +403,13 @@ public class MatrixWrapper implements Constants {
         }
     }
 
-    public SimpleMatrix findInverse() throws NotSquareException, BadSymbolException {
-        fillMatrixFromViews();
-        if (columns != rows) {
-            throw new NotSquareException();
-        } else {
-            SimpleMatrix orig = new SimpleMatrix(m);
-            return orig.invert();
-        }
+    public SimpleMatrix findInverseDouble() {
+        SimpleMatrix orig = new SimpleMatrix(m);
+        return orig.invert();
+    }
+
+    public Fraction[][] findInverseFraction() {
+        return null;
     }
 
     public double findRang() throws BadSymbolException {
