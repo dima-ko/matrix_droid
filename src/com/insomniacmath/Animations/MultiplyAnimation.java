@@ -101,8 +101,8 @@ public class MultiplyAnimation extends Animation {
                     builder.append("+");
                     break;
             }
-
-        solvationTexts[resCount].setText(builder.toString());
+        if (resCount < solvationTexts.length - 1)
+            solvationTexts[resCount].setText(builder.toString());
 
     }
 }

@@ -19,6 +19,7 @@ import org.ejml.simple.SimpleMatrix;
 
 public class MatrixWrapper implements Constants {
 
+    public static final int SIDE_COL_ID = 80;
     public double[][] m;
     public Fraction[][] mFrac = null;
     Double[] side;
@@ -33,7 +34,7 @@ public class MatrixWrapper implements Constants {
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
 
     private final Context context;
-    private LinearLayout _view;
+    public LinearLayout _view;
     public LinearLayout bodyMatrix;
     LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -84,7 +85,7 @@ public class MatrixWrapper implements Constants {
 
         for (int i = 0; i < MAX_ROWS; i++) {
             sideColumnEdits[i] = new EditText(context);
-            sideColumnEdits[i].setId(i + 100 * number);
+            sideColumnEdits[i].setId(i + SIDE_COL_ID + 100 * number);
             sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
             sideColumnEdits[i].setTextColor(Color.WHITE);
@@ -179,11 +180,7 @@ public class MatrixWrapper implements Constants {
                     public void afterTextChanged(Editable editable) {
                     }
                 });
-//                grid[i][j].setOnClickListener(new View.OnClickListener() {
-//                    public void onClick(View view) {
-//
-//                    }
-//                });
+                grid[i][j].setOnFocusChangeListener(focusChangeListener);
                 gridRows[i].addView(grid[i][j], editParams);
             }
             bodyMatrixRows.addView(gridRows[i], wrapWrap);
@@ -210,6 +207,13 @@ public class MatrixWrapper implements Constants {
         relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
 
     }
+
+    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+        public void onFocusChange(View view, boolean b) {
+            if (b)
+                Solver.curEditId = view.getId();
+        }
+    };
 
     public void addRow() {
         if (rows < MAX_ROWS) {
@@ -280,6 +284,7 @@ public class MatrixWrapper implements Constants {
     public void addSideColumn() {
         isSideColumnVisible = true;
         refreshVisible();
+        Solver.curEditId = 100;//todo up
     }
 
     public void removeSideColumn() {
@@ -413,21 +418,32 @@ public class MatrixWrapper implements Constants {
 
     public int getNextEdit(int direction, int curEditId) {
         int column = curEditId % MAX_COLUMNS;
-        int row = curEditId / MAX_COLUMNS;
+        int row = (curEditId < SIDE_COL_ID) ?
+                curEditId / MAX_COLUMNS : (curEditId - SIDE_COL_ID);
         if (direction == RIGHT) {
             if (column != columns - 1)
                 return curEditId + 1;
+            else if (isSideColumnVisible && curEditId < SIDE_COL_ID) {
+                return SIDE_COL_ID + row;
+            }
         } else if (direction == LEFT) {
-            if (column != 0)
+            if (curEditId >= SIDE_COL_ID) {
+                return (row * MAX_COLUMNS + columns - 1);
+            } else if (column != 0)
                 return curEditId - 1;
         } else if (direction == UP) {
-            if (row != 0)
+            if (curEditId >= SIDE_COL_ID) {
+                if (curEditId - SIDE_COL_ID != 0)
+                    return --curEditId;
+            } else if (row != 0)
                 return curEditId - MAX_COLUMNS;
         } else if (direction == DOWN) {
-            if (row != rows - 1)
+            if (curEditId >= SIDE_COL_ID) {
+                if (curEditId - SIDE_COL_ID != rows - 1)
+                    return ++curEditId;
+            } else if (row != rows - 1)
                 return curEditId + MAX_COLUMNS;
         }
-
         return -1;
     }
 }

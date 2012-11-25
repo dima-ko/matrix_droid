@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class MatrixActivity extends Activity {
+public class MatrixActivity extends Activity implements Constants {
     /**
      * Called when the activity is first created.
      */
@@ -28,6 +28,19 @@ public class MatrixActivity extends Activity {
         solver = new Solver(this, mainView);
         setContentView(mainView);
 
+    }
+
+    private boolean isChangedStat = false;
+    private static final int SOLVE_ITEM = Menu.FIRST;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (solver.state == STATE_MULTIPLY_PRESSED ||
+                solver.state == STATE_SIDE_COLUMN_ADDED) {
+            menu.clear();
+            menu.add(0, SOLVE_ITEM, 0, "Solve");
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

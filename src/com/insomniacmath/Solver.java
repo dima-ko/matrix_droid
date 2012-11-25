@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
@@ -15,7 +16,7 @@ public class Solver implements Constants {
     public static final int RESULT_MATRIX = 1000;
     public static final int SOLVE_BUTTON_ID = 600;
     public static final int EXPLAIN_BUTTON_ID = 900;
-    int state = STATE_INITIAL;
+    public int state = STATE_INITIAL;
     public static int curEditId = 0;
 
     private float downY;
@@ -215,7 +216,6 @@ public class Solver implements Constants {
     }
 
     public void findMultiplication() {
-        resultView.removeAllViews();
         try {
             mainMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
@@ -234,8 +234,6 @@ public class Solver implements Constants {
         }
 
         state = STATE_MULTIPLY_FIND;
-
-        resultText.setVisibility(View.GONE);
 
         SimpleMatrix a = new SimpleMatrix(mainMatrixWrapper.m);
         SimpleMatrix b = new SimpleMatrix(secondMatrixWrapper.m);
@@ -256,7 +254,7 @@ public class Solver implements Constants {
         resMatrixWrapper.fillViewsFromMatrix();
         resMatrixWrapper.refreshVisible();
         animator.setResultMW(resMatrixWrapper);
-        xplainButton.setVisibility(View.VISIBLE);
+        addXplainButton();
         animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
     }
 
@@ -405,7 +403,7 @@ public class Solver implements Constants {
         EditText input2;
         if (curEditId < 100) {
             newId = mainMatrixWrapper.getNextEdit(direction, curEditId);
-            input2 = (EditText) mainMatrixWrapper.bodyMatrix.findViewById(newId);
+            input2 = (EditText) mainMatrixWrapper._view.findViewById(newId);
         } else {
             newId = secondMatrixWrapper.getNextEdit(direction, curEditId - 100);
             input2 = (EditText) secondMatrixWrapper.bodyMatrix.findViewById(newId);
@@ -453,7 +451,7 @@ public class Solver implements Constants {
             case R.id.eigen:
                 findEigenVectors();
                 break;
-            case R.id.solve:
+            case Menu.FIRST:
                 if (state == STATE_SIDE_COLUMN_ADDED) {
                     findSystemSolvation();
                 } else if (state == STATE_MULTIPLY_PRESSED)
