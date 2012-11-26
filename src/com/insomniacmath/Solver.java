@@ -417,7 +417,6 @@ public class Solver implements Constants {
     }
 
     private void startExplain() {
-        animator.startExplaining();
         switch (state) {
             case STATE_DETERMIN_PRESSED:
                 state = STATE_DETERMIN_EXPLAINING;
@@ -425,7 +424,10 @@ public class Solver implements Constants {
             case STATE_MULTIPLY_FIND:
                 state = STATE_MULTIPLY_EXPLAINING;
                 break;
+            default:
+                return;
         }
+        animator.startExplaining();
     }
 
     public void stopExplain() {
