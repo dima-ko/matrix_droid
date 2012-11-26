@@ -344,8 +344,8 @@ public class Solver implements Constants {
         resMatrixWrapper.fillViewsFromMatrix();
         resMatrixWrapper.refreshVisible();
         // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
-//            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
-        state = STATE_INVERT_FIND;
+        animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
+        state = STATE_SYSTEM_SOLVED;
         animator.setResultMW(resMatrixWrapper);
         addXplainButton();
     }
@@ -355,13 +355,13 @@ public class Solver implements Constants {
     private void addXplainButton() {
         xplainButton = new Button(_context);
         xplainButton.setId(EXPLAIN_BUTTON_ID);
-        xplainButton.setBackgroundResource(R.drawable.xplain_but);
+        xplainButton.setBackgroundResource(R.drawable.xplain_button);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 solvationView.setVisibility(View.VISIBLE);
-                startExplain();
                 xplainButton.setVisibility(View.GONE);
                 solvationView.removeAllViews();
+                startExplain();
             }
         });
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(160, 64);

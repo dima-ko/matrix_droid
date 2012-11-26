@@ -45,7 +45,7 @@ public class GeneralTest extends
         enterEditByID(id, number);
     }
 
-    private void enterEditByID(int id, int number) {
+    protected void enterEditByID(int id, int number) {
         EditText numberEdit = (EditText) solo.getView(id);
         solo.clickOnView(numberEdit);
         solo.enterText(numberEdit, Integer.toString(number));

@@ -119,32 +119,10 @@ public class MatrixWrapper implements Constants {
 
         hintLayout = new LinearLayout(context);
         _view.addView(hintLayout, new LinearLayout.LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
-//        hintLayout.setVisibility(View.GONE);
+        hintLayout.setVisibility(View.GONE);
 
         refreshVisible();
 
-        buildHint();
-    }
-
-    TextView[] hints;
-
-    public void buildHint() {
-        LinearLayout hintEditsLayout = new LinearLayout(context);
-        hintEditsLayout.setOrientation(LinearLayout.VERTICAL);
-        hints = new TextView[rows];
-        for (int i = 0; i < rows; i++) {
-            hints[i] = new TextView(context);
-            hintEditsLayout.addView(hints[i], c80x80);
-        }
-        hintEditsLayout.setBackgroundColor(Color.GREEN);
-
-        LinearLayout arrowLayout = new LinearLayout(context);
-        LinearLayout arrow = new LinearLayout(context);
-        arrow.setBackgroundResource(R.drawable.arrow);
-        arrowLayout.addView(arrow, c20Fill);
-        hintLayout.addView(arrowLayout, c20Fill);
-        hintLayout.addView(hintEditsLayout, wrap_wrap);
-        hintLayout.setVisibility(View.VISIBLE);
     }
 
     public void refreshVisible() {
