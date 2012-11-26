@@ -20,6 +20,7 @@ import org.ejml.simple.SimpleMatrix;
 public class MatrixWrapper implements Constants {
 
     public static final int SIDE_COL_ID = 80;
+
     public double[][] m;
     public Fraction[][] mFrac = null;
     Double[] side;
@@ -41,6 +42,7 @@ public class MatrixWrapper implements Constants {
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     ImageView rightBraket, leftBraket;
+    public LinearLayout hintLayout;
 
     public MatrixCanvas getCanvas() {
         return canvas;
@@ -114,6 +116,11 @@ public class MatrixWrapper implements Constants {
         rightBraket = new ImageView(context);
         rightBraket.setImageResource(R.drawable.right_braket);
         _view.addView(rightBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));
+
+        hintLayout = new LinearLayout(context);
+        _view.addView(hintLayout, new LinearLayout.LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
+        hintLayout.setBackgroundColor(Color.BLUE);
+//        hintLayout.setVisibility(View.GONE);
 
         refreshVisible();
     }
@@ -400,7 +407,7 @@ public class MatrixWrapper implements Constants {
         return orig.svd(true).rank();
     }
 
-    public SimpleMatrix solveSLEDouble() {
+    public SimpleMatrix solveSLEDouble() {            //todo: exception
         double[][] rightPart = new double[rows][];
         for (int i = 0; i < rows; i++) {
             rightPart[i] = new double[1];
@@ -411,7 +418,7 @@ public class MatrixWrapper implements Constants {
         return A.solve(b);
     }
 
-    public Fraction[] solveSLEFraction() {
+    public Fraction[] solveSLEFraction() throws SingularMatrixException {
         return Utils.gauss(mFrac, sideFrac);
     }
 

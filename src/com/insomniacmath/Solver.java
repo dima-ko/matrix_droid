@@ -305,7 +305,7 @@ public class Solver implements Constants {
         addXplainButton();
     }
 
-    private void findSystemSolvation() {
+    private void findSystemSolvation() throws SingularMatrixException {
         resultView.removeAllViews();
         Log.d("zzzzzzzzzzzz", "start beforefill at" + System.currentTimeMillis());
         try {
@@ -460,7 +460,11 @@ public class Solver implements Constants {
                 break;
             case Menu.FIRST:
                 if (state == STATE_SIDE_COLUMN_ADDED) {
-                    findSystemSolvation();
+                    try {
+                        findSystemSolvation();
+                    } catch (SingularMatrixException e) {
+                        e.printStackTrace();  //Todo
+                    }
                 } else if (state == STATE_MULTIPLY_PRESSED)
                     findMultiplication();
                 break;

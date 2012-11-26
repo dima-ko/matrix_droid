@@ -1,6 +1,5 @@
 package com.insomniacmath.Animations;
 
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,7 +11,6 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 
 public class MatrixCanvas extends SurfaceView implements Runnable {
-
 
     public static final int CIRCLE_RADIUS = 20;
     public static final int CIRCLE_RADIUS_MIN = 18;
