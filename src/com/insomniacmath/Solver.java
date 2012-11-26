@@ -347,7 +347,7 @@ public class Solver implements Constants {
 //            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
         state = STATE_INVERT_FIND;
         animator.setResultMW(resMatrixWrapper);
-
+        addXplainButton();
     }
 
     // -------------------------------------add UI elements----------------------------------------------------
