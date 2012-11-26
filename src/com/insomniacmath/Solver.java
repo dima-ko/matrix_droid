@@ -41,6 +41,7 @@ public class Solver implements Constants {
 
     private LinearLayout secondMatrixView;
     private MatrixWrapper secondMatrixWrapper;
+    LinearLayout resultMatrixView;
     private Animator animator;
     LinearLayout scrollWrapper;
     MatrixWrapper resMatrixWrapper;
@@ -181,7 +182,7 @@ public class Solver implements Constants {
         resultView.removeAllViews();
         addResultText();
         try {
-            resultText.setText("Rang = " + Utils.bra(mainMatrixWrapper.findRang(), false));
+            resultText.setText("Rang = " + Utils.round(mainMatrixWrapper.findRang(), false));
             resultText.setTextColor(Color.WHITE);
             // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
@@ -189,7 +190,7 @@ public class Solver implements Constants {
             state = STATE_RANG_FIND;
             addXplainButton();
         } catch (BadSymbolException e) {
-            resultText.setText("Some elements are unsuitable");
+            resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
 //            solvationText.setVisibility(View.GONE);
         }
@@ -199,19 +200,18 @@ public class Solver implements Constants {
         resultView.removeAllViews();
         addResultText();
         try {
-            resultText.setText("det = " + Utils.bra(mainMatrixWrapper.findDeterminant(), false));
+            resultText.setText("det = " + Utils.round(mainMatrixWrapper.findDeterminant(), false));
             resultText.setTextColor(Color.WHITE);
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixWrapper.rows, mainMatrixWrapper.columns);
             state = STATE_DETERMIN_PRESSED;
-            addXplainButton();
+            if (mainMatrixWrapper.rows == 2 || mainMatrixWrapper.rows == 3)
+                addXplainButton();
         } catch (BadSymbolException e) {
-            resultText.setText("Some elements are unsuitable");
+            resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
-//            solvationText.setVisibility(View.GONE);
         } catch (NotSquareException e) {
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
-//            solvationText.setVisibility(View.GONE);
         }
     }
 
@@ -220,7 +220,7 @@ public class Solver implements Constants {
             mainMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
             addResultText();
-            resultText.setText("Some elements are unsuitable");
+            resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
             return;
         }
@@ -228,7 +228,7 @@ public class Solver implements Constants {
             secondMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
             addResultText();
-            resultText.setText("Some elements are unsuitable");
+            resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
             return;
         }
@@ -264,20 +264,22 @@ public class Solver implements Constants {
             mainMatrixWrapper.fillMatrixFromViews();
         } catch (BadSymbolException e) {
             addResultText();
-            resultText.setText("Some elements are unsuitable");
+            resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
+            return;
         }
 
         if (mainMatrixWrapper.columns != mainMatrixWrapper.rows) {
             addResultText();
             resultText.setText("Matrix must be square");
             resultText.setTextColor(Color.RED);
+            return;
         }
 
-        LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultMatrixLay.setId(RESULT_MATRIX);
-        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixLay, 2, false);
+        resultMatrixView = new LinearLayout(_context);
+        resultMatrixView.setId(RESULT_MATRIX);
+        resultView.addView(resultMatrixView, wrapWrapCenterHor);
+        resMatrixWrapper = new MatrixWrapper(_context, resultMatrixView, 2, false);
 
         if (mainMatrixWrapper.elementsFractions) {
             Fraction[][] result = mainMatrixWrapper.findInverseFraction();
@@ -477,27 +479,24 @@ public class Solver implements Constants {
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.VISIBLE);
                 break;
+            case STATE_MULTIPLY_EXPLAINED:
+                resultView.removeView(resultMatrixView);
+                resMatrixWrapper.onDestroy();
             case STATE_MULTIPLY_PRESSED:
             case STATE_MULTIPLY_FIND:
             case STATE_MULTIPLY_EXPLAINING:
-            case STATE_MULTIPLY_EXPLAINED:
                 mainMatrixView.removeView(secondMatrixView);
                 secondMatrixWrapper.onDestroy();
-
                 resultView.removeAllViews();
-                resMatrixWrapper.onDestroy();
-
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:
             case STATE_SIDE_COLUMN_ADDED:
             case STATE_SYSTEM_SOLVED:
-
                 state = STATE_INITIAL;
                 bottomPlusHolder.setVisibility(View.VISIBLE);
                 rightPlusHolder.setVisibility(View.VISIBLE);
 
                 solvationView.removeAllViews();
-
                 Thread.yield();
                 secondMatrixView = null;
                 secondMatrixWrapper = null;

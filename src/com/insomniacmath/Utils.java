@@ -50,7 +50,7 @@ public class Utils {
         roboto_light = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
     }
 
-    public static String bra(double number, boolean needBraketNegative) {
+    public static String round(double number, boolean needBraketNegative) {
         if (number == (int) number) {
             if (number < 0 && needBraketNegative)
                 return "(" + (int) number + ")";

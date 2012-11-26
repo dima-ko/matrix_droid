@@ -284,7 +284,6 @@ public class MatrixWrapper implements Constants {
     public void addSideColumn() {
         isSideColumnVisible = true;
         refreshVisible();
-        Solver.curEditId = 100;//todo up
     }
 
     public void removeSideColumn() {
