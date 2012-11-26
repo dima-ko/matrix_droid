@@ -172,7 +172,7 @@ public class Solver implements Constants {
         mainMatrixWrapper.onDestroy();
     }
 
-    // --------------------------------------------compute----------------------------------------------------
+    // -----------------------------------------compute----------------------------------------------------
 
     public void findEigenVectors() {
 
@@ -423,6 +423,9 @@ public class Solver implements Constants {
                 break;
             case STATE_MULTIPLY_FIND:
                 state = STATE_MULTIPLY_EXPLAINING;
+                break;
+            case STATE_SYSTEM_SOLVED:
+                state = STATE_SYSTEM_EXPLAINING;
                 break;
             default:
                 return;

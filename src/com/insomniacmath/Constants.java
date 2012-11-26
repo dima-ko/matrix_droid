@@ -23,6 +23,8 @@ public interface Constants {
     int STATE_RANG_EXPLAINED = 13;
     int STATE_SIDE_COLUMN_ADDED = 14;
     int STATE_SYSTEM_SOLVED = 15;
+    int STATE_SYSTEM_EXPLAINING = 16;
+    int STATE_SYSTEM_EXPLAINED = 17;
 
     int MAX_ROWS = 8;
     int MAX_COLUMNS = 8;
@@ -48,6 +50,8 @@ public interface Constants {
     int MINUS_COLUMN_ID = VIEW_IDS + 13;
     int PLUS_ROW_ID = VIEW_IDS + 14;
     int MINUS_ROW_ID = VIEW_IDS + 15;
+
+    int[] colors = new int[]{cyan, viol, ros, blu, gree, yel};
 
 
 }

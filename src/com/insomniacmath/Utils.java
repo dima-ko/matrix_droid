@@ -50,6 +50,13 @@ public class Utils {
         roboto_light = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
     }
 
+    /**
+     * converts number to string, wraps with brakets , if number is negative
+     *
+     * @param number
+     * @param needBraketNegative
+     * @return
+     */
     public static String round(double number, boolean needBraketNegative) {
         if (number == (int) number) {
             if (number < 0 && needBraketNegative)
@@ -99,7 +106,7 @@ public class Utils {
         return result;
     }
 
-    public static Fraction[] gauss(Fraction[][] A, Fraction[] b) {
+    public static Fraction[] gauss(Fraction[][] A, Fraction[] b)  throws SingularMatrixException{
         int N = b.length;
         Log.d("zzzzzzzzzzzz", "start gaussat at" + System.currentTimeMillis());
         for (int p = 0; p < N; p++) {
@@ -118,10 +125,10 @@ public class Utils {
 //            b[p] = b[max];
 //            b[max] = t;
 //
-//            // singular or nearly singular
-//            if (Math.abs(A[p][p].doubleValue()) <= EPSILON) {
-//                throw new RuntimeException("Matrix is singular or nearly singular");
-//            }
+            // singular or nearly singular
+            if (Math.abs(A[p][p].doubleValue()) <= EPSILON) {
+                throw new SingularMatrixException();
+            }
 
             // pivot within A and b
             for (int i = p + 1; i < N; i++) {

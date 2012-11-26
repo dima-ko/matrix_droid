@@ -5,15 +5,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animations.Animation;
-import com.insomniacmath.Animations.Det2x2Animation;
-import com.insomniacmath.Animations.Det3x3Animation;
-import com.insomniacmath.Animations.MultiplyAnimation;
+import com.insomniacmath.Animations.*;
 
 public class Animator {
 
     static final int ANIM_DETERMINANT = 0;
     static final int ANIM_MULTIPLICATION = 1;
+    static final int ANIM_SYSTEM_GAUSS = 2;
 
     TicTac tic;
 
@@ -62,8 +60,9 @@ public class Animator {
                 anim = new Det3x3Animation(this, solvationView, mainMW);
         } else if (animType == ANIM_MULTIPLICATION) {
             anim = new MultiplyAnimation(this, solvationView, mainMW, secMW, resMW);
+        } else if (animType == ANIM_SYSTEM_GAUSS) {
+            anim = new GausAnimation(this, solvationView, mainMW);
         }
-
         tic.execute();
     }
 

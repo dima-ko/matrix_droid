@@ -1,12 +1,16 @@
 package com.insomniacmath.Animations;
 
 
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.MatrixWrapper;
 
 abstract public class Animation implements Constants {
+
+    public static final LinearLayout.LayoutParams FILL_WRAP =
+            new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
     protected Animator animator;
     public LinearLayout solvation;
@@ -16,6 +20,9 @@ abstract public class Animation implements Constants {
         this.animator = animator;
         this.solvation = solvation;
         this.mW1 = parent;
+    }
+
+    protected Animation() {
     }
 
     public abstract void tic(int t);

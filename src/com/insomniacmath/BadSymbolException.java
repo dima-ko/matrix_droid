@@ -1,6 +1,6 @@
 package com.insomniacmath;
 
-public class BadSymbolException extends Exception {
+public class BadSymbolException extends MatrixException {
 
 
 }
