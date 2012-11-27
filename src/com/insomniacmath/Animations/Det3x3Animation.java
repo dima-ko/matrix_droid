@@ -40,7 +40,7 @@ public class Det3x3Animation extends Animation {
     public void tic(int t) {
         switch (t) {
             case 0:
-                solvationTexts[0].setTextSize(23);
+                solvationTexts[0].setTextSize(SOLV_TEXT_SIZE);
                 solvationTexts[0].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[0], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationTexts[0].setText("+ ");
@@ -61,7 +61,7 @@ public class Det3x3Animation extends Animation {
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 5:
-                solvationTexts[1].setTextSize(23);
+                solvationTexts[1].setTextSize(SOLV_TEXT_SIZE);
                 solvationTexts[1].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[1], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationTexts[1].setText("+ ");
@@ -86,7 +86,7 @@ public class Det3x3Animation extends Animation {
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 10:
-                solvationTexts[2].setTextSize(23);
+                solvationTexts[2].setTextSize(SOLV_TEXT_SIZE);
                 solvationTexts[2].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[2], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationTexts[2].setText("+ ");
@@ -113,7 +113,7 @@ public class Det3x3Animation extends Animation {
                 break;
             //----------------------------------------------------------------------------------------------------------------------------------------
             case 16:
-                solvationTexts[3].setTextSize(23);
+                solvationTexts[3].setTextSize(SOLV_TEXT_SIZE);
                 solvationTexts[3].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[3], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationTexts[3].setText("- ");
@@ -134,7 +134,7 @@ public class Det3x3Animation extends Animation {
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 20:
-                solvationTexts[4].setTextSize(23);
+                solvationTexts[4].setTextSize(SOLV_TEXT_SIZE);
                 solvationTexts[4].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[4], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationTexts[4].setText("- ");
@@ -159,7 +159,7 @@ public class Det3x3Animation extends Animation {
                 break;
             //-------------------------------------------------------------------------------------------------------------------------------
             case 25:
-                solvationTexts[5].setTextSize(23);
+                solvationTexts[5].setTextSize(SOLV_TEXT_SIZE);
                 solvationTexts[5].setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationTexts[5], new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationTexts[5].setText("- ");

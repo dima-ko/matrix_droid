@@ -71,7 +71,7 @@ public class Fraction implements Cloneable {
     public String toString() {
         String fracText = getNum() + "";
         if (denom != 1)
-            fracText += "/" + denom;
+            fracText += "\n" + denom;
         return fracText;
     }
 

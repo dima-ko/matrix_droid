@@ -123,6 +123,7 @@ public class Solver implements Constants {
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
+        solvationView.setBackgroundResource(R.drawable.solve_bg);
         solvationView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -134,9 +135,8 @@ public class Solver implements Constants {
         });
 
         solvationView.setOrientation(LinearLayout.VERTICAL);
-//        solvationView.setPadding(15, 15, 0, 0);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-
+        solvationView.setVisibility(View.GONE);
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
@@ -430,11 +430,13 @@ public class Solver implements Constants {
             default:
                 return;
         }
+        solvationView.setVisibility(View.VISIBLE);
         animator.startExplaining();
     }
 
     public void stopExplain() {
         animator.stopExplain();
+
     }
 
     public void onMenu(int i) {
@@ -497,6 +499,9 @@ public class Solver implements Constants {
                 mainMatrixView.removeView(secondMatrixView);
                 secondMatrixWrapper.onDestroy();
                 resultView.removeAllViews();
+            case STATE_SYSTEM_EXPLAINING:
+                resultView.removeView(resultMatrixView);
+                resMatrixWrapper.onDestroy();
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:
             case STATE_SIDE_COLUMN_ADDED:

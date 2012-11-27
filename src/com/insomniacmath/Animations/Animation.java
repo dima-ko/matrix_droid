@@ -9,6 +9,8 @@ import com.insomniacmath.MatrixWrapper;
 
 abstract public class Animation implements Constants {
 
+    public static final int SOLV_TEXT_SIZE = 19;
+
     public static final LinearLayout.LayoutParams FILL_WRAP =
             new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 

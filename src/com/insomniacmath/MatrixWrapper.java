@@ -92,7 +92,7 @@ public class MatrixWrapper implements Constants {
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
             sideColumnEdits[i].setTextColor(Color.WHITE);
             sideColumnEdits[i].setGravity(Gravity.CENTER);
-            sideColumnEdits[i].setMinWidth(60);
+            sideColumnEdits[i].setMinWidth(70);
             final View a = sideColumnEdits[i];
             sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -165,11 +165,12 @@ public class MatrixWrapper implements Constants {
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
                 grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
-                grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
+                if (isMutable)
+                    grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);
-                grid[i][j].setMinWidth(60);
+                grid[i][j].setMinWidth(70);
                 final View a = grid[i][j];
                 grid[i][j].addTextChangedListener(new TextWatcher() {
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
