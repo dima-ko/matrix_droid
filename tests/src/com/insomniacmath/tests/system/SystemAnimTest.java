@@ -25,7 +25,7 @@ public class SystemAnimTest extends GeneralTest {
 
         solo.clickOnMenuItem("Solve");
         clickOnViewByID(Solver.EXPLAIN_BUTTON_ID);
-        solo.sleep(40200);
+        solo.sleep(400200);
 
     }
 

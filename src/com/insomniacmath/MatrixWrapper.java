@@ -37,7 +37,7 @@ public class MatrixWrapper implements Constants {
     private final Context context;
     public LinearLayout _view;
     public LinearLayout bodyMatrix;
-    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
+    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 70);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
@@ -68,7 +68,7 @@ public class MatrixWrapper implements Constants {
 
         leftBraket = new ImageView(context);
         leftBraket.setImageResource(R.drawable.left_braket);
-        _view.addView(leftBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));
+        _view.addView(leftBraket, new LinearLayout.LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
 
         bodyMatrix = new LinearLayout(context);
         bodyMatrix.setOrientation(LinearLayout.VERTICAL);
@@ -92,7 +92,7 @@ public class MatrixWrapper implements Constants {
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
             sideColumnEdits[i].setTextColor(Color.WHITE);
             sideColumnEdits[i].setGravity(Gravity.CENTER);
-            sideColumnEdits[i].setMinWidth(80);
+            sideColumnEdits[i].setMinWidth(60);
             final View a = sideColumnEdits[i];
             sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -115,7 +115,7 @@ public class MatrixWrapper implements Constants {
 
         rightBraket = new ImageView(context);
         rightBraket.setImageResource(R.drawable.right_braket);
-        _view.addView(rightBraket, new LinearLayout.LayoutParams(60, ViewGroup.LayoutParams.FILL_PARENT));
+        _view.addView(rightBraket, new LinearLayout.LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
 
         hintLayout = new LinearLayout(context);
         _view.addView(hintLayout, new LinearLayout.LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
@@ -169,7 +169,7 @@ public class MatrixWrapper implements Constants {
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);
-                grid[i][j].setMinWidth(80);
+                grid[i][j].setMinWidth(60);
                 final View a = grid[i][j];
                 grid[i][j].addTextChangedListener(new TextWatcher() {
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

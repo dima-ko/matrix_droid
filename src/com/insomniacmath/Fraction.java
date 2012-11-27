@@ -4,10 +4,33 @@ package com.insomniacmath;
  * The Fraction class implements non-negative fractions, i.e., rational
  * numbers.
  */
-class Fraction {
+public class Fraction implements Cloneable {
 
     public int getNum() {
         return num;
+    }
+
+    @Override
+    protected Fraction clone() throws CloneNotSupportedException {
+        return (Fraction) super.clone();
+    }
+
+    public static Fraction[] deepCopy(Fraction[] array) {
+        Fraction[] result = new Fraction[array.length];
+        for (int i = 0; i < result.length; ++i)
+            try {
+                result[i] = array[i].clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        return result;
+    }
+
+    public static Fraction[][] deepCopy(Fraction[][] array) {
+        Fraction[][] result = new Fraction[array.length][];
+        for (int i = 0; i < result.length; ++i)
+            result[i] = deepCopy(array[i]);
+        return result;
     }
 
     public int getDenom() {

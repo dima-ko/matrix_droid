@@ -106,8 +106,11 @@ public class Utils {
         return result;
     }
 
-    public static Fraction[] gauss(Fraction[][] A, Fraction[] b)  throws SingularMatrixException{
-        int N = b.length;
+    public static Fraction[] gauss(Fraction[][] a, Fraction[] b) throws SingularMatrixException {
+
+        Fraction[][] mA = Fraction.deepCopy(a);
+        Fraction[] mB = Fraction.deepCopy(b);
+        int N = mB.length;
         Log.d("zzzzzzzzzzzz", "start gaussat at" + System.currentTimeMillis());
         for (int p = 0; p < N; p++) {
 
@@ -126,16 +129,16 @@ public class Utils {
 //            b[max] = t;
 //
             // singular or nearly singular
-            if (Math.abs(A[p][p].doubleValue()) <= EPSILON) {
+            if (Math.abs(mA[p][p].doubleValue()) <= EPSILON) {
                 throw new SingularMatrixException();
             }
 
             // pivot within A and b
             for (int i = p + 1; i < N; i++) {
-                Fraction alpha = A[i][p].divide(A[p][p]);
-                b[i] = b[i].subtract(alpha.multiply(b[p]));
+                Fraction alpha = mA[i][p].divide(mA[p][p]);
+                mB[i] = mB[i].subtract(alpha.multiply(mB[p]));
                 for (int j = p; j < N; j++) {
-                    A[i][j] = A[i][j].subtract(alpha.multiply(A[p][j]));
+                    mA[i][j] = mA[i][j].subtract(alpha.multiply(mA[p][j]));
                 }
             }
         }
@@ -145,9 +148,9 @@ public class Utils {
         for (int i = N - 1; i >= 0; i--) {
             Fraction sum = new Fraction(0);
             for (int j = i + 1; j < N; j++) {
-                sum = sum.add(A[i][j].multiply(x[j]));
+                sum = sum.add(mA[i][j].multiply(x[j]));
             }
-            x[i] = (b[i].subtract(sum)).divide(A[i][i]);
+            x[i] = (mB[i].subtract(sum)).divide(mA[i][i]);
         }
 
         Log.d("zzzzzzzzzzzz", "end gauss at" + System.currentTimeMillis());
