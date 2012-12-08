@@ -12,9 +12,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
-import org.ejml.simple.SimpleMatrix;
 
 public class MatrixView extends MatrixModel {
 
@@ -26,7 +28,7 @@ public class MatrixView extends MatrixModel {
     public MatrixCanvas canvas;
     boolean isSideColumnVisible = false;
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
-    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 70);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
@@ -35,12 +37,11 @@ public class MatrixView extends MatrixModel {
     LinearLayout sideColumn;
     LinearLayout divider;
 
-
     public MatrixView(Context context, LinearLayout view, int number) {
         super(context, number);
         _view = view;
+        buildView();
     }
-
 
     public MatrixCanvas getCanvas() {
         return canvas;
@@ -135,7 +136,6 @@ public class MatrixView extends MatrixModel {
 
     }
 
-
     public void addSideColumn() {
         isSideColumnVisible = true;
         refreshVisible();
@@ -159,8 +159,7 @@ public class MatrixView extends MatrixModel {
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
                 grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
-//                if (mutable)
-//                    grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
+                grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setSingleLine(false);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
@@ -210,7 +209,6 @@ public class MatrixView extends MatrixModel {
         relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
 
     }
-
 
     public void fillMatrixFromViews() throws BadSymbolException {
         Log.d("zzzzzzzzzzzz", "start fillGrid" + System.currentTimeMillis());
@@ -263,12 +261,24 @@ public class MatrixView extends MatrixModel {
 
     public void fillViewsFromMatrix() {
         if (mFrac != null) {
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < columns; j++) {
                     SpannableString text = mFrac[i][j].toSpanString();
                     grid[i][j].setSingleLine(false);
                     grid[i][j].setText(text);
+                    if (text.toString().contains("\n"))
+                        grid[i][j].setTextSize(12);
+
                 }
+                if (isSideColumnVisible) {
+                    SpannableString text = sideFrac[i].toSpanString();
+                    sideColumnEdits[i].setSingleLine(false);
+                    sideColumnEdits[i].setText(text);
+                    if (text.toString().contains("\n"))
+                        sideColumnEdits[i].setTextSize(12);
+                }
+            }
+
         } else {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {
@@ -285,8 +295,6 @@ public class MatrixView extends MatrixModel {
     public void onDestroy() {
         canvas.onDestroy();
     }
-
-
 
     public int getNextEdit(int direction, int curEditId) {
         int column = curEditId % MAX_COLUMNS;
@@ -318,7 +326,6 @@ public class MatrixView extends MatrixModel {
         }
         return -1;
     }
-
 
 
 }
