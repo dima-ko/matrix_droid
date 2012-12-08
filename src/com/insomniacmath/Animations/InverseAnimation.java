@@ -1,17 +1,15 @@
 package com.insomniacmath.Animations;
 
 
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import com.insomniacmath.Animator;
-import com.insomniacmath.MatrixWrapper;
+import com.insomniacmath.MatrixModel;
 
 public class InverseAnimation extends Animation {
 
-     private MatrixWrapper resultMW;
+     private MatrixModel resultMW;
 
-    public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixWrapper mW1, MatrixWrapper resMW) {
+    public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixModel mW1, MatrixModel resMW) {
     }
 
     StringBuilder builder = new StringBuilder();  //todo: gaus, kramer etc

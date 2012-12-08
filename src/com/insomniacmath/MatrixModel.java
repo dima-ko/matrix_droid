@@ -15,7 +15,7 @@ import com.insomniacmath.Animations.MatrixCanvas;
 import org.ejml.simple.SimpleMatrix;
 
 
-public class MatrixWrapper implements Constants {
+public class MatrixModel implements Constants {
 
     public static final int SIDE_COL_ID = 80;
     private final Context context;
@@ -50,7 +50,7 @@ public class MatrixWrapper implements Constants {
     };
 //    private boolean mutable = true;
 
-    public MatrixWrapper(Context context, LinearLayout view, int number, boolean isMutable) {    //todo: clear editbox on longclick
+    public MatrixModel(Context context, LinearLayout view, int number, boolean isMutable) {    //todo: clear editbox on longclick
         this.context = context;
 
         _view = view;

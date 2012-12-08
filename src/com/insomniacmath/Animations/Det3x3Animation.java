@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animator;
-import com.insomniacmath.MatrixWrapper;
+import com.insomniacmath.MatrixModel;
 import com.insomniacmath.Utils;
 
 public class Det3x3Animation extends Animation {
@@ -19,7 +19,7 @@ public class Det3x3Animation extends Animation {
     final static int gree = 0xAA22FF22;
     final static int yel = 0xAAFF8800;
 
-    public Det3x3Animation(Animator animator, LinearLayout solvationView, MatrixWrapper parent) {
+    public Det3x3Animation(Animator animator, LinearLayout solvationView, MatrixModel parent) {
         super(animator, solvationView, parent);
 
         solvationTexts[0] = new TextView(solvation.getContext());
