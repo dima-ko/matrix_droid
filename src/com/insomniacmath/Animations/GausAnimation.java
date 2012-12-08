@@ -60,8 +60,8 @@ public class GausAnimation extends Animation {
             arrowLayout.setVisibility(View.GONE);
             mW1.sideFrac[curRow] = mW1.sideFrac[curRow].subtract(alpha.multiply(mW1.sideFrac[0]));
             for (int j = 0; j < mW1.columns; j++) {//todo
-                mW1.mFrac[curRow][j] = mW1.mFrac[curRow][j].
-                        subtract(alpha.multiply(mW1.mFrac[curRow][0]));
+                mW1.mFrac[curRow][j] = mW1.mFrac[0][j].
+                        add(alpha.multiply(mW1.mFrac[curRow][j]));
             }
             mW1.fillViewsFromMatrix();
         }
