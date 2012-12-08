@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,7 +29,6 @@ public class MatrixWrapper implements Constants {
     public int columns = 2, rows = 2;
     public int number; // made for testing purposes
     boolean isSideColumnVisible = false;
-    boolean isMutable = true;  //todo
 
     EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     EditText[][] grid = new EditText[MAX_ROWS][];
@@ -36,8 +36,9 @@ public class MatrixWrapper implements Constants {
 
     private final Context context;
     public LinearLayout _view;
+    private boolean mutable = true;
     public LinearLayout bodyMatrix;
-    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 70);
+    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
@@ -56,6 +57,7 @@ public class MatrixWrapper implements Constants {
     public MatrixWrapper(Context context, LinearLayout view, int number, boolean isMutable) {    //todo: clear editbox on longclick
         this.context = context;
         _view = view;
+        mutable = isMutable;
         m = new double[2][];
         for (int i = 0; i < 2; i++) {
             m[i] = new double[2];
@@ -93,6 +95,7 @@ public class MatrixWrapper implements Constants {
             sideColumnEdits[i].setTextColor(Color.WHITE);
             sideColumnEdits[i].setGravity(Gravity.CENTER);
             sideColumnEdits[i].setMinWidth(70);
+            sideColumnEdits[i].setMinHeight(70);
             final View a = sideColumnEdits[i];
             sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -165,12 +168,15 @@ public class MatrixWrapper implements Constants {
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
                 grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
-                if (isMutable)
+                if (mutable)
                     grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
+                else
+                    grid[i][j].setSingleLine(false);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);
                 grid[i][j].setMinWidth(70);
+                grid[i][j].setMinHeight(70);
                 final View a = grid[i][j];
                 grid[i][j].addTextChangedListener(new TextWatcher() {
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -205,7 +211,6 @@ public class MatrixWrapper implements Constants {
         grid[0][0].requestFocus();    //TODO: klavu align
 
         bodyMatrix.addView(relativeLayout, wrapWrap);
-
 
         bodyMatrixRows.setId(BODY_ID);
         fillFill.addRule(RelativeLayout.ALIGN_RIGHT, bodyMatrixRows.getId());
@@ -365,7 +370,7 @@ public class MatrixWrapper implements Constants {
         if (mFrac != null) {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {
-                    grid[i][j].setText(mFrac[i][j].toString());
+                    grid[i][j].setText(mFrac[i][j].toSpanString(), TextView.BufferType.SPANNABLE);
                 }
         } else {
             for (int i = 0; i < rows; i++)

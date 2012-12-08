@@ -1,5 +1,10 @@
 package com.insomniacmath;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.UnderlineSpan;
+
 /**
  * The Fraction class implements non-negative fractions, i.e., rational
  * numbers.
@@ -122,5 +127,17 @@ public class Fraction implements Cloneable {
 
     public double doubleValue() {
         return ((double) num) / denom;
+    }
+
+    public Spannable toSpanString() {
+        String fracText = getNum() + "";
+        if (denom != 1)
+            fracText += "\n" + denom;
+        int end = fracText.indexOf("\n");
+        SpannableString ss = new SpannableString(fracText);
+        ss.setSpan(new UnderlineSpan(),0,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return ss;
+
     }
 }

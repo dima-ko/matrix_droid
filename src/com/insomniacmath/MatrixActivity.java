@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class MatrixActivity extends Activity implements Constants {
     /**
@@ -27,6 +28,7 @@ public class MatrixActivity extends Activity implements Constants {
         mainView.setOrientation(LinearLayout.VERTICAL);
         solver = new Solver(this, mainView);
         setContentView(mainView);
+        Toast.makeText(this, getString(R.string.press_menu),Toast.LENGTH_LONG).show();
 
     }
 
