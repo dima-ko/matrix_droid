@@ -11,13 +11,21 @@ import android.text.style.UnderlineSpan;
  */
 public class Fraction implements Cloneable {
 
-    public int getNum() {
-        return num;
+    private int num;
+    private int denom;
+
+    public Fraction(int num, int denom) {
+        this.num = num;
+        this.denom = denom;
+        if (denom < 0) {
+            this.num = num * -1;
+            this.denom = denom * -1;
+        }
+        simplify();
     }
 
-    @Override
-    protected Fraction clone() throws CloneNotSupportedException {
-        return (Fraction) super.clone();
+    public Fraction(int num) {
+        this(num, 1);
     }
 
     public static Fraction[] deepCopy(Fraction[] array) {
@@ -38,25 +46,17 @@ public class Fraction implements Cloneable {
         return result;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    @Override
+    protected Fraction clone() throws CloneNotSupportedException {
+        return (Fraction) super.clone();
+    }
+
     public int getDenom() {
         return denom;
-    }
-
-    private int num;
-    private int denom;
-
-    public Fraction(int num, int denom) {
-        this.num = num;
-        this.denom = denom;
-        if (denom < 0) {
-            this.num = num * -1;
-            this.denom = denom * -1;
-        }
-        simplify();
-    }
-
-    public Fraction(int num) {
-        this(num, 1);
     }
 
     // reduce to lowest terms
@@ -105,7 +105,6 @@ public class Fraction implements Cloneable {
         return result;
     }
 
-
     public Fraction subtract(Fraction f2) {
         Fraction result = new Fraction((this.num * f2.denom) - (f2.num * this.denom), denom * f2.denom);
         result.simplify();
@@ -124,20 +123,24 @@ public class Fraction implements Cloneable {
         return result;
     }
 
-
     public double doubleValue() {
         return ((double) num) / denom;
     }
 
-    public Spannable toSpanString() {
+    public SpannableString toSpanString() {
+
         String fracText = getNum() + "";
-        if (denom != 1)
+        if (denom != 1) {
             fracText += "\n" + denom;
-        int end = fracText.indexOf("\n");
-        SpannableString ss = new SpannableString(fracText);
-        ss.setSpan(new UnderlineSpan(),0,end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            int end = fracText.indexOf("\n");
+            SpannableString ss = new SpannableString(fracText);
+            ss.setSpan(new UnderlineSpan(), 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return ss;
+        } else return new SpannableString(fracText);
 
-        return ss;
+    }
 
+    public Fraction negative() {
+        return new Fraction(-num, denom);
     }
 }

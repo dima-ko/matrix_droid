@@ -14,14 +14,15 @@ import com.insomniacmath.R;
 public class GausAnimation extends Animation {
 
     int actions;
+    TextView[] hints;
+    LinearLayout arrowLayout;
+    Fraction alpha;
 
     public GausAnimation(Animator animator, LinearLayout solvationView, MatrixWrapper mW1) {
         super(animator, solvationView, mW1);
         buildHint();
         actions = mW1.rows;
     }
-
-    TextView[] hints;
 
     public void buildHint() {
         LinearLayout hintEditsLayout = new LinearLayout(solvation.getContext());
@@ -31,11 +32,11 @@ public class GausAnimation extends Animation {
             hints[i] = new TextView(solvation.getContext());
             hints[i].setTextColor(Color.WHITE);
             hints[i].setGravity(Gravity.CENTER);
-            hintEditsLayout.addView(hints[i], c80x80);
+            hintEditsLayout.addView(hints[i], c70x70);
         }
 
-        LinearLayout arrowLayout = new LinearLayout(solvation.getContext());
-        LinearLayout arrow = new LinearLayout(solvation.getContext());
+        arrowLayout = new LinearLayout(solvation.getContext());
+        LinearLayout arrow = new LinearLayout(solvation.getContext());      //todo: commit explain speed
         arrow.setBackgroundResource(R.drawable.arrow);
         arrowLayout.addView(arrow, c20Fill);
         mW1.hintLayout.addView(arrowLayout, c20Fill);
@@ -45,10 +46,26 @@ public class GausAnimation extends Animation {
 
     @Override
     public void tic(int t) {
-        for (int i = 1; i < mW1.rows; i++) {
-            Fraction alpha = mW1.mFrac[0][0].divide(mW1.mFrac[i][0]); //todo
-            hints[i].setText("·" + alpha.toString());
+
+        int curRow = t / 2 + 1;
+        if (curRow >= mW1.rows)
+            return;
+        if (t % 2 == 0) {
+            //todo
+            alpha = (mW1.mFrac[0][0]).negative().divide(mW1.mFrac[curRow][0]);
+            hints[curRow].setText(alpha.toSpanString());
+            arrowLayout.setVisibility(View.VISIBLE);
+        } else {
+            hints[curRow].setText("");
+            arrowLayout.setVisibility(View.GONE);
+            mW1.sideFrac[curRow] = mW1.sideFrac[curRow].subtract(alpha.multiply(mW1.sideFrac[0]));
+            for (int j = 0; j < mW1.columns; j++) {//todo
+                mW1.mFrac[curRow][j] = mW1.mFrac[curRow][j].
+                        subtract(alpha.multiply(mW1.mFrac[curRow][0]));
+            }
+            mW1.fillViewsFromMatrix();
         }
+
 
         if (t == 20)
             animator.stopExplain();

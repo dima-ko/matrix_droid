@@ -4,10 +4,7 @@ package com.insomniacmath;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.SpannableString;
-import android.text.TextWatcher;
+import android.text.*;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,49 +18,53 @@ import org.ejml.simple.SimpleMatrix;
 public class MatrixWrapper implements Constants {
 
     public static final int SIDE_COL_ID = 80;
-
+    private final Context context;
     public double[][] m;
     public Fraction[][] mFrac = null;
-    Double[] side;
     public Fraction[] sideFrac;
     public int columns = 2, rows = 2;
     public int number; // made for testing purposes
-    boolean isSideColumnVisible = false;
-
-    EditText[] sideColumnEdits = new EditText[MAX_ROWS];
-    EditText[][] grid = new EditText[MAX_ROWS][];
-    LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
-
-    private final Context context;
+    public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
+    public EditText[][] grid = new EditText[MAX_ROWS][];
     public LinearLayout _view;
-    private boolean mutable = true;
     public LinearLayout bodyMatrix;
+    public LinearLayout hintLayout;
+    public MatrixCanvas canvas;
+    public boolean elementsFractions = false;
+    Double[] side;
+    boolean isSideColumnVisible = false;
+    LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
     LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     ImageView rightBraket, leftBraket;
-    public LinearLayout hintLayout;
-
-    public MatrixCanvas getCanvas() {
-        return canvas;
-    }
-
-    public MatrixCanvas canvas;
     RelativeLayout relativeLayout;
     LinearLayout sideColumn;
     LinearLayout divider;
+    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+        public void onFocusChange(View view, boolean b) {
+            if (b)
+                Solver.curEditId = view.getId();
+        }
+    };
+//    private boolean mutable = true;
 
     public MatrixWrapper(Context context, LinearLayout view, int number, boolean isMutable) {    //todo: clear editbox on longclick
         this.context = context;
+
         _view = view;
-        mutable = isMutable;
+//        mutable = isMutable;
         m = new double[2][];
         for (int i = 0; i < 2; i++) {
             m[i] = new double[2];
         }
         this.number = number;
         buildView();
+    }
+
+    public MatrixCanvas getCanvas() {
+        return canvas;
     }
 
     private void buildView() {
@@ -168,10 +169,9 @@ public class MatrixWrapper implements Constants {
             for (int j = 0; j < MAX_COLUMNS; j++) {
                 grid[i][j] = new EditText(context);
                 grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
-                if (mutable)
-                    grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
-                else
-                    grid[i][j].setSingleLine(false);
+//                if (mutable)
+//                    grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
+                grid[i][j].setSingleLine(false);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);
@@ -220,13 +220,6 @@ public class MatrixWrapper implements Constants {
         relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
 
     }
-
-    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
-        public void onFocusChange(View view, boolean b) {
-            if (b)
-                Solver.curEditId = view.getId();
-        }
-    };
 
     public void addRow() {
         if (rows < MAX_ROWS) {
@@ -315,8 +308,6 @@ public class MatrixWrapper implements Constants {
 
     }
 
-    public boolean elementsFractions = false;
-
     public void fillMatrixFromViews() throws BadSymbolException {
         Log.d("zzzzzzzzzzzz", "start fillGrid" + System.currentTimeMillis());
         elementsFractions = false;
@@ -370,7 +361,9 @@ public class MatrixWrapper implements Constants {
         if (mFrac != null) {
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columns; j++) {
-                    grid[i][j].setText(mFrac[i][j].toSpanString(), TextView.BufferType.SPANNABLE);
+                    SpannableString text = mFrac[i][j].toSpanString();
+                    grid[i][j].setSingleLine(false);
+                    grid[i][j].setText(text);
                 }
         } else {
             for (int i = 0; i < rows; i++)

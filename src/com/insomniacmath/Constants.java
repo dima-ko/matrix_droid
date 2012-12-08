@@ -58,7 +58,7 @@ public interface Constants {
     int[] colors = new int[]{cyan, viol, ros, blu, gree, yel};
 
     LinearLayout.LayoutParams c20Fill = new LinearLayout.LayoutParams(20, RelativeLayout.LayoutParams.FILL_PARENT);
-    LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
+    LinearLayout.LayoutParams c70x70 = new LinearLayout.LayoutParams(70, 70);
 
 
     final static LinearLayout.LayoutParams wrap_80 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
