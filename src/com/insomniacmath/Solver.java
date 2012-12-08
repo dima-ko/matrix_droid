@@ -22,8 +22,8 @@ public class Solver implements Constants {
     private float downY;
     private float downX;
 
-    MatrixModel mainMatrixModel;
-    LinearLayout mainMatrixView;
+    MatrixView mainMatrixModel;
+    LinearLayout mainMatrixLayout;
     LinearLayout resultView;
     TextView resultText;
     Button xplainButton;
@@ -40,11 +40,11 @@ public class Solver implements Constants {
     LinearLayout rightPlusHolder;
 
     private LinearLayout secondMatrixView;
-    private MatrixModel secondMatrixModel;
-    LinearLayout resultMatrixView;
+    private MatrixView secondMatrixModel;
+    LinearLayout resultMatrixLayout;
     private Animator animator;
     LinearLayout scrollWrapper;
-    MatrixModel resMatrixModel;
+    MatrixView resMatrixModel;
 
     public Solver(Context context, LinearLayout mainView) {
 
@@ -54,14 +54,14 @@ public class Solver implements Constants {
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
 
         scrollWrapper = new LinearLayout(context);
-        mainMatrixView = new LinearLayout(context);
+        mainMatrixLayout = new LinearLayout(context);
 
-        mainMatrixView.setLayoutParams(wrapWrap);
-        mainMatrixView.setOrientation(LinearLayout.HORIZONTAL);
+        mainMatrixLayout.setLayoutParams(wrapWrap);
+        mainMatrixLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainMatrixModel = new MatrixModel(context, mainMatrixView, 0, true);
+        mainMatrixModel = new MatrixView(context, mainMatrixLayout, 0);
 
-        scrollWrapper.addView(mainMatrixView, wrapWrap);
+        scrollWrapper.addView(mainMatrixLayout, wrapWrap);
 
 
         rightPlusHolder = new LinearLayout(context);
@@ -244,7 +244,7 @@ public class Solver implements Constants {
         resultMatrixLay.setId(RESULT_MATRIX);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
 
-        resMatrixModel = new MatrixModel(_context, resultMatrixLay, 2, false);
+        resMatrixModel = new MatrixView(_context, resultMatrixLay, 2);
         resMatrixModel.adjustSizeTo(c.numRows(), c.numCols());
         for (int i = 0; i < c.numRows(); i++) {
             for (int j = 0; j < c.numCols(); j++) {
@@ -276,10 +276,10 @@ public class Solver implements Constants {
             return;
         }
 
-        resultMatrixView = new LinearLayout(_context);
-        resultMatrixView.setId(RESULT_MATRIX);
-        resultView.addView(resultMatrixView, wrapWrapCenterHor);
-        resMatrixModel = new MatrixModel(_context, resultMatrixView, 2, false);
+        resultMatrixLayout = new LinearLayout(_context);
+        resultMatrixLayout.setId(RESULT_MATRIX);
+        resultView.addView(resultMatrixLayout, wrapWrapCenterHor);
+        resMatrixModel = new MatrixView(_context, resultMatrixLayout, 2);
 
         if (mainMatrixModel.elementsFractions) {
             Fraction[][] result = mainMatrixModel.findInverseFraction();
@@ -318,7 +318,7 @@ public class Solver implements Constants {
         LinearLayout resultMatrixLay = new LinearLayout(_context);
         resultMatrixLay.setId(RESULT_MATRIX);
         resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        resMatrixModel = new MatrixModel(_context, resultMatrixLay, 2, false);
+        resMatrixModel = new MatrixView(_context, resultMatrixLay, 2);
 
         if (mainMatrixModel.elementsFractions) {
             Fraction[] result = mainMatrixModel.solveSLEFraction();
@@ -389,11 +389,11 @@ public class Solver implements Constants {
         secondMatrixView.setLayoutParams(wrapWrap);
         secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
 
-        secondMatrixModel = new MatrixModel(_context, secondMatrixView, 1, true);
+        secondMatrixModel = new MatrixView(_context, secondMatrixView, 1);
         secondMatrixModel.adjustSizeTo(mainMatrixModel.rows, mainMatrixModel.columns);
         secondMatrixModel.refreshVisible();
 
-        mainMatrixView.addView(secondMatrixView);
+        mainMatrixLayout.addView(secondMatrixView);
 
         animator.setSecMW(secondMatrixModel);
     }
@@ -491,16 +491,16 @@ public class Solver implements Constants {
                 xplainButton.setVisibility(View.VISIBLE);
                 break;
             case STATE_MULTIPLY_EXPLAINED:
-                resultView.removeView(resultMatrixView);
+                resultView.removeView(resultMatrixLayout);
                 resMatrixModel.onDestroy();
             case STATE_MULTIPLY_PRESSED:
             case STATE_MULTIPLY_FIND:
             case STATE_MULTIPLY_EXPLAINING:
-                mainMatrixView.removeView(secondMatrixView);
+                mainMatrixLayout.removeView(secondMatrixView);
                 secondMatrixModel.onDestroy();
                 resultView.removeAllViews();
             case STATE_SYSTEM_EXPLAINING:
-                resultView.removeView(resultMatrixView);
+                resultView.removeView(resultMatrixLayout);
                 resMatrixModel.onDestroy();
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:

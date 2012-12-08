@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animator;
-import com.insomniacmath.MatrixModel;
+import com.insomniacmath.MatrixView;
 import com.insomniacmath.Utils;
 
 public class Det2x2Animation extends Animation {
@@ -15,7 +15,7 @@ public class Det2x2Animation extends Animation {
     TextView solvationText;
     TextView solvationText2;
 
-    public Det2x2Animation(Animator animator, LinearLayout solvation, MatrixModel parent) {
+    public Det2x2Animation(Animator animator, LinearLayout solvation, MatrixView parent) {
         super(animator, solvation, parent);
 
         solvationText = new TextView(solvation.getContext());

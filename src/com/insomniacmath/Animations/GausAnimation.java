@@ -6,10 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.insomniacmath.Animator;
-import com.insomniacmath.Fraction;
-import com.insomniacmath.MatrixModel;
-import com.insomniacmath.R;
+import com.insomniacmath.*;
 
 public class GausAnimation extends Animation {
 
@@ -18,7 +15,7 @@ public class GausAnimation extends Animation {
     LinearLayout arrowLayout;
     Fraction alpha;
 
-    public GausAnimation(Animator animator, LinearLayout solvationView, MatrixModel mW1) {
+    public GausAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1) {
         super(animator, solvationView, mW1);
         buildHint();
         actions = mW1.rows;

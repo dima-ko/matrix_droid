@@ -16,18 +16,18 @@ public class Animator {
     TicTac tic;
 
     //    MatrixCanvas canvas;
-    MatrixModel mainMW;
-    private MatrixModel resMW;
+    MatrixView mainMW;
+    private MatrixView resMW;
 
-    public void setSecMW(MatrixModel secMW) {
+    public void setSecMW(MatrixView secMW) {
         this.secMW = secMW;
     }
 
-    public void setResultMW(MatrixModel resMW) {
+    public void setResultMW(MatrixView resMW) {
         this.resMW = resMW;
     }
 
-    MatrixModel secMW;
+    MatrixView secMW;
     int animType;
     private int rows;
     private int columns;
@@ -45,7 +45,7 @@ public class Animator {
         this.columns = columns;
     }
 
-    public Animator(MatrixModel MatrixModel) {
+    public Animator(MatrixView MatrixModel) {
         mainMW = MatrixModel;
         mainMW.getCanvas().setVisibility(View.INVISIBLE);
     }

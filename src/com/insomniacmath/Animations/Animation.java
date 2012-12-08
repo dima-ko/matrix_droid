@@ -6,6 +6,7 @@ import android.widget.LinearLayout;
 import com.insomniacmath.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.MatrixModel;
+import com.insomniacmath.MatrixView;
 
 abstract public class Animation implements Constants {
 
@@ -16,9 +17,9 @@ abstract public class Animation implements Constants {
 
     protected Animator animator;
     public LinearLayout solvation;
-    public MatrixModel mW1;
+    public MatrixView mW1;
 
-    Animation(Animator animator, LinearLayout solvation, MatrixModel parent) {
+    Animation(Animator animator, LinearLayout solvation, MatrixView parent) {
         this.animator = animator;
         this.solvation = solvation;
         this.mW1 = parent;

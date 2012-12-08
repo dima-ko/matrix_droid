@@ -4,12 +4,13 @@ package com.insomniacmath.Animations;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animator;
 import com.insomniacmath.MatrixModel;
+import com.insomniacmath.MatrixView;
 
 public class InverseAnimation extends Animation {
 
-     private MatrixModel resultMW;
+     private MatrixView resultMW;
 
-    public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixModel mW1, MatrixModel resMW) {
+    public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1, MatrixView resMW) {
     }
 
     StringBuilder builder = new StringBuilder();  //todo: gaus, kramer etc

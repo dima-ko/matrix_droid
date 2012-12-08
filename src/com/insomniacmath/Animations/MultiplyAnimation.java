@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animator;
 import com.insomniacmath.MatrixModel;
+import com.insomniacmath.MatrixView;
 import com.insomniacmath.Utils;
 
 public class MultiplyAnimation extends Animation {
@@ -15,14 +16,14 @@ public class MultiplyAnimation extends Animation {
     public static final LinearLayout.LayoutParams FILL_WRAP =
             new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     TextView[] solvationTexts;
-    private MatrixModel mW2;
-    private MatrixModel resultMW;
+    private MatrixView mW2;
+    private MatrixView resultMW;
     int actions;
     int resMax;
 
     int[] colors = new int[]{cyan, viol, ros, blu, gree, yel};
 
-    public MultiplyAnimation(Animator animator, LinearLayout solvationView, MatrixModel mW1, MatrixModel mW2, MatrixModel resMW) {
+    public MultiplyAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1, MatrixView mW2, MatrixView resMW) {
         super(animator, solvationView, mW1);
         this.mW2 = mW2;
         resultMW = resMW;
