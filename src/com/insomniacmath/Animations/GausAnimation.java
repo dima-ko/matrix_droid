@@ -13,17 +13,21 @@ import com.insomniacmath.R;
 
 public class GausAnimation extends Animation {
 
-    int actions;
+    int c;
+    int r;
     TextView[] hints;
     LinearLayout arrowLayout;
     Fraction alpha;
     int iter = 0;
     int prevIterEnded;
+    int revIter;
+    int prevRevIterEnded;
 
     public GausAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1) {
         super(animator, solvationView, mW1);
         buildHint();
-        actions = mW1.rows;
+        r = mW1.rows;
+        c = mW1.columns;
     }
 
     public void buildHint() {
@@ -64,8 +68,7 @@ public class GausAnimation extends Animation {
                 hints[iter].setVisibility(View.GONE);
                 mW1.sideFrac[iter] = mW1.sideFrac[iter].divide(mW1.mFrac[iter][iter]);
                 mW1.mFrac[iter][iter] = new Fraction(1);
-            } else
-                animator.stopExplain();
+            } else onReverseIter(t - prevIterEnded - 2);
             mW1.fillViewsFromMatrix();
             return;
         }
@@ -89,6 +92,46 @@ public class GausAnimation extends Animation {
             }
         }
         mW1.fillViewsFromMatrix();
+
+    }
+
+    private void onReverseIter(int i) {
+
+        int c_iter = i - prevRevIterEnded;
+        if (c_iter == (revIter + 1) * 2) {
+            alpha = new Fraction(1).divide(mW1.mFrac[r - 2][revIter]);
+            hints[r - 2].setText(alpha.toSpanString());
+            hints[r - 2].setVisibility(View.VISIBLE);
+
+            return;
+        } else if (c_iter == (revIter + 1) * 2 + 1) {
+            //final recount
+            revIter++;
+            prevRevIterEnded = i + 1;
+            //todo change the row
+            hints[r - 2].setVisibility(View.GONE);
+            mW1.sideFrac[r - 2] = mW1.sideFrac[r - 2].multiply(alpha);
+            for (int j = 0; j < mW1.columns; j++) {       //todo
+                mW1.mFrac[r - 2][j] = mW1.mFrac[r - 2][j].multiply(alpha);
+            }
+            if (revIter == r - 1)
+                animator.stopExplain();
+            return;
+        }
+
+        if (c_iter % 2 == 0) {
+            alpha = mW1.mFrac[r - 2][c - 1 - c_iter / 2].negative();
+            arrowLayout.setVisibility(View.VISIBLE);
+            hints[r - 1].setText(alpha.toSpanString());
+            hints[r - 1].setVisibility(View.VISIBLE);
+        } else {
+            arrowLayout.setVisibility(View.GONE);
+            hints[r - 1].setVisibility(View.GONE);
+            mW1.sideFrac[r - 2] = mW1.sideFrac[r - 2].add(mW1.sideFrac[r - 1].multiply(alpha));
+            for (int j = revIter; j < mW1.columns; j++) {       //todo
+                mW1.mFrac[r - 2][j] = mW1.mFrac[r - 2][j].add(mW1.mFrac[r - 1][j].multiply(alpha));
+            }
+        }
 
 
     }

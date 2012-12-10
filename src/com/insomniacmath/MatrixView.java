@@ -268,6 +268,8 @@ public class MatrixView extends MatrixModel {
                     grid[i][j].setText(text);
                     if (text.toString().contains("\n"))
                         grid[i][j].setTextSize(12);
+                    else
+                        grid[i][j].setTextSize(18);
 
                 }
                 if (isSideColumnVisible) {
@@ -276,6 +278,8 @@ public class MatrixView extends MatrixModel {
                     sideColumnEdits[i].setText(text);
                     if (text.toString().contains("\n"))
                         sideColumnEdits[i].setTextSize(12);
+                    else
+                        sideColumnEdits[i].setTextSize(18);
                 }
             }
 
