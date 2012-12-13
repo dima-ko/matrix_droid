@@ -1,4 +1,4 @@
-package com.insomniacmath;
+package com.insomniacmath.exceptions;
 
 public class NotSquareException extends MatrixException {
 

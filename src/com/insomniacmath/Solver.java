@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
+import com.insomniacmath.exceptions.BadSymbolException;
+import com.insomniacmath.exceptions.NotSquareException;
+import com.insomniacmath.exceptions.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
 

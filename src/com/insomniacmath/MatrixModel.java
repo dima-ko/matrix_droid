@@ -1,17 +1,12 @@
 package com.insomniacmath;
 //0xFF234563
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.text.*;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.*;
-import com.insomniacmath.Animations.MatrixCanvas;
+import com.insomniacmath.exceptions.BadSymbolException;
+import com.insomniacmath.exceptions.NotSquareException;
+import com.insomniacmath.exceptions.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
 

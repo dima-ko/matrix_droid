@@ -10,6 +10,12 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 
+/**
+ * class for drawing scetches on the matrix during explaining
+ *
+ *
+ */
+
 public class MatrixCanvas extends SurfaceView implements Runnable {
 
     public static final int CIRCLE_RADIUS = 20;
@@ -25,6 +31,7 @@ public class MatrixCanvas extends SurfaceView implements Runnable {
     public void onDestroy() {
         running = false;
         thread.interrupt();
+
     }
 
     class line {

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
+import com.insomniacmath.exceptions.BadSymbolException;
 
 public class MatrixView extends MatrixModel {
 

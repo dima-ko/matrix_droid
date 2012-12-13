@@ -4,6 +4,8 @@ package com.insomniacmath.tests.system;
 import com.insomniacmath.Solver;
 import com.insomniacmath.tests.GeneralTest;
 
+import java.util.Random;
+
 /**
  * this class was made
  * by insomniac and angryded
@@ -11,26 +13,34 @@ import com.insomniacmath.tests.GeneralTest;
  */
 public class SystemAnimTest extends GeneralTest {
 
+
+    public static final int ADD_COLUMN_START_ID = 80;
+
     public void testSolveSystem() throws Exception {
 //
-        clickOnViewByID(PLUS_COLUMN_ID);
-        clickOnViewByID(PLUS_ROW_ID);
+        Random random = new Random();
+        final int MAX_TEXT_DIM = 2;
+        int rows = 2 + random.nextInt(MAX_TEXT_DIM);
+//        int columns = 2 + random.nextInt(MAX_TEXT_DIM);
+        int columns = rows;
+        for (int i = 0; i < columns - 2; i++) {
+            clickOnViewByID(PLUS_COLUMN_ID);
+        }
+        for (int i = 0; i < rows - 2; i++) {
+            clickOnViewByID(PLUS_ROW_ID);
+        }
 
-        enterEditByXY(0, 0, 2);
-        enterEditByXY(1, 0, 5);
-        enterEditByXY(2, 0, 6);
-        enterEditByXY(0, 1, 8);
-        enterEditByXY(1, 1, 9);
-        enterEditByXY(2, 1, 13);
-        enterEditByXY(0, 2, -7);
-        enterEditByXY(1, 2, 4);
-        enterEditByXY(2, 2, -1);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                enterEditByXY(j, i, random.nextInt() % 100);
+            }
+        }
 
         solo.clickOnMenuItem("Linear system");
 
-        enterEditByID(80, 1);
-        enterEditByID(81, 1);
-        enterEditByID(82, 2);
+        for (int i = 0; i < rows; i++) {
+            enterEditByID(ADD_COLUMN_START_ID + i, random.nextInt(10));
+        }
 
         solo.clickOnMenuItem("Solve");
         clickOnViewByID(Solver.EXPLAIN_BUTTON_ID);

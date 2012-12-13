@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import com.insomniacmath.exceptions.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
 public class Utils {
