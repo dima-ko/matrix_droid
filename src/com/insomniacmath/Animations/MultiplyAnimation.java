@@ -90,7 +90,7 @@ public class MultiplyAnimation extends Animation {
                         mW1.getCanvas().addPath(elementIter, ro, elementIter - 1, ro, colors[resCount % 6]);
                     break;
                 case 1:
-                    builder.append("*");
+                    builder.append("·");
                     break;
                 case 2:
                     builder.append(Utils.round(mW2.m[elementIter][col], true));
@@ -102,7 +102,7 @@ public class MultiplyAnimation extends Animation {
                     builder.append("+");
                     break;
             }
-        if (resCount < solvationTexts.length - 1)
+        if (resCount < solvationTexts.length )
             solvationTexts[resCount].setText(builder.toString());
 
     }

@@ -37,7 +37,7 @@ public class Det2x2Animation extends Animation {
                 mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
                 break;
             case 2:
-                solvationText.setText(Utils.round(mW1.m[0][0], true) + "*" + Utils.round(mW1.m[1][1], true));
+                solvationText.setText(Utils.round(mW1.m[0][0], true) + "·" + Utils.round(mW1.m[1][1], true));
                 mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
                 mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
                 break;
@@ -49,7 +49,7 @@ public class Det2x2Animation extends Animation {
                 mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
                 break;
             case 4:
-                solvationText2.setText("-" + Utils.round(mW1.m[0][1], true) + "*" + Utils.round(mW1.m[1][0], true));
+                solvationText2.setText("-" + Utils.round(mW1.m[0][1], true) + "·" + Utils.round(mW1.m[1][0], true));
                 mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
                 mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
                 break;
