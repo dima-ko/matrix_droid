@@ -13,6 +13,7 @@ public class Animator {
     static final int ANIM_DETERMINANT = 0;
     static final int ANIM_MULTIPLICATION = 1;
     static final int ANIM_SYSTEM_GAUSS = 2;
+    static final int ANIM_INVERT = 3;
 
     TicTac tic;
 
@@ -63,6 +64,8 @@ public class Animator {
             anim = new MultiplyAnimation(this, solvationView, mainMW, secMW, resMW);
         } else if (animType == ANIM_SYSTEM_GAUSS) {
             anim = new GausAnimation(this, solvationView, mainMW);
+        } else if (animType == ANIM_INVERT) {
+            anim = new InverseAnimation(this, solvationView, mainMW, resMW);
         }
         tic.execute();
     }

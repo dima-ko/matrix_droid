@@ -305,7 +305,7 @@ public class Solver implements Constants {
         resMatrixModel.fillViewsFromMatrix();
         resMatrixModel.refreshVisible();
         animator.setResultMW(resMatrixModel);
-        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
+        animator.setAnimType(Animator.ANIM_INVERT, mainMatrixModel.rows, mainMatrixModel.columns);
         addXplainButton();
     }
 
@@ -431,6 +431,9 @@ public class Solver implements Constants {
             case STATE_SYSTEM_SOLVED:
                 state = STATE_SYSTEM_EXPLAINING;
                 break;
+            case STATE_INVERT_FIND:
+                state = STATE_INVERT_EXPLAINING;
+                break;
             default:
                 return;
         }
@@ -505,8 +508,8 @@ public class Solver implements Constants {
                 resultView.removeAllViews();
             case STATE_SYSTEM_EXPLAINING:
                 resultView.removeView(resultMatrixLayout);
-                if(resMatrixModel!=null)
-                resMatrixModel.onDestroy();
+                if (resMatrixModel != null)
+                    resMatrixModel.onDestroy();
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:
             case STATE_SIDE_COLUMN_ADDED:
