@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animator;
-import com.insomniacmath.MatrixModel;
-import com.insomniacmath.MatrixView;
+import com.insomniacmath.ui.MatrixView;
 import com.insomniacmath.Utils;
 
 public class Det3x3Animation extends Animation {

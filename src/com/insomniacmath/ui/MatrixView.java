@@ -1,4 +1,4 @@
-package com.insomniacmath;
+package com.insomniacmath.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
+import com.insomniacmath.Fraction;
+import com.insomniacmath.R;
 import com.insomniacmath.exceptions.BadSymbolException;
 
 public class MatrixView extends MatrixModel {

@@ -1,9 +1,13 @@
-package com.insomniacmath;
+package com.insomniacmath.ui;
 //0xFF234563
 
 import android.content.Context;
 import android.view.View;
 import android.widget.*;
+import com.insomniacmath.Constants;
+import com.insomniacmath.Fraction;
+import com.insomniacmath.Solver;
+import com.insomniacmath.Utils;
 import com.insomniacmath.exceptions.BadSymbolException;
 import com.insomniacmath.exceptions.NotSquareException;
 import com.insomniacmath.exceptions.SingularMatrixException;

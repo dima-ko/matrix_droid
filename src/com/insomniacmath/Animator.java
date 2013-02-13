@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animations.*;
+import com.insomniacmath.ui.MatrixView;
 
 public class Animator {
 

@@ -5,8 +5,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animator;
 import com.insomniacmath.Constants;
-import com.insomniacmath.MatrixModel;
-import com.insomniacmath.MatrixView;
+import com.insomniacmath.ui.MatrixView;
 
 abstract public class Animation implements Constants {
 

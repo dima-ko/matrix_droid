@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animator;
 import com.insomniacmath.Fraction;
-import com.insomniacmath.MatrixView;
+import com.insomniacmath.ui.MatrixView;
 import com.insomniacmath.R;
 
 public class GausAnimation extends Animation {

@@ -11,6 +11,7 @@ import android.widget.*;
 import com.insomniacmath.exceptions.BadSymbolException;
 import com.insomniacmath.exceptions.NotSquareException;
 import com.insomniacmath.exceptions.SingularMatrixException;
+import com.insomniacmath.ui.MatrixView;
 import org.ejml.simple.SimpleMatrix;
 
 
@@ -126,7 +127,7 @@ public class Solver implements Constants {
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
-        solvationView.setBackgroundResource(R.drawable.solve_bg);
+        solvationView.setBackgroundColor(0xff222222);
         solvationView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -146,7 +147,7 @@ public class Solver implements Constants {
         resultView.setGravity(Gravity.CENTER_HORIZONTAL);
         resultView.setOrientation(LinearLayout.HORIZONTAL);
         resultView.setPadding(0, 5, 0, 0);
-        resultView.setBackgroundColor(0x12345678);
+        resultView.setBackgroundColor(0xff000000);
         resultView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -504,6 +505,7 @@ public class Solver implements Constants {
                 resultView.removeAllViews();
             case STATE_SYSTEM_EXPLAINING:
                 resultView.removeView(resultMatrixLayout);
+                if(resMatrixModel!=null)
                 resMatrixModel.onDestroy();
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:

@@ -3,12 +3,11 @@ package com.insomniacmath.Animations;
 
 import android.widget.LinearLayout;
 import com.insomniacmath.Animator;
-import com.insomniacmath.MatrixModel;
-import com.insomniacmath.MatrixView;
+import com.insomniacmath.ui.MatrixView;
 
 public class InverseAnimation extends Animation {
 
-     private MatrixView resultMW;
+    private MatrixView resultMW;
 
     public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1, MatrixView resMW) {
     }
