@@ -53,6 +53,7 @@ public class Solver implements Constants {
     Dialog dialog;
     private View actionButton;
     private View backButton;
+    private View solveButton;
 
     public Solver(Context context, LinearLayout mainView) {
 
@@ -194,31 +195,33 @@ public class Solver implements Constants {
         dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
         dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
 
+        solveButton = actionBar.findViewById(R.id.solve);
+        solveButton.setOnClickListener(actionsClickListener);
+
         backButton = actionBar.findViewById(R.id.back_arrow);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        backButton.setOnClickListener(actionsClickListener);
 
         actionButton = actionBar.findViewById(R.id.action);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((Activity) _context).getWindow().setSoftInputMode(
-                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                dialog.show();
-            }
-        });
+        actionButton.setOnClickListener(actionsClickListener);
     }
 
     View.OnClickListener actionsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (dialog != null && dialog.isShowing())
-                dialog.dismiss();
-            onMenu(v.getId());
+            int id = v.getId();
+            if (id == R.id.action) {
+                ((Activity) _context).getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                dialog.show();
+            } else if (id == R.id.back_arrow) {
+                onBackPressed();
+            } else if (id == R.id.solve) {
+                onBackPressed();
+            } else {
+                if (dialog != null && dialog.isShowing())
+                    dialog.dismiss();
+                onMenu(id);
+            }
         }
     };
 
@@ -412,7 +415,7 @@ public class Solver implements Constants {
     private void showXplainButton() {
         backButton.setVisibility(View.VISIBLE);
         actionButton.setVisibility(View.GONE);
-        xplainButton = (Button) mainView.findViewById(R.id.solve);
+        xplainButton = (Button) mainView.findViewById(R.id.explain);
         xplainButton.setVisibility(View.VISIBLE);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
