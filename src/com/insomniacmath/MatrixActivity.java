@@ -1,13 +1,7 @@
 package com.insomniacmath;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -35,31 +29,18 @@ public class MatrixActivity extends Activity implements Constants {
 
     }
 
-    private boolean isChangedStat = false;
-    private static final int SOLVE_ITEM = Menu.FIRST;
-
 //    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        if (solver.state == STATE_MULTIPLY_PRESSED ||
-//                solver.state == STATE_SIDE_COLUMN_ADDED) {
-//            menu.clear();
-//            menu.add(0, SOLVE_ITEM, 0, "Solve");
-//        }
-//        return super.onPrepareOptionsMenu(menu);
+//    public void onCreateContextMenu(ContextMenu menu, View v,
+//                                    ContextMenu.ContextMenuInfo menuInfo) {
+//        menu.add(Menu.NONE, MENU_EDIT, 0, R.string.determinant);
+//        menu.add(Menu.NONE, MENU_DELETE, 1, R.string.multiply);
 //    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        menu.add(Menu.NONE, MENU_EDIT, 0, R.string.determinant);
-        menu.add(Menu.NONE, MENU_DELETE, 1, R.string.multiply);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        solver.onMenu(item.getItemId());
-        return true;
-    }
+//
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        solver.onMenu(item.getItemId());
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {

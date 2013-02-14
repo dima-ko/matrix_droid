@@ -183,7 +183,9 @@ public class Solver implements Constants {
             @Override
             public void onClick(View v) {
                 Dialog dialog = new Dialog(_context);
-
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.actions_menu);
+                dialog.show();
             }
         });
     }

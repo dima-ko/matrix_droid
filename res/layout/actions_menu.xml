@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:orientation="vertical"
+              android:layout_height="wrap_content">
+
+    <Button
+            android:layout_height="wrap_content"
+            android:layout_width="300px"
+            android:text="@string/determinant"
+            android:id="@+id/determinant"
+            />
+
+    <Button
+            android:id="@+id/multiply"
+            android:layout_height="wrap_content"
+            android:layout_width="300px"
+            android:text="@string/multiply"
+            />
+
+    <Button
+            android:id="@+id/invers"
+            android:layout_height="wrap_content"
+            android:layout_width="300px"
+            android:text="@string/invert"
+            />
+
+    <Button
+            android:id="@+id/solve_sys"
+            android:layout_height="wrap_content"
+            android:layout_width="300px"
+            android:text="@string/lin_sys"
+            />
+
+    <Button
+            android:id="@+id/rank"
+            android:layout_height="wrap_content"
+            android:layout_width="300px"
+            android:text="@string/rank"
+            />
+
+
+</LinearLayout>
