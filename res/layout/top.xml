@@ -3,6 +3,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:background="@drawable/action_bar_bg"
-                android:layout_height="55dp">
+                android:layout_height="wrap_content">
+
+    <Button
+            android:id="@+id/action"
+            android:textColor="#ffffffff"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:textSize="30px"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Action"
+            android:background="@drawable/spinner_button"
+            />
+
+    <Button
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:visibility="gone"
+            android:id="@+id/action"
+            android:textColor="#ffffffff"
+            android:textSize="30px"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Explain"
+            android:background="@drawable/spinner_button"
+            />
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.insomniacmath;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
@@ -54,8 +55,7 @@ public class Solver implements Constants {
         wrapWrap.gravity = Gravity.LEFT;
         wrapWrapCenterHor.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 
-        RelativeLayout actionBar = (RelativeLayout) ((Activity) context).getLayoutInflater().inflate(R.layout.top, null);
-        mainView.addView(actionBar, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        setActionBar(mainView);
 
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
 
@@ -129,7 +129,6 @@ public class Solver implements Constants {
         });
         mainView.addView(bottomPlusHolder, fillWrap);
 
-
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
         solvationView = new LinearLayout(context);
         solvationView.setBackgroundColor(0xff222222);
@@ -175,6 +174,18 @@ public class Solver implements Constants {
 
         animator = new Animator(mainMatrixModel);
         animator.setView(solvationView);
+    }
+
+    private void setActionBar(LinearLayout mainView) {
+        RelativeLayout actionBar = (RelativeLayout) ((Activity) _context).getLayoutInflater().inflate(R.layout.top, null);
+        mainView.addView(actionBar, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        actionBar.findViewById(R.id.action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(_context);
+
+            }
+        });
     }
 
     public void onDestroy() {
