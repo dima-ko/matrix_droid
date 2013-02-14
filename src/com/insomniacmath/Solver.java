@@ -54,6 +54,7 @@ public class Solver implements Constants {
     private View actionButton;
     private View backButton;
     private View solveButton;
+    private View explaining;
 
     public Solver(Context context, LinearLayout mainView) {
 
@@ -151,7 +152,7 @@ public class Solver implements Constants {
 
         solvationView.setOrientation(LinearLayout.VERTICAL);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvationView.setVisibility(View.GONE);
+        solvationView.setVisibility(View.GONE);     //todo add margin
         mainView.addView(solvationView);
 
         resultView = new LinearLayout(context);
@@ -195,6 +196,8 @@ public class Solver implements Constants {
         dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
         dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
 
+        explaining = actionBar.findViewById(R.id.explaining);
+
         solveButton = actionBar.findViewById(R.id.solve);
         solveButton.setOnClickListener(actionsClickListener);
 
@@ -216,7 +219,17 @@ public class Solver implements Constants {
             } else if (id == R.id.back_arrow) {
                 onBackPressed();
             } else if (id == R.id.solve) {
-                onBackPressed();
+                if (state == STATE_SIDE_COLUMN_ADDED) {
+                    try {
+                        findSystemSolvation();
+                        solveButton.setVisibility(View.GONE);
+                    } catch (SingularMatrixException e) {
+                        e.printStackTrace();  //Todo
+                    }
+                } else if (state == STATE_MULTIPLY_PRESSED) {
+                    findMultiplication();
+                    solveButton.setVisibility(View.GONE);
+                }
             } else {
                 if (dialog != null && dialog.isShowing())
                     dialog.dismiss();
@@ -419,6 +432,7 @@ public class Solver implements Constants {
         xplainButton.setVisibility(View.VISIBLE);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                explaining.setVisibility(View.VISIBLE);
                 solvationView.setVisibility(View.VISIBLE);
                 solvationView.removeAllViews();
                 if (state == STATE_SYSTEM_SOLVED) {
@@ -436,13 +450,6 @@ public class Solver implements Constants {
 
     }
 
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.context_menu, menu);
-//    }
-
-
     private void addResultText() {
         resultText = new TextView(_context);
         resultText.setTextSize(20);
@@ -457,6 +464,9 @@ public class Solver implements Constants {
         state = STATE_MULTIPLY_PRESSED;
         bottomPlusHolder.setVisibility(View.GONE);
         rightPlusHolder.setVisibility(View.GONE);
+        actionButton.setVisibility(View.GONE);
+        solveButton.setVisibility(View.VISIBLE);
+        backButton.setVisibility(View.VISIBLE);
 
         secondMatrixView = new LinearLayout(_context);
 
@@ -491,6 +501,8 @@ public class Solver implements Constants {
     }
 
     private void startExplain() {
+        ((Activity) _context).getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         switch (state) {
             case STATE_DETERMIN_PRESSED:
                 state = STATE_DETERMIN_EXPLAINING;
@@ -537,16 +549,7 @@ public class Solver implements Constants {
 //            case R.id.eigen:
 //                findEigenVectors();
 //                break;
-            case Menu.FIRST:
-                if (state == STATE_SIDE_COLUMN_ADDED) {
-                    try {
-                        findSystemSolvation();
-                    } catch (SingularMatrixException e) {
-                        e.printStackTrace();  //Todo
-                    }
-                } else if (state == STATE_MULTIPLY_PRESSED)
-                    findMultiplication();
-                break;
+
         }
     }
 

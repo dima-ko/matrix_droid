@@ -59,11 +59,12 @@
             />
 
     <TextView
+            android:id="@+id/explaining"
             android:visibility="gone"
             android:layout_centerInParent="true"
             android:textColor="#ffffffff"
             android:textSize="30px"
-            android:text="Explanation"
+            android:text="Explaining"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             />
