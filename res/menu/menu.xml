@@ -15,7 +15,8 @@
     <item android:id="@+id/solve_sys"
           android:icon="@drawable/sys"
           android:title="@string/lin_sys"/>
-    <item android:id="@+id/eigen"
-          android:enabled="false"
-          android:title="@string/eigen"/>
+    <!--<item android:id="@+id/eigen"-->
+          <!--android:enabled="false"-->
+          <!--android:title="@string/eigen"/>-->
+
 </menu>

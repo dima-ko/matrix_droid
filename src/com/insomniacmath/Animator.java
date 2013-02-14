@@ -94,7 +94,6 @@ public class Animator {
         protected Object doInBackground(Object... objects) {
             while (!this.isCancelled()) {
                 try {
-
                     Thread.sleep(timeout);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -28,7 +28,6 @@ public class MatrixActivity extends Activity implements Constants {
         mainView.setOrientation(LinearLayout.VERTICAL);
         solver = new Solver(this, mainView);
         setContentView(mainView);
-        Toast.makeText(this, getString(R.string.press_menu),Toast.LENGTH_LONG).show();
 
     }
 

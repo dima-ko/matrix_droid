@@ -1,12 +1,10 @@
 package com.insomniacmath;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.insomniacmath.exceptions.BadSymbolException;
 import com.insomniacmath.exceptions.NotSquareException;
@@ -55,6 +53,10 @@ public class Solver implements Constants {
         _context = context;
         wrapWrap.gravity = Gravity.LEFT;
         wrapWrapCenterHor.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+
+        RelativeLayout actionBar = (RelativeLayout) ((Activity) context).getLayoutInflater().inflate(R.layout.top, null);
+        mainView.addView(actionBar, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
 
         scrollWrapper = new LinearLayout(context);
@@ -94,7 +96,10 @@ public class Solver implements Constants {
         scrollWrapper.addView(rightPlusHolder, wrapWrap);
 
         scrollView.addView(scrollWrapper, wrapWrap);
-        mainView.addView(scrollView, wrapWrap);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(wrapWrap);
+        params.setMargins(10, 19, 0, 0);
+        mainView.addView(scrollView, params);
 
         bottomPlusHolder = new LinearLayout(context);
         RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80, 80);
@@ -363,15 +368,31 @@ public class Solver implements Constants {
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 solvationView.setVisibility(View.VISIBLE);
-                xplainButton.setVisibility(View.GONE);
                 solvationView.removeAllViews();
-                startExplain();
+                if (state == STATE_SYSTEM_SOLVED) {
+                    showSystemDialog();
+                } else {
+                    xplainButton.setVisibility(View.GONE);
+                    startExplain();
+                }
             }
         });
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(160, 64);
         params.setMargins(15, 0, 0, 0);
         resultView.addView(xplainButton, params);
     }
+
+    private void showSystemDialog() {
+
+
+    }
+
+//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+//        super.onCreateContextMenu(menu, v, menuInfo);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.context_menu, menu);
+//    }
+
 
     private void addResultText() {
         resultText = new TextView(_context);
@@ -429,7 +450,7 @@ public class Solver implements Constants {
                 state = STATE_MULTIPLY_EXPLAINING;
                 break;
             case STATE_SYSTEM_SOLVED:
-                state = STATE_SYSTEM_EXPLAINING;
+                state = STATE_SYSTEM_EXPLAINING_GAUS;
                 break;
             case STATE_INVERT_FIND:
                 state = STATE_INVERT_EXPLAINING;
@@ -464,9 +485,9 @@ public class Solver implements Constants {
                 mainMatrixModel.addSideColumn();
                 state = STATE_SIDE_COLUMN_ADDED;
                 break;
-            case R.id.eigen:
-                findEigenVectors();
-                break;
+//            case R.id.eigen:
+//                findEigenVectors();
+//                break;
             case Menu.FIRST:
                 if (state == STATE_SIDE_COLUMN_ADDED) {
                     try {
@@ -506,7 +527,7 @@ public class Solver implements Constants {
                 mainMatrixLayout.removeView(secondMatrixView);
                 secondMatrixModel.onDestroy();
                 resultView.removeAllViews();
-            case STATE_SYSTEM_EXPLAINING:
+            case STATE_SYSTEM_EXPLAINING_GAUS:
                 resultView.removeView(resultMatrixLayout);
                 if (resMatrixModel != null)
                     resMatrixModel.onDestroy();
