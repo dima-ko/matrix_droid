@@ -37,6 +37,7 @@ public class Solver implements Constants {
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
     private Context _context;
+    private LinearLayout mainView;
     private LinearLayout solvationView;
 
     LinearLayout bottomPlusHolder;
@@ -49,9 +50,13 @@ public class Solver implements Constants {
     LinearLayout scrollWrapper;
     MatrixView resMatrixModel;
 
+    Dialog dialog;
+    private View actionButton;
+
     public Solver(Context context, LinearLayout mainView) {
 
         _context = context;
+        this.mainView = mainView;
         wrapWrap.gravity = Gravity.LEFT;
         wrapWrapCenterHor.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
 
@@ -179,18 +184,37 @@ public class Solver implements Constants {
     private void setActionBar(LinearLayout mainView) {
         RelativeLayout actionBar = (RelativeLayout) ((Activity) _context).getLayoutInflater().inflate(R.layout.top, null);
         mainView.addView(actionBar, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        actionBar.findViewById(R.id.action).setOnClickListener(new View.OnClickListener() {
+        dialog = new Dialog(_context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.actions_menu);
+        dialog.findViewById(R.id.determinant).setOnClickListener(actionsClickListener);
+        dialog.findViewById(R.id.multiply).setOnClickListener(actionsClickListener);
+        dialog.findViewById(R.id.invers).setOnClickListener(actionsClickListener);
+        dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
+        dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
+
+        actionButton = actionBar.findViewById(R.id.action);
+        actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(_context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.actions_menu);
+                ((Activity) _context).getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 dialog.show();
             }
         });
     }
 
+    View.OnClickListener actionsClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (dialog != null && dialog.isShowing())
+                dialog.dismiss();
+            onMenu(v.getId());
+        }
+    };
+
     public void onDestroy() {
+        stopExplain();
         mainMatrixModel.onDestroy();
     }
 
@@ -210,7 +234,7 @@ public class Solver implements Constants {
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
 
             state = STATE_RANG_FIND;
-            addXplainButton();
+            showXplainButton();
         } catch (BadSymbolException e) {
             resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
@@ -227,7 +251,7 @@ public class Solver implements Constants {
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
             state = STATE_DETERMIN_PRESSED;
             if (mainMatrixModel.rows == 2 || mainMatrixModel.rows == 3)
-                addXplainButton();
+                showXplainButton();
         } catch (BadSymbolException e) {
             resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
@@ -276,7 +300,7 @@ public class Solver implements Constants {
         resMatrixModel.fillViewsFromMatrix();
         resMatrixModel.refreshVisible();
         animator.setResultMW(resMatrixModel);
-        addXplainButton();
+        showXplainButton();
         animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
     }
 
@@ -324,7 +348,7 @@ public class Solver implements Constants {
         resMatrixModel.refreshVisible();
         animator.setResultMW(resMatrixModel);
         animator.setAnimType(Animator.ANIM_INVERT, mainMatrixModel.rows, mainMatrixModel.columns);
-        addXplainButton();
+        showXplainButton();
     }
 
     private void findSystemSolvation() throws SingularMatrixException {
@@ -369,15 +393,15 @@ public class Solver implements Constants {
         animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixModel.rows, mainMatrixModel.columns);
         state = STATE_SYSTEM_SOLVED;
         animator.setResultMW(resMatrixModel);
-        addXplainButton();
+        showXplainButton();
     }
 
     // -------------------------------------add UI elements----------------------------------------------------
 
-    private void addXplainButton() {
-        xplainButton = new Button(_context);
-        xplainButton.setId(EXPLAIN_BUTTON_ID);
-        xplainButton.setBackgroundResource(R.drawable.xplain_button);
+    private void showXplainButton() {
+        actionButton.setVisibility(View.GONE);
+        xplainButton = (Button) mainView.findViewById(R.id.solve);
+        xplainButton.setVisibility(View.VISIBLE);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 solvationView.setVisibility(View.VISIBLE);
@@ -390,9 +414,6 @@ public class Solver implements Constants {
                 }
             }
         });
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(160, 64);
-        params.setMargins(15, 0, 0, 0);
-        resultView.addView(xplainButton, params);
     }
 
     private void showSystemDialog() {
@@ -523,6 +544,7 @@ public class Solver implements Constants {
                 resultText.setVisibility(View.GONE);
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.GONE);
+                actionButton.setVisibility(View.VISIBLE);
                 break;
             case STATE_DETERMIN_EXPLAINING:
                 animator.stopExplain();
@@ -530,6 +552,7 @@ public class Solver implements Constants {
                 state = STATE_DETERMIN_PRESSED;
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.VISIBLE);
+                actionButton.setVisibility(View.VISIBLE);
                 break;
             case STATE_MULTIPLY_EXPLAINED:
                 resultView.removeView(resultMatrixLayout);

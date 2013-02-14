@@ -72,8 +72,10 @@ public class Animator {
 
 
     public void stopExplain() {
-        tic.cancel(true);
-        mainMW.getCanvas().clear();
+        if (tic != null)
+            tic.cancel(true);
+        if (mainMW != null)
+            mainMW.getCanvas().clear();
     }
 
     public void setView(LinearLayout solvationView) {
