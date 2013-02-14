@@ -52,6 +52,7 @@ public class Solver implements Constants {
 
     Dialog dialog;
     private View actionButton;
+    private View backButton;
 
     public Solver(Context context, LinearLayout mainView) {
 
@@ -193,6 +194,14 @@ public class Solver implements Constants {
         dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
         dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
 
+        backButton = actionBar.findViewById(R.id.back_arrow);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         actionButton = actionBar.findViewById(R.id.action);
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,6 +261,8 @@ public class Solver implements Constants {
             state = STATE_DETERMIN_PRESSED;
             if (mainMatrixModel.rows == 2 || mainMatrixModel.rows == 3)
                 showXplainButton();
+            bottomPlusHolder.setVisibility(View.GONE);
+            rightPlusHolder.setVisibility(View.GONE);
         } catch (BadSymbolException e) {
             resultText.setText(_context.getString(R.string.bad_elements));
             resultText.setTextColor(Color.RED);
@@ -399,6 +410,7 @@ public class Solver implements Constants {
     // -------------------------------------add UI elements----------------------------------------------------
 
     private void showXplainButton() {
+        backButton.setVisibility(View.VISIBLE);
         actionButton.setVisibility(View.GONE);
         xplainButton = (Button) mainView.findViewById(R.id.solve);
         xplainButton.setVisibility(View.VISIBLE);
@@ -544,7 +556,10 @@ public class Solver implements Constants {
                 resultText.setVisibility(View.GONE);
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.GONE);
+                backButton.setVisibility(View.GONE);
                 actionButton.setVisibility(View.VISIBLE);
+                bottomPlusHolder.setVisibility(View.VISIBLE);
+                rightPlusHolder.setVisibility(View.VISIBLE);
                 break;
             case STATE_DETERMIN_EXPLAINING:
                 animator.stopExplain();
@@ -552,7 +567,7 @@ public class Solver implements Constants {
                 state = STATE_DETERMIN_PRESSED;
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.VISIBLE);
-                actionButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
                 break;
             case STATE_MULTIPLY_EXPLAINED:
                 resultView.removeView(resultMatrixLayout);
