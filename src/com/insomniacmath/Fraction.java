@@ -1,6 +1,5 @@
 package com.insomniacmath;
 
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
@@ -9,7 +8,7 @@ import android.text.style.UnderlineSpan;
  * The Fraction class implements non-negative fractions, i.e., rational
  * numbers.
  */
-public class Fraction implements Cloneable {
+public class Fraction {
 
     private int num;
     private int denom;
@@ -50,9 +49,8 @@ public class Fraction implements Cloneable {
         return num;
     }
 
-    @Override
-    protected Fraction clone() throws CloneNotSupportedException {
-        return (Fraction) super.clone();
+    public Fraction clone() {
+        return new Fraction(num, denom);
     }
 
     public int getDenom() {
