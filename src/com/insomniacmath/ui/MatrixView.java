@@ -51,7 +51,7 @@ public class MatrixView extends MatrixModel {
     }
 
     public void buildView() {
-
+        _view.removeAllViews();
         leftBraket = new ImageView(context);
         leftBraket.setImageResource(R.drawable.left_braket);
         _view.addView(leftBraket, new LinearLayout.LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));

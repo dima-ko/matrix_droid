@@ -108,10 +108,8 @@ public class Animator {
         @Override
         protected void onProgressUpdate(Object... values) {
             Log.d("zzz", "zzz");
-
             anim.tic(counter);
             counter++;
-            super.onProgressUpdate(values);
         }
     }
 

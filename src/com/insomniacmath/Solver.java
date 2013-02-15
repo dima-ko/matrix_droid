@@ -591,6 +591,15 @@ public class Solver implements Constants {
                 resultView.removeView(resultMatrixLayout);
                 if (resMatrixModel != null)
                     resMatrixModel.onDestroy();
+                break;
+            case STATE_INVERT_EXPLAINING:
+                animator.stopExplain();
+            case STATE_INVERT_EXPLAINED:
+                solvationView.setVisibility(View.GONE);    //todo decimal is FRACTION
+                explaining.setVisibility(View.GONE);
+                xplainButton.setVisibility(View.VISIBLE);
+                state = STATE_INVERT_FIND;
+                break;
             case STATE_INVERT_FIND:
             case STATE_RANG_FIND:
             case STATE_SIDE_COLUMN_ADDED:

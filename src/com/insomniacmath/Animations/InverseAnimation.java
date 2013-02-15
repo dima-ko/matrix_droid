@@ -21,7 +21,7 @@ public class InverseAnimation extends Animation {
 
     @Override
     public void tic(int t) {
-        if (t == dim * dim) {
+        if (t >= dim * dim) {
             animator.stopExplain();
             return;
         }
@@ -31,7 +31,8 @@ public class InverseAnimation extends Animation {
 
         MinorSolvationView minor = new MinorSolvationView(solvation.getContext(), row, column,
                 Utils.removeRowAndColumn(mW1.mFrac, row, column));
-        solvation.addView(minor, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        solvation.addView(minor, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
     }
 }
