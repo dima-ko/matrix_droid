@@ -38,7 +38,7 @@ public class MinorSolvationView extends LinearLayout {
         LinearLayout matrixLayout = new LinearLayout(context);
         matrixView = new MatrixView(context, matrixLayout, 0);
         matrixView.mFrac = Fraction.deepCopy(fraction);
-        matrixView.buildView();
+        matrixView.buildBricks();
         matrixView.refreshVisible();
         addView(matrixLayout, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));

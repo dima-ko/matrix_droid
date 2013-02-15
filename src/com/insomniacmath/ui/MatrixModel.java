@@ -4,16 +4,21 @@ import com.insomniacmath.Constants;
 import com.insomniacmath.Fraction;
 
 
-public abstract class MatrixModel implements Constants {
+public class MatrixModel implements Constants {
 
+    public static final int INIT_SIZE = 2;
     public Fraction[][] mFrac = null;
     public Fraction[] sideFrac = null;
-    public int columns = 2, rows = 2;
+    public int columns = INIT_SIZE, rows = INIT_SIZE;
 
     public MatrixModel() {
-        mFrac = new Fraction[2][];
-        for (int i = 0; i < 2; i++) {
-            mFrac[i] = new Fraction[2];
+        mFrac = new Fraction[INIT_SIZE][];
+        for (int i = 0; i < INIT_SIZE; i++) {
+            mFrac[i] = new Fraction[INIT_SIZE];
+            mFrac[i] = new Fraction[INIT_SIZE];
+            for (int j = 0; j < INIT_SIZE; j++) {
+                mFrac[i][j] = new Fraction(0);
+            }
         }
     }
 
