@@ -3,29 +3,23 @@ package com.insomniacmath.ui;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.*;
+import android.widget.Toast;
 import com.insomniacmath.Constants;
 import com.insomniacmath.Fraction;
 import com.insomniacmath.Solver;
-import com.insomniacmath.Utils;
 import com.insomniacmath.exceptions.BadSymbolException;
-import com.insomniacmath.exceptions.NotSquareException;
-import com.insomniacmath.exceptions.SingularMatrixException;
-import org.ejml.simple.SimpleMatrix;
-
+//todo package!!!!
 
 public abstract class MatrixModel implements Constants {
 
     public static final int SIDE_COL_ID = 80;
     protected final Context context;
-    public double[][] m;
     public Fraction[][] mFrac = null;
     public Fraction[] sideFrac;
     public int columns = 2, rows = 2;
     public int number; // made for testing purposes
 
     public boolean elementsFractions = false;
-    Double[] side;
 
     View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
         public void onFocusChange(View view, boolean b) {
@@ -35,7 +29,7 @@ public abstract class MatrixModel implements Constants {
     };
 //    private boolean mutable = true;
 
-    public  MatrixModel(Context context, int number) {    //todo: clear editbox on longclick
+    public MatrixModel(Context context, int number) {    //todo: clear editbox on longclick
         this.context = context;
 
 
@@ -117,17 +111,6 @@ public abstract class MatrixModel implements Constants {
     }
 
 
-    public double findDeterminant() throws NotSquareException, BadSymbolException {
-        fillMatrixFromViews();
-        if (columns != rows) {
-//            Toast.makeText(context, "no square", 2000).show();
-            throw new NotSquareException();
-        } else {
-            return Utils.determin(m);
-        }
-
-    }
-
     protected abstract void fillMatrixFromViews() throws BadSymbolException;
 
     public void adjustSizeTo(int newColumns, int newRows) {
@@ -138,41 +121,6 @@ public abstract class MatrixModel implements Constants {
             m[i] = new double[columns];
         }
     }
-
-    public SimpleMatrix findInverseDouble() {
-        SimpleMatrix orig = new SimpleMatrix(m);
-        return orig.invert();
-    }
-
-    public Fraction[][] findInverseFraction() {
-        return Utils.inverse(m);
-    }
-
-    public double findRang() throws BadSymbolException {
-        fillMatrixFromViews();
-        SimpleMatrix orig = new SimpleMatrix(m);
-        return orig.svd(true).rank();
-    }
-
-    public SimpleMatrix solveSLEDouble() {            //todo: exception
-        double[][] rightPart = new double[rows][];
-        for (int i = 0; i < rows; i++) {
-            rightPart[i] = new double[1];
-            rightPart[i][0] = side[i];
-        }
-        SimpleMatrix A = new SimpleMatrix(m);
-        SimpleMatrix b = new SimpleMatrix(rightPart);
-        return A.solve(b);
-    }
-
-    public Fraction[] solveSLEFraction() throws SingularMatrixException {
-        return Utils.gauss(mFrac, sideFrac);
-    }
-
-
-
-
-
 
 
 }

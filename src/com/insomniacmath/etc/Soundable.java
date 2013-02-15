@@ -1,4 +1,4 @@
-package com.insomniacmath;
+package com.insomniacmath.etc;
 
 
 public interface Soundable {

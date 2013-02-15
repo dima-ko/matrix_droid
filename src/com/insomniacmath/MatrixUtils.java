@@ -1,74 +1,14 @@
 package com.insomniacmath;
 
 
-import android.app.Activity;
-import android.content.res.Configuration;
-import android.graphics.Typeface;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import com.insomniacmath.etc.Utils;
+import com.insomniacmath.exceptions.BadSymbolException;
+import com.insomniacmath.exceptions.NotSquareException;
 import com.insomniacmath.exceptions.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
-public class Utils {
-
-    public static boolean isHoneyCombOrMore = false;
-    public static int height;
-    public static int width;
-    public static int flowidth;
-    public static int smaller2dim;
-    public static int smallerDim;
-    public static boolean isTab;
-    public static boolean isSmall;
-    public static boolean isPortrait;
-    public static float scale;
-    public static Typeface roboto_light;
-
-    public static void resolvePlatform(Activity activity) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        height = metrics.heightPixels;
-        width = metrics.widthPixels;
-        int vers = Integer.parseInt(Build.VERSION.RELEASE.substring(0, 1));
-        if (vers > 2) Utils.isHoneyCombOrMore = true;
-
-        int screenSizeType = activity.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        if (screenSizeType == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            isTab = true;
-        } else if (screenSizeType == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-            isSmall = true;
-        }
-
-        flowidth = isTab ? 400 : width;
-        isPortrait = (height > width);
-        smallerDim = (height > width) ? width : height;
-
-        smaller2dim = isPortrait ? height / 2 : width / 2;
-
-
-        scale = activity.getResources().getDisplayMetrics().density;
-
-        roboto_light = Typeface.createFromAsset(activity.getAssets(), "fonts/Roboto-Light.ttf");
-    }
-
-    /**
-     * converts number to string, wraps with brakets , if number is negative
-     *
-     * @param number
-     * @param needBraketNegative
-     * @return
-     */
-    public static String round(double number, boolean needBraketNegative) {
-        if (number == (int) number) {
-            if (number < 0 && needBraketNegative)
-                return "(" + (int) number + ")";
-            else return (int) number + "";
-        } else {
-            if (number < 0 && needBraketNegative)
-                return "(" + number + ")";
-            else return number + "";
-        }
-    }
+public class MatrixUtils {
 
     private static final double EPSILON = 1e-10;
 
@@ -175,7 +115,6 @@ public class Utils {
     }
 
     public static Fraction[][] removeRowAndColumn(Fraction[][] a, int excludedRow, int excludedColumn) {
-
         int size = a.length - 1;
         Fraction[][] res = new Fraction[size][];
         for (int i = 0; i < size; i++) {
@@ -187,6 +126,46 @@ public class Utils {
             }
         }
         return res;
+    }
+
+    public static SimpleMatrix findInverseDouble() {
+        SimpleMatrix orig = new SimpleMatrix(m);
+        return orig.invert();
+    }
+
+    public static Fraction[][] findInverseFraction() {
+        return Utils.inverse(m);
+    }
+
+    public static double findRang() throws BadSymbolException {
+        SimpleMatrix orig = new SimpleMatrix(m);
+        return orig.svd(true).rank();
+    }
+
+    public static SimpleMatrix solveSLEDouble() {            //todo: exception
+        double[][] rightPart = new double[rows][];
+        for (int i = 0; i < rows; i++) {
+            rightPart[i] = new double[1];
+            rightPart[i][0] = side[i];
+        }
+        SimpleMatrix A = new SimpleMatrix(m);
+        SimpleMatrix b = new SimpleMatrix(rightPart);
+        return A.solve(b);
+    }
+
+    public static double findDeterminant() throws NotSquareException, BadSymbolException {
+        fillMatrixFromViews();
+        if (columns != rows) {
+//            Toast.makeText(context, "no square", 2000).show();
+            throw new NotSquareException();
+        } else {
+            return Utils.determin(m);
+        }
+
+    }
+
+    public static Fraction[] solveSLEFraction() throws SingularMatrixException {
+        return Utils.gauss(mFrac, sideFrac);
     }
 
 }

@@ -3,7 +3,6 @@ package com.insomniacmath.Animations;
 
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.ui.MatrixView;
 

@@ -5,9 +5,8 @@ import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.insomniacmath.Animator;
 import com.insomniacmath.ui.MatrixView;
-import com.insomniacmath.Utils;
+import com.insomniacmath.etc.Utils;
 
 public class Det3x3Animation extends Animation {
 

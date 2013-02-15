@@ -1,4 +1,4 @@
-package com.insomniacmath;
+package com.insomniacmath.Animations;
 
 
 import android.os.AsyncTask;

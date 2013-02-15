@@ -3,8 +3,7 @@ package com.insomniacmath.Animations;
 
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animator;
-import com.insomniacmath.Utils;
+import com.insomniacmath.etc.Utils;
 import com.insomniacmath.ui.MatrixView;
 import com.insomniacmath.ui.MinorSolvationView;
 

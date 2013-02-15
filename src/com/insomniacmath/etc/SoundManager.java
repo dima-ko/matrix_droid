@@ -1,8 +1,9 @@
-package com.insomniacmath;
+package com.insomniacmath.etc;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import com.insomniacmath.R;
 
 import java.util.HashMap;
 

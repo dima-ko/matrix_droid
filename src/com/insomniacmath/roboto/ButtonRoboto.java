@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.Button;
 import com.insomniacmath.R;
-import com.insomniacmath.Utils;
+import com.insomniacmath.etc.Utils;
 
 /**
  * this class was made

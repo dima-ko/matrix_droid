@@ -1,10 +1,9 @@
 package com.insomniacmath.roboto;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.TextView;
-import com.insomniacmath.Utils;
+import com.insomniacmath.etc.Utils;
 
 /**
  * this class was made

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import com.insomniacmath.etc.Utils;
 
 public class MatrixActivity extends Activity implements Constants {
     private static final int MENU_EDIT = 3;

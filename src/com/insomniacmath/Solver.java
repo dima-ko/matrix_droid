@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.insomniacmath.Animations.Animator;
+import com.insomniacmath.etc.Utils;
 import com.insomniacmath.exceptions.BadSymbolException;
 import com.insomniacmath.exceptions.NotSquareException;
 import com.insomniacmath.exceptions.SingularMatrixException;

@@ -17,11 +17,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
+import com.insomniacmath.Constants;
 import com.insomniacmath.Fraction;
 import com.insomniacmath.R;
 import com.insomniacmath.exceptions.BadSymbolException;
 
-public class MatrixView extends MatrixModel {
+public abstract class MatrixView extends LinearLayout implements Constants {
 
     public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     public EditText[][] grid = new EditText[MAX_ROWS][];
@@ -303,36 +304,38 @@ public class MatrixView extends MatrixModel {
         canvas.onDestroy();
     }
 
-    public int getNextEdit(int direction, int curEditId) {
-        int column = curEditId % MAX_COLUMNS;
-        int row = (curEditId < SIDE_COL_ID) ?
-                curEditId / MAX_COLUMNS : (curEditId - SIDE_COL_ID);
-        if (direction == RIGHT) {
-            if (column != columns - 1)
-                return curEditId + 1;
-            else if (isSideColumnVisible && curEditId < SIDE_COL_ID) {
-                return SIDE_COL_ID + row;
-            }
-        } else if (direction == LEFT) {
-            if (curEditId >= SIDE_COL_ID) {
-                return (row * MAX_COLUMNS + columns - 1);
-            } else if (column != 0)
-                return curEditId - 1;
-        } else if (direction == UP) {
-            if (curEditId >= SIDE_COL_ID) {
-                if (curEditId - SIDE_COL_ID != 0)
-                    return --curEditId;
-            } else if (row != 0)
-                return curEditId - MAX_COLUMNS;
-        } else if (direction == DOWN) {
-            if (curEditId >= SIDE_COL_ID) {
-                if (curEditId - SIDE_COL_ID != rows - 1)
-                    return ++curEditId;
-            } else if (row != rows - 1)
-                return curEditId + MAX_COLUMNS;
-        }
-        return -1;
-    }
+//    public int getNextEdit(int direction, int curEditId) {
+//        int column = curEditId % MAX_COLUMNS;
+//        int row = (curEditId < SIDE_COL_ID) ?
+//                curEditId / MAX_COLUMNS : (curEditId - SIDE_COL_ID);
+//        if (direction == RIGHT) {
+//            if (column != columns - 1)
+//                return curEditId + 1;
+//            else if (isSideColumnVisible && curEditId < SIDE_COL_ID) {
+//                return SIDE_COL_ID + row;
+//            }
+//        } else if (direction == LEFT) {
+//            if (curEditId >= SIDE_COL_ID) {
+//                return (row * MAX_COLUMNS + columns - 1);
+//            } else if (column != 0)
+//                return curEditId - 1;
+//        } else if (direction == UP) {
+//            if (curEditId >= SIDE_COL_ID) {
+//                if (curEditId - SIDE_COL_ID != 0)
+//                    return --curEditId;
+//            } else if (row != 0)
+//                return curEditId - MAX_COLUMNS;
+//        } else if (direction == DOWN) {
+//            if (curEditId >= SIDE_COL_ID) {
+//                if (curEditId - SIDE_COL_ID != rows - 1)
+//                    return ++curEditId;
+//            } else if (row != rows - 1)
+//                return curEditId + MAX_COLUMNS;
+//        }
+//        return -1;
+//    }
+
+    protected abstract void updateUI();
 
 
 }
