@@ -271,7 +271,7 @@ public class Solver implements Constants {
         resultView.removeAllViews();
         addResultText();
         try {
-            resultText.setText("det = " + Utils.round(mainMatrixModel.findDeterminant(), false));
+            resultText.setText("Determinant = " + Utils.round(mainMatrixModel.findDeterminant(), false));
             resultText.setTextColor(Color.WHITE);
             animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
             state = STATE_DETERMIN_PRESSED;

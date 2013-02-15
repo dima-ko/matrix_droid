@@ -1,44 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
-              android:orientation="vertical"
-              android:layout_height="wrap_content">
+              android:layout_width="300px"
+              android:background="@color/white"
+              android:layout_height="wrap_content" android:baselineAligned="false">
 
-    <Button
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_width="300px"
-            android:text="@string/determinant"
-            android:id="@+id/determinant"
-            />
+            >
 
-    <Button
-            android:id="@+id/multiply"
-            android:layout_height="wrap_content"
-            android:layout_width="300px"
-            android:text="@string/multiply"
-            />
+        <Button
+                android:textColor="@color/white"
+                android:background="@drawable/action_menu_button"
+                android:layout_height="70dp"
+                android:layout_width="fill_parent"
+                android:text="@string/determinant"
+                android:id="@+id/determinant"
+                />
 
-    <Button
-            android:id="@+id/invers"
-            android:layout_height="wrap_content"
-            android:layout_width="300px"
-            android:text="@string/invert"
-            />
+        <Button
+                android:layout_marginTop="1dp"
+                android:textColor="@color/white"
+                android:background="@drawable/action_menu_button"
+                android:id="@+id/multiply"
+                android:layout_height="70dp"
+                android:layout_width="fill_parent"
+                android:text="@string/multiply"
+                />
 
-    <Button
-            android:id="@+id/solve_sys"
-            android:layout_height="wrap_content"
-            android:layout_width="300px"
-            android:text="@string/lin_sys"
-            />
+        <Button
+                android:layout_marginTop="1dp"
+                android:textColor="@color/white"
+                android:background="@drawable/action_menu_button"
+                android:id="@+id/invers"
+                android:layout_height="70dp"
+                android:layout_width="fill_parent"
+                android:text="@string/invert"
+                />
+    </LinearLayout>
 
-    <Button
-            android:id="@+id/rank"
+    <LinearLayout
+            android:layout_marginLeft="1dp"
+            android:textColor="@color/white"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_width="300px"
-            android:text="@string/rank"
-            />
+            >
+
+        <Button
+                android:textColor="@color/white"
+                android:background="@drawable/action_menu_button"
+                android:id="@+id/solve_sys"
+                android:layout_height="70dp"
+                android:layout_width="fill_parent"
+                android:text="@string/lin_sys"
+                />
+
+        <Button
+                android:layout_marginTop="1dp"
+                android:textColor="@color/white"
+                android:background="@drawable/action_menu_button"
+                android:id="@+id/rank"
+                android:layout_height="70dp"
+                android:layout_width="fill_parent"
+                android:text="@string/rank"
+                />
+
+        <Button
+                android:layout_marginTop="1dp"
+                android:textColor="@color/white"
+                android:background="@drawable/action_menu_button"
+                android:id="@+id/eigen"
+                android:layout_height="70dp"
+                android:layout_width="fill_parent"
+                android:text="@string/eigen"
+                />
+    </LinearLayout>
 
 
 </LinearLayout>
