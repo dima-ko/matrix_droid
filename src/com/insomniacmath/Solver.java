@@ -376,6 +376,8 @@ public class Solver implements Constants {
         animator.setResultMW(resMatrixModel);
         animator.setAnimType(Animator.ANIM_INVERT, mainMatrixModel.rows, mainMatrixModel.columns);
         showXplainButton();
+        bottomPlusHolder.setVisibility(View.GONE);
+        rightPlusHolder.setVisibility(View.GONE);
     }
 
     private void findSystemSolvation() throws SingularMatrixException {
@@ -570,6 +572,7 @@ public class Solver implements Constants {
             case STATE_DETERMIN_EXPLAINING:
                 animator.stopExplain();
             case STATE_DETERMIN_EXPLAINED:
+                explaining.setVisibility(View.GONE);
                 state = STATE_DETERMIN_PRESSED;
                 solvationView.setVisibility(View.GONE);
                 xplainButton.setVisibility(View.VISIBLE);

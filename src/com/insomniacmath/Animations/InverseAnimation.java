@@ -4,6 +4,7 @@ package com.insomniacmath.Animations;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animator;
+import com.insomniacmath.Utils;
 import com.insomniacmath.ui.MatrixView;
 import com.insomniacmath.ui.MinorSolvationView;
 
@@ -28,7 +29,8 @@ public class InverseAnimation extends Animation {
         int column = t % dim;
         int row = t / dim;
 
-        MinorSolvationView minor = new MinorSolvationView(solvation.getContext(), row, column, mW1);
+        MinorSolvationView minor = new MinorSolvationView(solvation.getContext(), row, column,
+                Utils.removeRowAndColumn(mW1.mFrac, row, column));
         solvation.addView(minor, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
     }

@@ -174,4 +174,19 @@ public class Utils {
         return result;
     }
 
+    public static Fraction[][] removeRowAndColumn(Fraction[][] a, int excludedRow, int excludedColumn) {
+
+        int size = a.length - 1;
+        Fraction[][] res = new Fraction[size][];
+        for (int i = 0; i < size; i++) {
+            res[i] = new Fraction[size];
+            for (int j = 0; j < size; j++) {
+                int origRow = (i < excludedRow) ? i : i + 1;
+                int origColumn = (j < excludedColumn) ? j : j + 1;
+                res[i][j] = a[origRow][origColumn];
+            }
+        }
+        return res;
+    }
+
 }

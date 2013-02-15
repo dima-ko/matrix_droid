@@ -50,7 +50,7 @@ public class MatrixView extends MatrixModel {
         return canvas;
     }
 
-    private void buildView() {
+    public void buildView() {
 
         leftBraket = new ImageView(context);
         leftBraket.setImageResource(R.drawable.left_braket);
