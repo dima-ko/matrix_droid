@@ -13,6 +13,7 @@ import com.insomniacmath.math.MatrixModel;
 public abstract class MatrixView extends LinearLayout implements Constants {
 
     public RelativeLayout bodyMatrix;
+    LinearLayout[] gridRows;
     public MatrixCanvas canvas;
 
     MatrixModel model;

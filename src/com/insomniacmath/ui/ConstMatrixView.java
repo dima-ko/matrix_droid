@@ -14,7 +14,6 @@ import com.insomniacmath.math.MatrixModel;
 public class ConstMatrixView extends MatrixView implements Constants {
 
     public TextView[][] grid;
-    LinearLayout[] gridRows;
 
     public ConstMatrixView(Context context, MatrixModel matrixModel, int number) {
         super(context, number);

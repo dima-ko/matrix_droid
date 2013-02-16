@@ -15,17 +15,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
-import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
-import com.insomniacmath.math.exceptions.BadSymbolException;
 
 public abstract class EditableMatrixView extends MatrixView implements Constants {
 
-    LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
+
     public EditText[][] grid = new EditText[MAX_ROWS][];
 
     public LinearLayout hintLayout;
@@ -43,7 +39,6 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
     }
 
     public void buildView() {
-        fillGrid();
 
         _view.addView(bodyMatrix, /*new LinearLayout.LayoutParams(200, 200)*/wrapWrap);
 
@@ -98,79 +93,17 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
     }
 
     protected void updateBody() {
-        if (mFrac != null) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    SpannableString text = mFrac[i][j].toSpanString();
-                    grid[i][j].setSingleLine(false);
-                    grid[i][j].setText(text);
-                    if (text.toString().contains("\n"))
-                        grid[i][j].setTextSize(12);
-                    else
-                        grid[i][j].setTextSize(18);
+        bodyMatrix.removeAllViews();
 
-                }
-                if (isSideColumnVisible) {
-                    SpannableString text = sideFrac[i].toSpanString();
-                    sideColumnEdits[i].setSingleLine(false);
-                    sideColumnEdits[i].setText(text);
-                    if (text.toString().contains("\n"))
-                        sideColumnEdits[i].setTextSize(12);
-                    else
-                        sideColumnEdits[i].setTextSize(18);
-                }
-            }
-    }
-
-    public void refreshVisible() {
-        for (int i = 0; i < MAX_ROWS; i++)
-            for (int j = 0; j < MAX_COLUMNS; j++)
-                if (i < rows && j < columns)
-                    grid[i][j].setVisibility(View.VISIBLE);
-                else
-                    grid[i][j].setVisibility(View.GONE);
-
-        leftBraket.setImageResource(R.drawable.left_braket);
-        rightBraket.setImageResource(R.drawable.right_braket);
-
-        if (isSideColumnVisible) {
-            sideColumn.setVisibility(View.VISIBLE);
-            divider.setVisibility(View.VISIBLE);
-            for (int i = 0; i < MAX_ROWS; i++)
-                if (i < rows)
-                    sideColumnEdits[i].setVisibility(View.VISIBLE);
-                else
-                    sideColumnEdits[i].setVisibility(View.GONE);
-        } else {
-            sideColumn.setVisibility(View.GONE);
-            divider.setVisibility(View.GONE);
-
-        }
-
-    }
-
-    public void addSideColumn() {
-        isSideColumnVisible = true;
-        refreshVisible();
-    }
-
-    public void removeSideColumn() {
-        isSideColumnVisible = false;
-        refreshVisible();
-    }
-
-    private void fillGrid() {
-
-        relativeLayout = new RelativeLayout(context);
-        LinearLayout bodyMatrixRows = new LinearLayout(context);
+        LinearLayout bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
 
         for (int i = 0; i < MAX_ROWS; i++) {
-            gridRows[i] = new LinearLayout(context);
+            gridRows[i] = new LinearLayout(getContext());
             gridRows[i].setOrientation(LinearLayout.HORIZONTAL);
             grid[i] = new EditText[MAX_COLUMNS];
             for (int j = 0; j < MAX_COLUMNS; j++) {
-                grid[i][j] = new EditText(context);
+                grid[i][j] = new EditText(getContext());
                 grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setSingleLine(false);
@@ -179,97 +112,64 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
                 grid[i][j].setGravity(Gravity.CENTER);
                 grid[i][j].setMinWidth(70);
                 grid[i][j].setMinHeight(70);
-                final View a = grid[i][j];
-                grid[i][j].addTextChangedListener(new TextWatcher() {
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        Log.d("clicked on edittext", " id: " + a.getId());
-                    }
 
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                        ((EditText) a).setTextColor(Color.WHITE);
-                        if (charSequence.toString().equals(""))
-                            a.setBackgroundResource(R.drawable.edit);
-                        else
-                            a.setBackgroundResource(0);
-                    }
-
-                    public void afterTextChanged(Editable editable) {
-                    }
-                });
-                grid[i][j].setOnFocusChangeListener(focusChangeListener);
-                gridRows[i].addView(grid[i][j], editParams);
+                grid[i][j].addTextChangedListener(watcher);
+                gridRows[i].addView(grid[i][j], LParams.L_WRAP_70);
             }
-            bodyMatrixRows.addView(gridRows[i], wrapWrap);
+            bodyMatrixRows.addView(gridRows[i], LParams.L_WRAP_WRAP);
+        }
+        bodyMatrix.addView(bodyMatrixRows, LParams.R_WRAP_WRAP);
+
+        for (int i = 0; i < model.rows; i++) {
+            for (int j = 0; j < model.columns; j++) {
+                SpannableString text = model.mFrac[i][j].toSpanString();
+                grid[i][j].setSingleLine(false);
+                grid[i][j].setText(text);
+                if (text.toString().contains("\n"))
+                    grid[i][j].setTextSize(12);
+                else
+                    grid[i][j].setTextSize(18);
+
+            }
         }
 
         grid[0][0].setOnFocusChangeListener(new OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    ((Activity) context).getWindow().setSoftInputMode(
+                    ((Activity) getContext()).getWindow().setSoftInputMode(
                             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 }
             }
         });
-        grid[0][0].requestFocus();    //TODO: klavu align
-
-        bodyMatrix.addView(relativeLayout, wrapWrap);
-
-        bodyMatrixRows.setId(BODY_ID);
-        fillFill.addRule(RelativeLayout.ALIGN_RIGHT, bodyMatrixRows.getId());
-        fillFill.addRule(RelativeLayout.ALIGN_BOTTOM, bodyMatrixRows.getId());
-        canvas = new MatrixCanvas(context);
-        relativeLayout.addView(canvas, fillFill);
-        relativeLayout.addView(bodyMatrixRows, wrapWrapRel);
+        grid[0][0].requestFocus();
 
     }
 
-    public void fillMatrixFromViews() throws BadSymbolException {
-        Log.d("zzzzzzzzzzzz", "start fillGrid" + System.currentTimeMillis());
-        elementsFractions = false;
-        side = new Double[rows];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                try {
-                    m[i][j] = Double.parseDouble(grid[i][j].getText().toString());
-                    grid[i][j].setTextColor(Color.WHITE);
-                } catch (NumberFormatException e) {
-                    if (grid[i][j].getText().toString().length() == 0) {
-                        grid[i][j].setBackgroundResource(R.drawable.red_edit);
-                    } else {
-                        grid[i][j].setTextColor(Color.RED);
-                    }
-                    throw new BadSymbolException();
-                }
-            }
-            if (isSideColumnVisible)
-                side[i] = Double.parseDouble(sideColumnEdits[i].getText().toString());
+    TextWatcher watcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            Log.d("clicked on edittext", " id: " + a.getId());
         }
-        Log.d("zzzzzzzzzzzz", "middle fillGrid" + System.currentTimeMillis());
 
-
-        /*parse fractions*/
-        sideFrac = new Fraction[rows];
-        mFrac = new Fraction[rows][];
-        for (int i = 0; i < rows; i++) {
-            mFrac[i] = new Fraction[columns];
-            for (int j = 0; j < columns; j++) {
-                try {
-                    int integer = Integer.parseInt(grid[i][j].getText().toString());
-                    mFrac[i][j] = new Fraction(integer);
-                } catch (NumberFormatException e) {
-                    sideFrac = null;
-                    mFrac = null;
-                    return;
-                }
-            }
-            if (isSideColumnVisible) {
-                int sideInt = Integer.parseInt(sideColumnEdits[i].getText().toString());
-                sideFrac[i] = new Fraction(sideInt);
-            }
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            ((EditText) a).setTextColor(Color.WHITE);
+            if (charSequence.toString().equals(""))
+                a.setBackgroundResource(R.drawable.edit);
+            else
+                a.setBackgroundResource(0);
         }
-        Log.d("zzzzzzzzzzzz", "end fillGrid" + System.currentTimeMillis());
 
-        elementsFractions = true;
+        public void afterTextChanged(Editable editable) {
+        }
+    };
+
+
+    public void addSideMatrix() {
+
+
+    }
+
+    public void removeSideMatrix() {
+
     }
 
 
