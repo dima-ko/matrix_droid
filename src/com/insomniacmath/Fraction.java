@@ -30,11 +30,7 @@ public class Fraction {
     public static Fraction[] deepCopy(Fraction[] array) {
         Fraction[] result = new Fraction[array.length];
         for (int i = 0; i < result.length; ++i)
-            try {
-                result[i] = array[i].clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            result[i] = array[i].clone();
         return result;
     }
 

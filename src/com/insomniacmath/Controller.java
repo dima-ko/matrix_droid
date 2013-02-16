@@ -16,7 +16,7 @@ import com.insomniacmath.ui.MatrixView;
 import org.ejml.simple.SimpleMatrix;
 
 
-public class Solver implements Constants {
+public class Controller implements Constants {
 
     public static final int RESULT_MATRIX = 1000;
     public static final int SOLVE_BUTTON_ID = 600;
@@ -58,7 +58,7 @@ public class Solver implements Constants {
     private View solveButton;
     private View explaining;
 
-    public Solver(Context context, LinearLayout mainView) {
+    public Controller(Context context, LinearLayout mainView) {
 
         _context = context;
         this.mainView = mainView;

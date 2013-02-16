@@ -1,7 +1,7 @@
 package com.insomniacmath.tests.system;
 
 
-import com.insomniacmath.Solver;
+import com.insomniacmath.Controller;
 import com.insomniacmath.tests.GeneralTest;
 
 import java.util.Random;
@@ -43,7 +43,7 @@ public class SystemAnimTest extends GeneralTest {
         }
 
         solo.clickOnMenuItem("Solve");
-        clickOnViewByID(Solver.EXPLAIN_BUTTON_ID);
+        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
         solo.sleep(400200);
 
     }

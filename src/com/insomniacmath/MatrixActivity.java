@@ -12,7 +12,7 @@ public class MatrixActivity extends Activity implements Constants {
     /**
      * Called when the activity is first created.
      */
-    Solver solver;
+    Controller controller;
     LinearLayout mainView;
 
     @Override
@@ -25,7 +25,7 @@ public class MatrixActivity extends Activity implements Constants {
         mainView.setBackgroundColor(0xff000000);
         mainView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT));
         mainView.setOrientation(LinearLayout.VERTICAL);
-        solver = new Solver(this, mainView);
+        controller = new Controller(this, mainView);
         setContentView(mainView);
 
     }
@@ -39,20 +39,20 @@ public class MatrixActivity extends Activity implements Constants {
 //
 //    @Override
 //    public boolean onContextItemSelected(MenuItem item) {
-//        solver.onMenu(item.getItemId());
+//        controller.onMenu(item.getItemId());
 //        return true;
 //    }
 
     @Override
     public void onBackPressed() {
-        if (!solver.onBackPressed())
+        if (!controller.onBackPressed())
             super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        solver.onDestroy();
+        controller.onDestroy();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.insomniacmath.tests.multiply;
 
 
-import com.insomniacmath.Solver;
+import com.insomniacmath.Controller;
 import com.insomniacmath.tests.GeneralTest;
 
 /**
@@ -33,7 +33,7 @@ public class MultiplicationAnimTest extends
         enterEditByID(117, 9);
 
         solo.clickOnMenuItem("Solve");
-        clickOnViewByID(Solver.EXPLAIN_BUTTON_ID);
+        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
         solo.sleep(400200);
 
     }
