@@ -1,4 +1,4 @@
-package com.insomniacmath;
+package com.insomniacmath.math;
 
 import android.text.SpannableString;
 import android.text.Spanned;

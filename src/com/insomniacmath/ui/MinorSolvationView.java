@@ -3,7 +3,8 @@ package com.insomniacmath.ui;
 import android.content.Context;
 import android.view.Gravity;
 import android.widget.LinearLayout;
-import com.insomniacmath.roboto.TextViewRoboto;
+import com.insomniacmath.math.MatrixModel;
+import com.insomniacmath.ui.roboto.TextViewRoboto;
 
 public class MinorSolvationView extends LinearLayout {
 

@@ -6,7 +6,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.insomniacmath.Fraction;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.ui.MatrixView;
 import com.insomniacmath.R;
 

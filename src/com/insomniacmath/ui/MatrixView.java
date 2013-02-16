@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
+import com.insomniacmath.math.MatrixModel;
 
 public abstract class MatrixView extends LinearLayout implements Constants {
 

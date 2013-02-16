@@ -1,12 +1,12 @@
-package com.insomniacmath.solvers;
+package com.insomniacmath.math;
 
 import android.graphics.Color;
 import android.view.View;
 import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.R;
 import com.insomniacmath.etc.Utils;
-import com.insomniacmath.exceptions.BadSymbolException;
-import com.insomniacmath.exceptions.NotSquareException;
+import com.insomniacmath.math.exceptions.BadSymbolException;
+import com.insomniacmath.math.exceptions.NotSquareException;
 
 public class DeterminantSolver extends Solver {
 

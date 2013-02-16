@@ -9,9 +9,9 @@ import android.view.*;
 import android.widget.*;
 import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.etc.Utils;
-import com.insomniacmath.exceptions.BadSymbolException;
-import com.insomniacmath.exceptions.NotSquareException;
-import com.insomniacmath.exceptions.SingularMatrixException;
+import com.insomniacmath.math.exceptions.BadSymbolException;
+import com.insomniacmath.math.exceptions.SingularMatrixException;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.ui.MatrixView;
 import org.ejml.simple.SimpleMatrix;
 

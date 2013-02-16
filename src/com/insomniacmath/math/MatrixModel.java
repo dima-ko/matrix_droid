@@ -1,7 +1,6 @@
-package com.insomniacmath.ui;
+package com.insomniacmath.math;
 
 import com.insomniacmath.Constants;
-import com.insomniacmath.Fraction;
 
 
 public class MatrixModel implements Constants {

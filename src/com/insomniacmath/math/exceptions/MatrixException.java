@@ -1,4 +1,4 @@
-package com.insomniacmath.exceptions;
+package com.insomniacmath.math.exceptions;
 
 public class MatrixException extends Exception {
 }

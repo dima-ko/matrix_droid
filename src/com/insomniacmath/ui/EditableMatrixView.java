@@ -15,9 +15,9 @@ import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
-import com.insomniacmath.Fraction;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.R;
-import com.insomniacmath.exceptions.BadSymbolException;
+import com.insomniacmath.math.exceptions.BadSymbolException;
 
 public abstract class EditableMatrixView extends MatrixView implements Constants {
 

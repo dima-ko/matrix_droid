@@ -1,11 +1,11 @@
-package com.insomniacmath;
+package com.insomniacmath.math;
 
 
 import android.util.Log;
 import com.insomniacmath.etc.Utils;
-import com.insomniacmath.exceptions.BadSymbolException;
-import com.insomniacmath.exceptions.NotSquareException;
-import com.insomniacmath.exceptions.SingularMatrixException;
+import com.insomniacmath.math.exceptions.BadSymbolException;
+import com.insomniacmath.math.exceptions.NotSquareException;
+import com.insomniacmath.math.exceptions.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
 public class MatrixUtils {

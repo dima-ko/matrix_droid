@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Constants;
+import com.insomniacmath.math.MatrixModel;
 
 
 public class ConstMatrixView extends MatrixView implements Constants {
