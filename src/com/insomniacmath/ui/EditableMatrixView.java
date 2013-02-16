@@ -18,7 +18,7 @@ import com.insomniacmath.Constants;
 import com.insomniacmath.R;
 import com.insomniacmath.math.MatrixModel;
 
-public abstract class EditableMatrixView extends MatrixView implements Constants {
+public  class EditableMatrixView extends MatrixView implements Constants {
 
 
     public EditText[][] grid = new EditText[MAX_ROWS][];

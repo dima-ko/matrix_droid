@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.insomniacmath.math.solvers.*;
 import com.insomniacmath.ui.EditableMatrixView;
-import com.insomniacmath.ui.MatrixView;
+import com.insomniacmath.ui.LParams;
 
 
 public class Controller implements Constants {
@@ -47,21 +47,21 @@ public class Controller implements Constants {
         scrollWrapper = new LinearLayout(context);
         mainMatrixLayout = new LinearLayout(context);
 
-        mainMatrixLayout.setLayoutParams(wrapWrap);
+        mainMatrixLayout.setLayoutParams(LParams.L_WRAP_WRAP);
         mainMatrixLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainMatrixView = new MatrixView(context, mainMatrixLayout, 0);
+        mainMatrixView = new EditableMatrixView(context, 0);
 
-        scrollWrapper.addView(mainMatrixLayout, wrapWrap);
+        scrollWrapper.addView(mainMatrixLayout, LParams.L_WRAP_WRAP);
 
-
+        //right plus-minus
         rightPlusHolder = new LinearLayout(context);
         rightPlusHolder.setOrientation(LinearLayout.VERTICAL);
 
         ImageView plusColumn = new ImageView(context);
         plusColumn.setId(PLUS_COLUMN_ID);
         plusColumn.setImageResource(R.drawable.plus_small);
-        rightPlusHolder.addView(plusColumn, c80x80);
+        rightPlusHolder.addView(plusColumn, LParams.L_80_80);
         plusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixView.addColumn();
@@ -71,21 +71,23 @@ public class Controller implements Constants {
         ImageView minusColumn = new ImageView(context);
         minusColumn.setId(MINUS_COLUMN_ID);
         minusColumn.setImageResource(R.drawable.minus_small);
-        rightPlusHolder.addView(minusColumn, c80x80);
+        rightPlusHolder.addView(minusColumn, LParams.L_80_80);
         minusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixView.removeColumn();
             }
         });
 
-        scrollWrapper.addView(rightPlusHolder, wrapWrap);
+        scrollWrapper.addView(rightPlusHolder, LParams.L_WRAP_WRAP);
 
-        scrollView.addView(scrollWrapper, wrapWrap);
+        scrollView.addView(scrollWrapper, LParams.L_WRAP_WRAP);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(wrapWrap);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LParams.L_WRAP_WRAP);
         params.setMargins(10, 19, 0, 0);
         mainView.addView(scrollView, params);
 
+
+        //bottom plus-minus
         bottomPlusHolder = new LinearLayout(context);
         RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(80, 80);
 
@@ -105,13 +107,12 @@ public class Controller implements Constants {
                 mainMatrixView.addRow();
             }
         });
-
         minusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 mainMatrixView.removeRow();
             }
         });
-        mainView.addView(bottomPlusHolder, fillWrap);
+        mainView.addView(bottomPlusHolder, LParams.L_FILL_WRAP);
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -152,7 +153,7 @@ public class Controller implements Constants {
     public void onMenu(int i) {
         switch (i) {
             case R.id.determinant:
-               solver = new DeterminantSolver(mainView, this);
+                solver = new DeterminantSolver(mainView, this);
                 break;
             case R.id.multiply:
                 solver = new MultiplySolver(mainView, this);
@@ -173,4 +174,8 @@ public class Controller implements Constants {
         }
     }
 
+    public boolean onBackPressed() {
+        //todo
+        return state != STATE_INITIAL;
+    }
 }
