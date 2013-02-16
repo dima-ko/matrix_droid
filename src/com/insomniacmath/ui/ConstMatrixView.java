@@ -27,15 +27,16 @@ public class ConstMatrixView extends MatrixView implements Constants {
 
     protected void updateBody() {
         bodyMatrix.removeAllViews();
+        grid = new TextView[model.rows][];
 
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
 
-        for (int i = 0; i < MAX_ROWS; i++) {
+        for (int i = 0; i < model.rows; i++) {
             gridRows[i] = new LinearLayout(getContext());
             gridRows[i].setOrientation(LinearLayout.HORIZONTAL);
-            grid[i] = new EditText[MAX_COLUMNS];
-            for (int j = 0; j < MAX_COLUMNS; j++) {
+            grid[i] = new EditText[model.columns];
+            for (int j = 0; j < model.columns; j++) {
                 grid[i][j] = new TextView(getContext());
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);

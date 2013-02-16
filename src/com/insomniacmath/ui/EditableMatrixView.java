@@ -34,6 +34,8 @@ public class EditableMatrixView extends MatrixView implements Constants {
     public EditableMatrixView(Context context, int number) {
         super(context, number);
         this.number = number;
+        model = new MatrixModel();
+        updateBody();
 
 //        hintLayout = new LinearLayout(context);      todo hint layout
 //        _view.addView(hintLayout, new LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
@@ -46,6 +48,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
         grid = new EditText[model.rows][];
+        gridRows = new LinearLayout[model.rows];
 
         for (int i = 0; i < model.rows; i++) {
             gridRows[i] = new LinearLayout(getContext());
@@ -160,7 +163,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
 
 
     public void onDestroy() {
-        canvas.onDestroy();
+//        canvas.onDestroy();
     }
 
     public void addRow() {
