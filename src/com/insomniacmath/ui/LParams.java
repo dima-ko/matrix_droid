@@ -14,6 +14,10 @@ public class LParams {
 
     final static RelativeLayout.LayoutParams R_WRAP_WRAP_CENTER_HOR = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+    final static LinearLayout.LayoutParams FILL_WRAP = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+    final static LinearLayout.LayoutParams L_80_80_LEFT_100 = new LinearLayout.LayoutParams(80, 80);
+    final static LinearLayout.LayoutParams L_80_80 = new LinearLayout.LayoutParams(80, 80);
+
 
     LinearLayout.LayoutParams L_20_Fill = new LinearLayout.LayoutParams(20, RelativeLayout.LayoutParams.FILL_PARENT);
     LinearLayout.LayoutParams L_70_70 = new LinearLayout.LayoutParams(70, 70);
@@ -23,6 +27,8 @@ public class LParams {
 
     static {
         R_WRAP_WRAP_CENTER_HOR.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        L_80_80_LEFT_100.leftMargin = 100;
+
     }
 
 

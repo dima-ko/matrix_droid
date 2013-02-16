@@ -28,31 +28,14 @@ public class Controller implements Constants {
 
     LinearLayout mainMatrixLayout;
 
-    LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams fillFill = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-    LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
-    LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
-
     private Context _context;
     private LinearLayout mainView;
-    private LinearLayout solvationView;
-
     LinearLayout bottomPlusHolder;
     LinearLayout rightPlusHolder;
-
-    private LinearLayout secondMatrixView;
-
-    LinearLayout resultMatrixLayout;
-
     LinearLayout scrollWrapper;
-    MatrixView resMatrixModel;
 
     Dialog dialog;
-    private View actionButton;
-    private View backButton;
-    private View solveButton;
-    private View explaining;
+
 
     public Controller(Context context, LinearLayout mainView) {
 
@@ -118,7 +101,6 @@ public class Controller implements Constants {
         minusRow.setImageResource(R.drawable.minus_small);
         bottomPlusHolder.addView(minusRow, params1);
 
-        c80x80left100.leftMargin = 100;
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -134,50 +116,7 @@ public class Controller implements Constants {
         mainView.addView(bottomPlusHolder, fillWrap);
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        solvationView = new LinearLayout(context);
-        solvationView.setBackgroundColor(0xff222222);
-        solvationView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    downX = motionEvent.getX();
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
-                    animator.changeSpeed((motionEvent.getX() - downX) > 0);
-                return true;
-            }
-        });
 
-        solvationView.setOrientation(LinearLayout.VERTICAL);
-        solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvationView.setVisibility(View.GONE);     //todo add margin
-        mainView.addView(solvationView);
-
-        resultView = new LinearLayout(context);
-        resultView.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.setOrientation(LinearLayout.HORIZONTAL);
-        resultView.setPadding(0, 5, 0, 0);
-        resultView.setBackgroundColor(0xff000000);
-        resultView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    downX = motionEvent.getX();
-                    downY = motionEvent.getY();
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    float dx = (motionEvent.getX() - downX);
-                    float dy = (motionEvent.getY() - downY);
-                    if (Math.abs(dx) > Math.abs(dy)) {
-                        moveToEdit(dx < 0 ? LEFT : RIGHT);
-                    } else {
-                        moveToEdit(dy < 0 ? UP : DOWN);
-                    }
-                }
-                return true;
-            }
-        });
-
-        mainView.addView(resultView, fillFill);
-
-        animator = new Animator(mainMatrixModel);
-        animator.setView(solvationView);
     }
 
     private void setActionBar(LinearLayout mainView) {
