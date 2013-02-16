@@ -1,4 +1,4 @@
-package com.insomniacmath.math;
+package com.insomniacmath.math.solvers;
 
 import android.app.Activity;
 import android.view.View;

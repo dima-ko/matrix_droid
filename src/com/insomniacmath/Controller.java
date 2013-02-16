@@ -12,32 +12,29 @@ import com.insomniacmath.etc.Utils;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 import com.insomniacmath.math.exceptions.SingularMatrixException;
 import com.insomniacmath.math.Fraction;
+import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.MatrixView;
 import org.ejml.simple.SimpleMatrix;
 
 
 public class Controller implements Constants {
 
-    public static final int RESULT_MATRIX = 1000;
-    public static final int SOLVE_BUTTON_ID = 600;
-    public static final int EXPLAIN_BUTTON_ID = 900;
-    public int state = STATE_INITIAL;
-    public static int curEditId = 0;
+    public static int state = STATE_INITIAL;
 
     private float downY;
     private float downX;
 
-    MatrixView mainMatrixModel;
+    EditableMatrixView mainMatrixModel;
+
     LinearLayout mainMatrixLayout;
-    LinearLayout resultView;
-    TextView resultText;
-    Button xplainButton;
+
     LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     RelativeLayout.LayoutParams wrapWrapCenterHor = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams fillFill = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     LinearLayout.LayoutParams fillWrap = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     LinearLayout.LayoutParams c80x80left100 = new LinearLayout.LayoutParams(80, 80);
     LinearLayout.LayoutParams c80x80 = new LinearLayout.LayoutParams(80, 80);
+
     private Context _context;
     private LinearLayout mainView;
     private LinearLayout solvationView;
@@ -46,7 +43,7 @@ public class Controller implements Constants {
     LinearLayout rightPlusHolder;
 
     private LinearLayout secondMatrixView;
-    private MatrixView secondMatrixModel;
+
     LinearLayout resultMatrixLayout;
 
     LinearLayout scrollWrapper;
@@ -244,170 +241,6 @@ public class Controller implements Constants {
         stopExplain();
         mainMatrixModel.onDestroy();
     }
-
-    // -----------------------------------------compute----------------------------------------------------
-
-    public void findEigenVectors() {
-
-    }
-
-    public void findRang() {
-        resultView.removeAllViews();
-        addResultText();
-        try {
-            resultText.setText("Rang = " + Utils.round(mainMatrixModel.findRang(), false));
-            resultText.setTextColor(Color.WHITE);
-            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
-            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
-
-            state = STATE_RANG_FIND;
-            showXplainButton();
-        } catch (BadSymbolException e) {
-            resultText.setText(_context.getString(R.string.bad_elements));
-            resultText.setTextColor(Color.RED);
-//            solvationText.setVisibility(View.GONE);
-        }
-    }
-
-
-    public void findMultiplication() {
-        try {
-            mainMatrixModel.fillMatrixFromViews();
-        } catch (BadSymbolException e) {
-            addResultText();
-            resultText.setText(_context.getString(R.string.bad_elements));
-            resultText.setTextColor(Color.RED);
-            return;
-        }
-        try {
-            secondMatrixModel.fillMatrixFromViews();
-        } catch (BadSymbolException e) {
-            addResultText();
-            resultText.setText(_context.getString(R.string.bad_elements));
-            resultText.setTextColor(Color.RED);
-            return;
-        }
-
-        state = STATE_MULTIPLY_FIND;
-
-        SimpleMatrix a = new SimpleMatrix(mainMatrixModel.m);
-        SimpleMatrix b = new SimpleMatrix(secondMatrixModel.m);
-
-        SimpleMatrix c = a.mult(b);
-
-        LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultMatrixLay.setId(RESULT_MATRIX);
-        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-
-        resMatrixModel = new MatrixView(_context, resultMatrixLay, 2);
-        resMatrixModel.adjustSizeTo(c.numRows(), c.numCols());
-        for (int i = 0; i < c.numRows(); i++) {
-            for (int j = 0; j < c.numCols(); j++) {
-                resMatrixModel.m[i][j] = c.get(i, j);
-            }
-        }
-        resMatrixModel.fillViewsFromMatrix();
-        resMatrixModel.refreshVisible();
-        animator.setResultMW(resMatrixModel);
-        showXplainButton();
-        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
-    }
-
-    public void findInverse() {
-        resultView.removeAllViews();
-        try {
-            mainMatrixModel.fillMatrixFromViews();
-        } catch (BadSymbolException e) {
-            addResultText();
-            resultText.setText(_context.getString(R.string.bad_elements));
-            resultText.setTextColor(Color.RED);
-            return;
-        }
-
-        if (mainMatrixModel.columns != mainMatrixModel.rows) {
-            addResultText();
-            resultText.setText("Matrix must be square");
-            resultText.setTextColor(Color.RED);
-            return;
-        }
-
-        resultMatrixLayout = new LinearLayout(_context);
-        resultMatrixLayout.setId(RESULT_MATRIX);
-        resultView.addView(resultMatrixLayout, wrapWrapCenterHor);
-        resMatrixModel = new MatrixView(_context, resultMatrixLayout, 2);
-
-        if (mainMatrixModel.elementsFractions) {
-            Fraction[][] result = mainMatrixModel.findInverseFraction();
-            resMatrixModel.adjustSizeTo(result[0].length, result.length);
-            resMatrixModel.mFrac = result;
-        } else {
-            SimpleMatrix inverse = mainMatrixModel.findInverseDouble();
-            resMatrixModel.adjustSizeTo(inverse.numCols(), inverse.numRows());
-            for (int i = 0; i < inverse.numRows(); i++) {
-                for (int j = 0; j < inverse.numCols(); j++) {
-                    double v = inverse.get(i, j);
-                    resMatrixModel.m[i][j] = v;
-                }
-            }
-        }
-
-        state = STATE_INVERT_FIND;
-
-        resMatrixModel.fillViewsFromMatrix();
-        resMatrixModel.refreshVisible();
-        animator.setResultMW(resMatrixModel);
-        animator.setAnimType(Animator.ANIM_INVERT, mainMatrixModel.rows, mainMatrixModel.columns);
-        showXplainButton();
-        bottomPlusHolder.setVisibility(View.GONE);
-        rightPlusHolder.setVisibility(View.GONE);
-    }
-
-    private void findSystemSolvation() throws SingularMatrixException {
-        resultView.removeAllViews();
-        Log.d("zzzzzzzzzzzz", "start beforefill at" + System.currentTimeMillis());
-        try {
-            mainMatrixModel.fillMatrixFromViews();
-        } catch (BadSymbolException e) {
-            e.printStackTrace();
-        }
-        Log.d("zzzzzzzzzzzz", "start afterfill at" + System.currentTimeMillis());
-
-        LinearLayout resultMatrixLay = new LinearLayout(_context);
-        resultMatrixLay.setId(RESULT_MATRIX);
-        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-        resMatrixModel = new MatrixView(_context, resultMatrixLay, 2);
-
-        if (mainMatrixModel.elementsFractions) {
-            Fraction[] result = mainMatrixModel.solveSLEFraction();
-            resMatrixModel.adjustSizeTo(1, result.length);
-            resMatrixModel.mFrac = new Fraction[result.length][];
-
-            for (int i = 0; i < result.length; i++) {
-                resMatrixModel.mFrac[i] = new Fraction[1];
-                resMatrixModel.mFrac[i][0] = result[i];
-            }
-
-        } else {
-            SimpleMatrix result = mainMatrixModel.solveSLEDouble();
-            resMatrixModel.adjustSizeTo(result.numCols(), result.numRows());
-            for (int i = 0; i < result.numRows(); i++) {
-                for (int j = 0; j < result.numCols(); j++) {
-                    double v = result.get(i, j);
-                    resMatrixModel.m[i][j] = v;
-                }
-            }
-        }
-
-        resMatrixModel.fillViewsFromMatrix();
-        resMatrixModel.refreshVisible();
-        // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
-        animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixModel.rows, mainMatrixModel.columns);
-        state = STATE_SYSTEM_SOLVED;
-        animator.setResultMW(resMatrixModel);
-        showXplainButton();
-    }
-
-    // -------------------------------------add UI elements----------------------------------------------------
 
     private void showXplainButton() {
         backButton.setVisibility(View.VISIBLE);

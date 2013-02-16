@@ -17,6 +17,7 @@ import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
 import com.insomniacmath.math.Fraction;
 import com.insomniacmath.R;
+import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 
 public abstract class EditableMatrixView extends MatrixView implements Constants {
@@ -25,6 +26,7 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
     public EditText[][] grid = new EditText[MAX_ROWS][];
 
     public LinearLayout hintLayout;
+    public MatrixModel sideMatrix;
 
     boolean isSideColumnVisible = false;
     public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
