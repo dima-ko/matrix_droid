@@ -1,30 +1,17 @@
 package com.insomniacmath.ui;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.SpannableString;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
-import com.insomniacmath.Fraction;
 import com.insomniacmath.R;
-import com.insomniacmath.exceptions.BadSymbolException;
 
 public abstract class MatrixView extends LinearLayout implements Constants {
 
-
-    public LinearLayout bodyMatrix;
+    public RelativeLayout bodyMatrix;
     public MatrixCanvas canvas;
     ImageView rightBraket, leftBraket;
 
@@ -39,15 +26,23 @@ public abstract class MatrixView extends LinearLayout implements Constants {
     protected void buildBricks() {
         leftBraket = new ImageView(getContext());
         leftBraket.setImageResource(R.drawable.left_braket);
+        addView(leftBraket, new LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
 
-        bodyMatrix = new LinearLayout(getContext());
-        bodyMatrix.setOrientation(LinearLayout.VERTICAL);
+        bodyMatrix = new RelativeLayout(getContext());
+        addView(bodyMatrix, LParams.L_WRAP_WRAP);
 
         rightBraket = new ImageView(getContext());
         rightBraket.setImageResource(R.drawable.right_braket);
+        addView(rightBraket, new LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
+
     }
 
     protected abstract void updateUI();
+
+    public void setCanvas(MatrixCanvas canvas) {
+        this.canvas = canvas;
+        bodyMatrix.addView(canvas, LParams.R_FILL_FILL);
+    }
 
     public MatrixCanvas getCanvas() {
         return canvas;

@@ -16,6 +16,7 @@ public class MinorSolvationView extends LinearLayout {
     TextViewRoboto postfix;
     TextViewRoboto prefix;
 
+    //todo package!!!!
 
     public void setPostfix(String postfix1) {
         postfix.setText(postfix1);

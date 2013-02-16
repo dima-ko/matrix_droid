@@ -32,8 +32,8 @@ public interface Constants {
     int STATE_SYSTEM_EXPLAINING_INVERT = 18;
     int STATE_SYSTEM_EXPLAINED = 19;
 
-    int MAX_ROWS = 8;
-    int MAX_COLUMNS = 8;
+    int MAX_ROWS = 2;
+    int MAX_COLUMNS = 2;
 
     int DOWN = 0;
     int UP = 1;

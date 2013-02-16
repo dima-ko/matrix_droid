@@ -6,22 +6,17 @@ import android.widget.RelativeLayout;
 
 public class LParams {
 
-    static boolean l;
+    final static LinearLayout.LayoutParams L_WRAP_70 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 70);
+    final static LinearLayout.LayoutParams L_WRAP_WRAP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    final static RelativeLayout.LayoutParams R_FILL_FILL = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
+    final static RelativeLayout.LayoutParams R_WRAP_WRAP = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+
     LinearLayout.LayoutParams L_20_Fill = new LinearLayout.LayoutParams(20, RelativeLayout.LayoutParams.FILL_PARENT);
     LinearLayout.LayoutParams L_70_70 = new LinearLayout.LayoutParams(70, 70);
-
-                                   //todo
+    //todo
     final static LinearLayout.LayoutParams wrap_80 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
-    final static LinearLayout.LayoutParams wrap_wrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    final static LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-    LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 70);
-    LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-
-
-
-    static {
-
-    }
 }

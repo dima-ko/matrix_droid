@@ -19,7 +19,7 @@ import com.insomniacmath.Fraction;
 import com.insomniacmath.R;
 import com.insomniacmath.exceptions.BadSymbolException;
 
-public abstract class EditableMatrixView extends LinearLayout implements Constants {
+public abstract class EditableMatrixView extends MatrixView implements Constants {
 
     public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     public EditText[][] grid = new EditText[MAX_ROWS][];
