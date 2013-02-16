@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animations.Animator;
+import com.insomniacmath.Controller;
 import com.insomniacmath.R;
 import com.insomniacmath.etc.Utils;
 import com.insomniacmath.math.Fraction;
@@ -13,6 +14,10 @@ import org.ejml.simple.SimpleMatrix;
 
 public class RangSolver extends Solver {
 
+
+    public RangSolver(LinearLayout mainView, Controller controller) {
+        super(mainView, controller);
+    }
 
     @Override
     void onBack() {

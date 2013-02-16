@@ -3,11 +3,14 @@ package com.insomniacmath;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.*;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import com.insomniacmath.math.solvers.*;
 import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.MatrixView;
 
@@ -16,11 +19,10 @@ public class Controller implements Constants {
 
     public static int state = STATE_INITIAL;
 
-    private float downY;
-    private float downX;
+//    private float downY;
+//    private float downX;
 
     EditableMatrixView mainMatrixView;
-
     LinearLayout mainMatrixLayout;
 
     private Context _context;
@@ -30,6 +32,7 @@ public class Controller implements Constants {
     LinearLayout scrollWrapper;
 
     Dialog dialog;
+    Solver solver = null;
 
 
     public Controller(Context context, LinearLayout mainView) {
@@ -149,24 +152,23 @@ public class Controller implements Constants {
     public void onMenu(int i) {
         switch (i) {
             case R.id.determinant:
-                findDeterminant();
+               solver = new DeterminantSolver(mainView, this);
                 break;
             case R.id.multiply:
-                addSecondMatrix();
+                solver = new MultiplySolver(mainView, this);
                 break;
             case R.id.invers:
-                findInverse();
+                solver = new InvertSolver(mainView, this);
                 break;
             case R.id.rank:
-                findRang();
+                solver = new RangSolver(mainView, this);
                 break;
             case R.id.solve_sys:
-                mainMatrixView.addSideColumn();
-                state = STATE_SIDE_COLUMN_ADDED;
+                solver = new SystemSolver(mainView, this);
                 break;
-//            case R.id.eigen:
-//                findEigenVectors();
-//                break;
+            case R.id.eigen:
+                solver = new EigenSolver(mainView, this);
+                break;
 
         }
     }

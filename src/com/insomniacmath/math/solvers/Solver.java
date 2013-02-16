@@ -3,9 +3,19 @@ package com.insomniacmath.math.solvers;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animations.Animator;
+import com.insomniacmath.Controller;
 import com.insomniacmath.ui.MatrixView;
 
 public abstract class Solver {
+
+
+    private LinearLayout mainView;
+    private Controller controller;
+
+    protected Solver(LinearLayout mainView, Controller controller) {
+        this.mainView = mainView;
+        this.controller = controller;
+    }
 
     int state;
     protected Animator animator;

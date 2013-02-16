@@ -3,6 +3,7 @@ package com.insomniacmath.math.solvers;
 import android.util.Log;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animations.Animator;
+import com.insomniacmath.Controller;
 import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 import com.insomniacmath.math.exceptions.SingularMatrixException;
@@ -11,6 +12,10 @@ import org.ejml.simple.SimpleMatrix;
 
 public class SystemSolver extends Solver {
 
+
+    public SystemSolver(LinearLayout mainView, Controller controller) {
+        super(mainView, controller);
+    }
 
     @Override
     void onBack() {
