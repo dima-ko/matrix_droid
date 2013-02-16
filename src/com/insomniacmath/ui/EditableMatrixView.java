@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
@@ -24,9 +23,9 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
 
     public EditText[][] grid = new EditText[MAX_ROWS][];
 
-    public LinearLayout hintLayout;
-    public MatrixModel sideMatrix;
+//    public LinearLayout hintLayout;
 
+    public MatrixModel sideMatrix;
     boolean isSideColumnVisible = false;
     public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     LinearLayout sideColumn;
@@ -35,61 +34,10 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
     public EditableMatrixView(Context context, int number) {
         super(context, number);
         this.number = number;
-        buildView();
-    }
 
-    public void buildView() {
-
-        _view.addView(bodyMatrix, /*new LinearLayout.LayoutParams(200, 200)*/wrapWrap);
-
-        divider = new LinearLayout(context);
-        divider.setBackgroundColor(Color.WHITE);
-        _view.addView(divider, new LayoutParams(5, ViewGroup.LayoutParams.FILL_PARENT));
-
-        sideColumn = new LinearLayout(context);
-        sideColumn.setOrientation(LinearLayout.VERTICAL);
-        sideColumn.setGravity(Gravity.CENTER);
-        _view.addView(sideColumn, new LayoutParams(wrapWrap));
-
-        for (int i = 0; i < MAX_ROWS; i++) {
-            sideColumnEdits[i] = new EditText(context);
-            sideColumnEdits[i].setId(i + SIDE_COL_ID + 100 * number);
-            sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
-            sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
-            sideColumnEdits[i].setTextColor(Color.WHITE);
-            sideColumnEdits[i].setGravity(Gravity.CENTER);
-            sideColumnEdits[i].setMinWidth(70);
-            sideColumnEdits[i].setMinHeight(70);
-            final View a = sideColumnEdits[i];
-            sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    Log.d("clicked on edittext", " id: " + a.getId());
-                }
-
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    ((EditText) a).setTextColor(Color.WHITE);
-                    if (charSequence.toString().equals(""))
-                        a.setBackgroundResource(R.drawable.edit);
-                    else
-                        a.setBackgroundResource(0);
-                }
-
-                public void afterTextChanged(Editable editable) {
-                }
-            });
-            sideColumn.addView(sideColumnEdits[i], editParams);
-        }
-
-        rightBraket = new ImageView(context);
-        rightBraket.setImageResource(R.drawable.right_braket);
-        _view.addView(rightBraket, new LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
-
-        hintLayout = new LinearLayout(context);
-        _view.addView(hintLayout, new LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
-        hintLayout.setVisibility(View.GONE);
-
-        refreshVisible();
-
+//        hintLayout = new LinearLayout(context);      todo hint layout
+//        _view.addView(hintLayout, new LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
+//        hintLayout.setVisibility(View.GONE);
     }
 
     protected void updateBody() {
@@ -142,20 +90,19 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
             }
         });
         grid[0][0].requestFocus();
-
     }
 
     TextWatcher watcher = new TextWatcher() {
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            Log.d("clicked on edittext", " id: " + a.getId());
+//            Log.d("clicked on edittext", " id: " + a.getId());
         }
 
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            ((EditText) a).setTextColor(Color.WHITE);
-            if (charSequence.toString().equals(""))
-                a.setBackgroundResource(R.drawable.edit);
-            else
-                a.setBackgroundResource(0);
+//            ((EditText) a).setTextColor(Color.WHITE);
+//            if (charSequence.toString().equals(""))
+//                a.setBackgroundResource(R.drawable.edit);
+//            else
+//                a.setBackgroundResource(0);
         }
 
         public void afterTextChanged(Editable editable) {
@@ -164,12 +111,50 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
 
 
     public void addSideMatrix() {
+        divider = new LinearLayout(getContext());
+        divider.setBackgroundColor(Color.WHITE);
+        bodyMatrix.addView(divider, new LayoutParams(5, ViewGroup.LayoutParams.FILL_PARENT));
 
+        sideColumn = new LinearLayout(getContext());
+        sideColumn.setOrientation(LinearLayout.VERTICAL);
+        sideColumn.setGravity(Gravity.CENTER);
+        bodyMatrix.addView(sideColumn, LParams.R_WRAP_WRAP);
 
+        for (int i = 0; i < MAX_ROWS; i++) {
+            sideColumnEdits[i] = new EditText(getContext());
+            sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
+            sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
+            sideColumnEdits[i].setTextColor(Color.WHITE);
+            sideColumnEdits[i].setGravity(Gravity.CENTER);
+            sideColumnEdits[i].setMinWidth(70);
+            sideColumnEdits[i].setMinHeight(70);
+            final View a = sideColumnEdits[i];
+            sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    Log.d("clicked on edittext", " id: " + a.getId());
+                }
+
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    ((EditText) a).setTextColor(Color.WHITE);
+                    if (charSequence.toString().equals(""))
+                        a.setBackgroundResource(R.drawable.edit);
+                    else
+                        a.setBackgroundResource(0);
+                }
+
+                public void afterTextChanged(Editable editable) {
+                }
+            });
+            sideColumn.addView(sideColumnEdits[i], LParams.L_WRAP_70);
+        }
     }
 
     public void removeSideMatrix() {
+        removeView(divider);
+        divider = null;
 
+        removeView(sideColumn);
+        sideColumn = null;
     }
 
 
