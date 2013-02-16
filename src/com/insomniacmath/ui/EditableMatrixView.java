@@ -37,10 +37,6 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
         buildView();
     }
 
-    public MatrixCanvas getCanvas() {
-        return canvas;
-    }
-
     public void buildView() {
         _view.removeAllViews();
         leftBraket = new ImageView(context);

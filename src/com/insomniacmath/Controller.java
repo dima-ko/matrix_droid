@@ -48,7 +48,7 @@ public class Controller implements Constants {
     private LinearLayout secondMatrixView;
     private MatrixView secondMatrixModel;
     LinearLayout resultMatrixLayout;
-    private Animator animator;
+
     LinearLayout scrollWrapper;
     MatrixView resMatrixModel;
 
@@ -269,26 +269,6 @@ public class Controller implements Constants {
         }
     }
 
-    public void findDeterminant() {
-        resultView.removeAllViews();
-        addResultText();
-        try {
-            resultText.setText("Determinant = " + Utils.round(mainMatrixModel.findDeterminant(), false));
-            resultText.setTextColor(Color.WHITE);
-            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
-            state = STATE_DETERMIN_PRESSED;
-            if (mainMatrixModel.rows == 2 || mainMatrixModel.rows == 3)
-                showXplainButton();
-            bottomPlusHolder.setVisibility(View.GONE);
-            rightPlusHolder.setVisibility(View.GONE);
-        } catch (BadSymbolException e) {
-            resultText.setText(_context.getString(R.string.bad_elements));
-            resultText.setTextColor(Color.RED);
-        } catch (NotSquareException e) {
-            resultText.setText("Matrix must be square");
-            resultText.setTextColor(Color.RED);
-        }
-    }
 
     public void findMultiplication() {
         try {
@@ -488,49 +468,23 @@ public class Controller implements Constants {
 
     // -----------------------------------------controls----------------------------------------------------
 
-    public void moveToEdit(int direction) {
-        int newId;
-        EditText input2;
-        if (curEditId < 100) {
-            newId = mainMatrixModel.getNextEdit(direction, curEditId);
-            input2 = (EditText) mainMatrixModel._view.findViewById(newId);
-        } else {
-            newId = secondMatrixModel.getNextEdit(direction, curEditId - 100);
-            input2 = (EditText) secondMatrixModel.bodyMatrix.findViewById(newId);
-        }
-        if (newId != -1) {
-            input2.requestFocus();
-            curEditId = newId;
-        }
-    }
+//    public void moveToEdit(int direction) {
+//        int newId;
+//        EditText input2;
+//        if (curEditId < 100) {
+//            newId = mainMatrixModel.getNextEdit(direction, curEditId);
+//            input2 = (EditText) mainMatrixModel._view.findViewById(newId);
+//        } else {
+//            newId = secondMatrixModel.getNextEdit(direction, curEditId - 100);
+//            input2 = (EditText) secondMatrixModel.bodyMatrix.findViewById(newId);
+//        }
+//        if (newId != -1) {
+//            input2.requestFocus();
+//            curEditId = newId;
+//        }
+//    }
 
-    private void startExplain() {
-        ((Activity) _context).getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        switch (state) {
-            case STATE_DETERMIN_PRESSED:
-                state = STATE_DETERMIN_EXPLAINING;
-                break;
-            case STATE_MULTIPLY_FIND:
-                state = STATE_MULTIPLY_EXPLAINING;
-                break;
-            case STATE_SYSTEM_SOLVED:
-                state = STATE_SYSTEM_EXPLAINING_GAUS;
-                break;
-            case STATE_INVERT_FIND:
-                state = STATE_INVERT_EXPLAINING;
-                break;
-            default:
-                return;
-        }
-        solvationView.setVisibility(View.VISIBLE);
-        animator.startExplaining();
-    }
 
-    public void stopExplain() {
-        animator.stopExplain();
-
-    }
 
     public void onMenu(int i) {
         switch (i) {
