@@ -27,39 +27,39 @@ public class Det2x2Animation extends Animation {
     public void tic(int t) {
         switch (t) {
             case 0:
-                break;
-            case 1:
-                solvationText.setTextSize(SOLV_TEXT_SIZE);
-                solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationText.setText(Utils.round(mW1.m[0][0], true));
-                mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
-                break;
-            case 2:
-                solvationText.setText(Utils.round(mW1.m[0][0], true) + "·" + Utils.round(mW1.m[1][1], true));
-                mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
-                mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
-                break;
-            case 3:
-                solvationText2.setTextSize(SOLV_TEXT_SIZE);
-                solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
-                solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                solvationText2.setText("-" + Utils.round(mW1.m[0][1], true));
-                mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
-                break;
-            case 4:
-                solvationText2.setText("-" + Utils.round(mW1.m[0][1], true) + "·" + Utils.round(mW1.m[1][0], true));
-                mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
-                mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
-                break;
-            case 5:
-                solvationText.setText(solvationText.getText() + "  (" + Utils.round(mW1.m[0][0] * mW1.m[1][1], false) + ")");
-                break;
-            case 6:
-                solvationText2.setText(solvationText2.getText() + "  (" + Utils.round(-mW1.m[0][1] * mW1.m[1][0], false) + ")");
-                break;
-
-            default:
+//                break;
+//            case 1:
+//                solvationText.setTextSize(SOLV_TEXT_SIZE);
+//                solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
+//                solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                solvationText.setText(Utils.round(mW1.m[0][0], true));
+//                mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
+//                break;
+//            case 2:
+//                solvationText.setText(Utils.round(mW1.m[0][0], true) + "·" + Utils.round(mW1.m[1][1], true));
+//                mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
+//                mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
+//                break;
+//            case 3:
+//                solvationText2.setTextSize(SOLV_TEXT_SIZE);
+//                solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
+//                solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//                solvationText2.setText("-" + Utils.round(mW1.m[0][1], true));
+//                mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
+//                break;
+//            case 4:
+//                solvationText2.setText("-" + Utils.round(mW1.m[0][1], true) + "·" + Utils.round(mW1.m[1][0], true));
+//                mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
+//                mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
+//                break;
+//            case 5:
+//                solvationText.setText(solvationText.getText() + "  (" + Utils.round(mW1.m[0][0] * mW1.m[1][1], false) + ")");
+//                break;
+//            case 6:
+//                solvationText2.setText(solvationText2.getText() + "  (" + Utils.round(-mW1.m[0][1] * mW1.m[1][0], false) + ")");
+//                break;
+//
+//            default:
                 animator.stopExplain();
                 break;
 

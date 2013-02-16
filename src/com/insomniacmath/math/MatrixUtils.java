@@ -128,44 +128,44 @@ public class MatrixUtils {
         return res;
     }
 
-    public static SimpleMatrix findInverseDouble() {
-        SimpleMatrix orig = new SimpleMatrix(m);
-        return orig.invert();
-    }
+//    public static SimpleMatrix findInverseDouble() {
+//        SimpleMatrix orig = new SimpleMatrix(null); //todo
+//        return orig.invert();
+//    }
+//
+//    public static Fraction[][] findInverseFraction() {
+//        return Utils.inverse(m);
+//    }
+//
+//    public static double findRang() throws BadSymbolException {
+//        SimpleMatrix orig = new SimpleMatrix(m);
+//        return orig.svd(true).rank();
+//    }
 
-    public static Fraction[][] findInverseFraction() {
-        return Utils.inverse(m);
-    }
-
-    public static double findRang() throws BadSymbolException {
-        SimpleMatrix orig = new SimpleMatrix(m);
-        return orig.svd(true).rank();
-    }
-
-    public static SimpleMatrix solveSLEDouble() {            //todo: exception
-        double[][] rightPart = new double[rows][];
-        for (int i = 0; i < rows; i++) {
-            rightPart[i] = new double[1];
-            rightPart[i][0] = side[i];
-        }
-        SimpleMatrix A = new SimpleMatrix(m);
-        SimpleMatrix b = new SimpleMatrix(rightPart);
-        return A.solve(b);
-    }
-
-    public static double findDeterminant() throws NotSquareException, BadSymbolException {
-        fillMatrixFromViews();
-        if (columns != rows) {
-//            Toast.makeText(context, "no square", 2000).show();
-            throw new NotSquareException();
-        } else {
-            return Utils.determin(m);
-        }
-
-    }
-
-    public static Fraction[] solveSLEFraction() throws SingularMatrixException {
-        return Utils.gauss(mFrac, sideFrac);
-    }
+//    public static SimpleMatrix solveSLEDouble() {            //todo: exception
+//        double[][] rightPart = new double[rows][];
+//        for (int i = 0; i < rows; i++) {
+//            rightPart[i] = new double[1];
+//            rightPart[i][0] = side[i];
+//        }
+//        SimpleMatrix A = new SimpleMatrix(m);
+//        SimpleMatrix b = new SimpleMatrix(rightPart);
+//        return A.solve(b);
+//    }
+//
+//    public static double findDeterminant() throws NotSquareException, BadSymbolException {
+//        fillMatrixFromViews();
+//        if (columns != rows) {
+////            Toast.makeText(context, "no square", 2000).show();
+//            throw new NotSquareException();
+//        } else {
+//            return Utils.determin(m);
+//        }
+//
+//    }
+//
+//    public static Fraction[] solveSLEFraction() throws SingularMatrixException {
+//        return Utils.gauss(mFrac, sideFrac);
+//    }
 
 }
