@@ -7,7 +7,6 @@ public class MatrixModel implements Constants {
 
     public static final int INIT_SIZE = 2;
     public Fraction[][] mFrac = null;
-    public Fraction[] sideFrac = null;
     public int columns = INIT_SIZE, rows = INIT_SIZE;
 
     public MatrixModel() {
@@ -34,7 +33,51 @@ public class MatrixModel implements Constants {
     }
 
     public void addRow() {
+        rows++;
+        Fraction[][] temp = new Fraction[rows][columns];
+        for (int i = 0; i < rows - 1; i++) {
+            temp[i] = new Fraction[columns];
+            for (int j = 0; j < columns; j++) {
+                temp[i][j] = mFrac[i][j].clone();
+            }
+        }
+        temp[rows - 1] = new Fraction[columns];
+        mFrac = temp;
+    }
 
+    public void removeRow() {
+        rows--;
+        Fraction[][] temp = new Fraction[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            temp[i] = new Fraction[columns];
+            for (int j = 0; j < columns; j++) {
+                temp[i][j] = mFrac[i][j].clone();
+            }
+        }
+        mFrac = temp;
+    }
 
+    public void addColumn() {
+        columns++;
+        Fraction[][] temp = new Fraction[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            temp[i] = new Fraction[columns];
+            for (int j = 0; j < columns - 1; j++) {
+                temp[i][j] = mFrac[i][j].clone();
+            }
+        }
+        mFrac = temp;
+    }
+
+    public void removeColumn() {
+        columns--;
+        Fraction[][] temp = new Fraction[rows][columns];
+        for (int i = 0; i < rows; i++) {
+            temp[i] = new Fraction[columns];
+            for (int j = 0; j < columns; j++) {
+                temp[i][j] = mFrac[i][j].clone();
+            }
+        }
+        mFrac = temp;
     }
 }

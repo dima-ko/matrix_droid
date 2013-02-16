@@ -19,15 +19,15 @@ public class ConstMatrixView extends MatrixView implements Constants {
     public ConstMatrixView(Context context, MatrixModel matrixModel, int number) {
         super(context, number);
         model = matrixModel;
-        updateUI();
+        updateBody();
     }
 
     public void onDestroy() {
         canvas.onDestroy();
     }
 
-    protected void updateUI() {
-        removeAllViews();
+    protected void updateBody() {
+        bodyMatrix.removeAllViews();
 
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
@@ -59,7 +59,6 @@ public class ConstMatrixView extends MatrixView implements Constants {
 
             }
         }
-
     }
 
 

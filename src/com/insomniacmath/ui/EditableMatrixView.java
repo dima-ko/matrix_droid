@@ -12,7 +12,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
@@ -40,13 +43,6 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
     }
 
     public void buildView() {
-        _view.removeAllViews();
-        leftBraket = new ImageView(context);
-        leftBraket.setImageResource(R.drawable.left_braket);
-        _view.addView(leftBraket, new LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
-
-        bodyMatrix = new LinearLayout(context);
-        bodyMatrix.setOrientation(LinearLayout.VERTICAL);
         fillGrid();
 
         _view.addView(bodyMatrix, /*new LinearLayout.LayoutParams(200, 200)*/wrapWrap);
@@ -101,8 +97,29 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
 
     }
 
-    protected void updateUI() {
+    protected void updateBody() {
+        if (mFrac != null) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    SpannableString text = mFrac[i][j].toSpanString();
+                    grid[i][j].setSingleLine(false);
+                    grid[i][j].setText(text);
+                    if (text.toString().contains("\n"))
+                        grid[i][j].setTextSize(12);
+                    else
+                        grid[i][j].setTextSize(18);
 
+                }
+                if (isSideColumnVisible) {
+                    SpannableString text = sideFrac[i].toSpanString();
+                    sideColumnEdits[i].setSingleLine(false);
+                    sideColumnEdits[i].setText(text);
+                    if (text.toString().contains("\n"))
+                        sideColumnEdits[i].setTextSize(12);
+                    else
+                        sideColumnEdits[i].setTextSize(18);
+                }
+            }
     }
 
     public void refreshVisible() {
@@ -255,146 +272,29 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
         elementsFractions = true;
     }
 
-    public void fillViewsFromMatrix() {
-        if (mFrac != null) {
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    SpannableString text = mFrac[i][j].toSpanString();
-                    grid[i][j].setSingleLine(false);
-                    grid[i][j].setText(text);
-                    if (text.toString().contains("\n"))
-                        grid[i][j].setTextSize(12);
-                    else
-                        grid[i][j].setTextSize(18);
-
-                }
-                if (isSideColumnVisible) {
-                    SpannableString text = sideFrac[i].toSpanString();
-                    sideColumnEdits[i].setSingleLine(false);
-                    sideColumnEdits[i].setText(text);
-                    if (text.toString().contains("\n"))
-                        sideColumnEdits[i].setTextSize(12);
-                    else
-                        sideColumnEdits[i].setTextSize(18);
-                }
-            }
-
-        } else {
-            for (int i = 0; i < rows; i++)
-                for (int j = 0; j < columns; j++) {
-                    double v = m[i][j];
-                    if (v % 1 == 0)
-                        grid[i][j].setText((int) v + "");
-                    else {
-                        grid[i][j].setText(v + "");
-                    }
-                }
-        }
-    }
 
     public void onDestroy() {
         canvas.onDestroy();
     }
 
-//    public int getNextEdit(int direction, int curEditId) {
-//        int column = curEditId % MAX_COLUMNS;
-//        int row = (curEditId < SIDE_COL_ID) ?
-//                curEditId / MAX_COLUMNS : (curEditId - SIDE_COL_ID);
-//        if (direction == RIGHT) {
-//            if (column != columns - 1)
-//                return curEditId + 1;
-//            else if (isSideColumnVisible && curEditId < SIDE_COL_ID) {
-//                return SIDE_COL_ID + row;
-//            }
-//        } else if (direction == LEFT) {
-//            if (curEditId >= SIDE_COL_ID) {
-//                return (row * MAX_COLUMNS + columns - 1);
-//            } else if (column != 0)
-//                return curEditId - 1;
-//        } else if (direction == UP) {
-//            if (curEditId >= SIDE_COL_ID) {
-//                if (curEditId - SIDE_COL_ID != 0)
-//                    return --curEditId;
-//            } else if (row != 0)
-//                return curEditId - MAX_COLUMNS;
-//        } else if (direction == DOWN) {
-//            if (curEditId >= SIDE_COL_ID) {
-//                if (curEditId - SIDE_COL_ID != rows - 1)
-//                    return ++curEditId;
-//            } else if (row != rows - 1)
-//                return curEditId + MAX_COLUMNS;
-//        }
-//        return -1;
-//    }
-
-    private void changeDimensions(int newRows, int newColumns) {
-        if (rows < MAX_ROWS) {
-            rows++;
-            double[][] temp = new double[rows][columns];
-            for (int i = 0; i < rows - 1; i++) {
-                temp[i] = new double[columns];
-                for (int j = 0; j < columns; j++) {
-                    temp[i][j] = m[i][j];
-                }
-            }
-            temp[rows - 1] = new double[columns];
-            m = temp.clone();
-        } else
-            Toast.makeText(context, "tooobig", 2000).show();
-    }
-
     public void addRow() {
         model.addRow();
-        updateUI();
+        updateBody();
     }
 
     public void removeRow() {
-        if (rows > 1) {
-            rows--;
-            double[][] temp = new double[rows][columns];
-            for (int i = 0; i < rows; i++) {
-                temp[i] = new double[columns];
-                for (int j = 0; j < columns; j++) {
-                    temp[i][j] = m[i][j];
-                }
-            }
-            m = temp.clone();
-        } else
-            Toast.makeText(context, "tooosmall", 2000).show();
-        refreshVisible();
+        model.removeRow();
+        updateBody();
     }
 
     public void addColumn() {
-        if (columns < MAX_COLUMNS) {
-            columns++;
-            double[][] temp = new double[rows][columns];
-            for (int i = 0; i < rows; i++) {
-                temp[i] = new double[columns];
-                for (int j = 0; j < columns - 1; j++) {
-                    temp[i][j] = m[i][j];
-                }
-                temp[i][columns - 1] = 0;
-            }
-            m = temp.clone();
-        } else
-            Toast.makeText(context, "tooobig", 2000).show();
-        refreshVisible();
+        model.addColumn();
+        updateBody();
     }
 
     public void removeColumn() {
-        if (columns > 1) {
-            columns--;
-            double[][] temp = new double[rows][columns];
-            for (int i = 0; i < rows; i++) {
-                temp[i] = new double[columns];
-                for (int j = 0; j < columns; j++) {
-                    temp[i][j] = m[i][j];
-                }
-            }
-            m = temp.clone();
-        } else
-            Toast.makeText(context, "tooosmall", 2000).show();
-        refreshVisible();
+        model.removeColumn();
+        updateBody();
     }
 
 

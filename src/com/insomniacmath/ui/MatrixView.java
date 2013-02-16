@@ -39,7 +39,7 @@ public abstract class MatrixView extends LinearLayout implements Constants {
 
     }
 
-    protected abstract void updateUI();
+    protected abstract void updateBody();
 
     public void setCanvas(MatrixCanvas canvas) {
         this.canvas = canvas;
