@@ -5,7 +5,6 @@ import com.insomniacmath.Constants;
 
 public class MatrixModel implements Constants {
 
-    public static final int INIT_SIZE = 2;
     public Fraction[][] mFrac = null;
     public int columns = INIT_SIZE, rows = INIT_SIZE;
 

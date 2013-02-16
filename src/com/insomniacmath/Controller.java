@@ -6,6 +6,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,8 +119,6 @@ public class Controller implements Constants {
 
     }
 
-    private View actionButton;
-
     private void setActionBar(LinearLayout mainView) {
         RelativeLayout actionBar = (RelativeLayout) ((Activity) _context).getLayoutInflater().inflate(R.layout.top, null);
         mainView.addView(actionBar, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -132,7 +131,7 @@ public class Controller implements Constants {
         dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
         dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
 
-        actionButton = actionBar.findViewById(R.id.action);
+        View actionButton = actionBar.findViewById(R.id.action);
         actionButton.setOnClickListener(actionsClickListener);
     }
 
@@ -140,6 +139,12 @@ public class Controller implements Constants {
         @Override
         public void onClick(View v) {
             int id = v.getId();
+            if (id == R.id.action) {
+                ((Activity) _context).getWindow().setSoftInputMode(
+                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                dialog.show();
+                return;
+            }
             if (dialog != null && dialog.isShowing())
                 dialog.dismiss();
             onMenu(id);

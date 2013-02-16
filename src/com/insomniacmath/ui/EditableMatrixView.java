@@ -18,16 +18,16 @@ import com.insomniacmath.Constants;
 import com.insomniacmath.R;
 import com.insomniacmath.math.MatrixModel;
 
-public  class EditableMatrixView extends MatrixView implements Constants {
+public class EditableMatrixView extends MatrixView implements Constants {
 
 
-    public EditText[][] grid = new EditText[MAX_ROWS][];
+    public EditText[][] grid;
 
 //    public LinearLayout hintLayout;
 
     public MatrixModel sideMatrix;
     boolean isSideColumnVisible = false;
-    public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
+    public EditText[] sideColumnEdits;
     LinearLayout sideColumn;
     LinearLayout divider;
 
@@ -45,14 +45,15 @@ public  class EditableMatrixView extends MatrixView implements Constants {
 
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
+        grid = new EditText[model.rows][];
 
-        for (int i = 0; i < MAX_ROWS; i++) {
+        for (int i = 0; i < model.rows; i++) {
             gridRows[i] = new LinearLayout(getContext());
             gridRows[i].setOrientation(LinearLayout.HORIZONTAL);
-            grid[i] = new EditText[MAX_COLUMNS];
-            for (int j = 0; j < MAX_COLUMNS; j++) {
+            grid[i] = new EditText[model.columns];
+            for (int j = 0; j < model.columns; j++) {
                 grid[i][j] = new EditText(getContext());
-                grid[i][j].setId(i * MAX_COLUMNS + j + 100 * number);
+//                grid[i][j].setId(i * INIT_SIZE + j + 100 * number);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setSingleLine(false);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
@@ -120,7 +121,7 @@ public  class EditableMatrixView extends MatrixView implements Constants {
         sideColumn.setGravity(Gravity.CENTER);
         bodyMatrix.addView(sideColumn, LParams.R_WRAP_WRAP);
 
-        for (int i = 0; i < MAX_ROWS; i++) {
+        for (int i = 0; i < model.rows; i++) {
             sideColumnEdits[i] = new EditText(getContext());
             sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
