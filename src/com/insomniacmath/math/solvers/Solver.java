@@ -1,12 +1,7 @@
 package com.insomniacmath.math.solvers;
 
-import android.app.Activity;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.ui.MatrixView;
 
@@ -32,15 +27,89 @@ public abstract class Solver {
     }
 
 
-
     private LinearLayout secondMatrixView;
     private LinearLayout solvationView;
     LinearLayout resultMatrixLayout;
 
     MatrixView resMatrixModel;
 
+    private void showXplainButton() {
+//        backButton.setVisibility(View.VISIBLE);
+//        actionButton.setVisibility(View.GONE);
+//        xplainButton = (Button) mainView.findViewById(R.id.explain);
+//        xplainButton.setVisibility(View.VISIBLE);
+//        xplainButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                explaining.setVisibility(View.VISIBLE);
+//                solvationView.setVisibility(View.VISIBLE);
+//                solvationView.removeAllViews();
+//                if (state == STATE_SYSTEM_SOLVED) {
+//                    showSystemDialog();
+//                } else {
+//                    xplainButton.setVisibility(View.GONE);
+//                    startExplain();
+//                }
+//            }
+//        });
+    }
 
-    private View actionButton;
+    private void showSystemDialog() {
+
+
+    }
+//
+//    private void addResultText() {
+//        resultText = new TextView(_context);
+//        resultText.setTextSize(20);
+//        resultText.setPadding(20, 20, 20, 20);
+//        resultText.setId(RESULT_ID);
+//        resultText.setGravity(Gravity.CENTER_HORIZONTAL);
+//        resultView.addView(resultText, wrapWrapCenterHor);
+//    }
+
+    //            if (id == R.id.action) {
+//                ((Activity) _context).getWindow().setSoftInputMode(
+//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//                dialog.show();
+//            } else if (id == R.id.back_arrow) {
+//                onBackPressed();
+//            } else if (id == R.id.solve) {
+//                if (state == STATE_SIDE_COLUMN_ADDED) {
+//                    try {
+//                        findSystemSolvation();
+//                        solveButton.setVisibility(View.GONE);
+//                    } catch (SingularMatrixException e) {
+//                        e.printStackTrace();  //Todo
+//                    }
+//                } else if (state == STATE_MULTIPLY_PRESSED) {
+//                    findMultiplication();
+//                    solveButton.setVisibility(View.GONE);
+//                }
+//            } else {
+
+//    public void addSecondMatrix() {
+//
+//        state = STATE_MULTIPLY_PRESSED;
+//        bottomPlusHolder.setVisibility(View.GONE);
+//        rightPlusHolder.setVisibility(View.GONE);
+//        actionButton.setVisibility(View.GONE);
+//        solveButton.setVisibility(View.VISIBLE);
+//        backButton.setVisibility(View.VISIBLE);
+//
+//        secondMatrixView = new LinearLayout(_context);
+//
+//        secondMatrixView.setLayoutParams(wrapWrap);
+//        secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
+//
+//        secondMatrixModel = new MatrixView(_context, secondMatrixView, 1);
+//        secondMatrixModel.adjustSizeTo(mainMatrixView.rows, mainMatrixView.columns);
+//        secondMatrixModel.refreshVisible();
+//
+//        mainMatrixLayout.addView(secondMatrixView);
+//
+//        animator.setSecMW(secondMatrixModel);
+//    }
+
     private View backButton;
     private View solveButton;
     private View explaining;
@@ -74,6 +143,71 @@ public abstract class Solver {
     }
 
     abstract void onBack();
+
+
+    public boolean onBackPressed() {
+//        switch (state) {
+//            case STATE_INITIAL:
+//                return false;
+//            case STATE_DETERMIN_PRESSED:
+//                state = STATE_INITIAL;
+//                resultText.setVisibility(View.GONE);
+//                solvationView.setVisibility(View.GONE);
+//                xplainButton.setVisibility(View.GONE);
+//                backButton.setVisibility(View.GONE);
+//                actionButton.setVisibility(View.VISIBLE);
+//                bottomPlusHolder.setVisibility(View.VISIBLE);
+//                rightPlusHolder.setVisibility(View.VISIBLE);
+//                break;
+//            case STATE_DETERMIN_EXPLAINING:
+//                animator.stopExplain();
+//            case STATE_DETERMIN_EXPLAINED:
+//                explaining.setVisibility(View.GONE);
+//                state = STATE_DETERMIN_PRESSED;
+//                solvationView.setVisibility(View.GONE);
+//                xplainButton.setVisibility(View.VISIBLE);
+//                backButton.setVisibility(View.VISIBLE);
+//                break;
+//            case STATE_MULTIPLY_EXPLAINED:
+//                resultView.removeView(resultMatrixLayout);
+//                resMatrixModel.onDestroy();
+//            case STATE_MULTIPLY_PRESSED:
+//            case STATE_MULTIPLY_FIND:
+//            case STATE_MULTIPLY_EXPLAINING:
+//                mainMatrixLayout.removeView(secondMatrixView);
+//                secondMatrixModel.onDestroy();
+//                resultView.removeAllViews();
+//            case STATE_SYSTEM_EXPLAINING_GAUS:
+//                resultView.removeView(resultMatrixLayout);
+//                if (resMatrixModel != null)
+//                    resMatrixModel.onDestroy();
+//                break;
+//            case STATE_INVERT_EXPLAINING:
+//                animator.stopExplain();
+//            case STATE_INVERT_EXPLAINED:
+//                solvationView.setVisibility(View.GONE);    //todo decimal is FRACTION
+//                explaining.setVisibility(View.GONE);
+//                xplainButton.setVisibility(View.VISIBLE);
+//                state = STATE_INVERT_FIND;
+//                break;
+//            case STATE_INVERT_FIND:
+//            case STATE_RANG_FIND:
+//            case STATE_SIDE_COLUMN_ADDED:
+//            case STATE_SYSTEM_SOLVED:
+//                state = STATE_INITIAL;
+//                bottomPlusHolder.setVisibility(View.VISIBLE);
+//                rightPlusHolder.setVisibility(View.VISIBLE);
+//
+//                solvationView.removeAllViews();
+//                Thread.yield();
+//                secondMatrixView = null;
+//                secondMatrixModel = null;
+//                break;
+//
+//        }
+//
+        return true;
+    }
 
 
 //    solvationView = new LinearLayout(context);

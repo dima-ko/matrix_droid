@@ -3,18 +3,13 @@ package com.insomniacmath;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.*;
-import com.insomniacmath.Animations.Animator;
-import com.insomniacmath.etc.Utils;
-import com.insomniacmath.math.exceptions.BadSymbolException;
-import com.insomniacmath.math.exceptions.SingularMatrixException;
-import com.insomniacmath.math.Fraction;
 import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.MatrixView;
-import org.ejml.simple.SimpleMatrix;
 
 
 public class Controller implements Constants {
@@ -24,7 +19,7 @@ public class Controller implements Constants {
     private float downY;
     private float downX;
 
-    EditableMatrixView mainMatrixModel;
+    EditableMatrixView mainMatrixView;
 
     LinearLayout mainMatrixLayout;
 
@@ -52,7 +47,7 @@ public class Controller implements Constants {
         mainMatrixLayout.setLayoutParams(wrapWrap);
         mainMatrixLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        mainMatrixModel = new MatrixView(context, mainMatrixLayout, 0);
+        mainMatrixView = new MatrixView(context, mainMatrixLayout, 0);
 
         scrollWrapper.addView(mainMatrixLayout, wrapWrap);
 
@@ -66,7 +61,7 @@ public class Controller implements Constants {
         rightPlusHolder.addView(plusColumn, c80x80);
         plusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrixModel.addColumn();
+                mainMatrixView.addColumn();
             }
         });
 
@@ -76,7 +71,7 @@ public class Controller implements Constants {
         rightPlusHolder.addView(minusColumn, c80x80);
         minusColumn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrixModel.removeColumn();
+                mainMatrixView.removeColumn();
             }
         });
 
@@ -104,13 +99,13 @@ public class Controller implements Constants {
 
         plusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrixModel.addRow();
+                mainMatrixView.addRow();
             }
         });
 
         minusRow.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mainMatrixModel.removeRow();
+                mainMatrixView.removeRow();
             }
         });
         mainView.addView(bottomPlusHolder, fillWrap);
@@ -118,6 +113,8 @@ public class Controller implements Constants {
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     }
+
+    private View actionButton;
 
     private void setActionBar(LinearLayout mainView) {
         RelativeLayout actionBar = (RelativeLayout) ((Activity) _context).getLayoutInflater().inflate(R.layout.top, null);
@@ -131,14 +128,6 @@ public class Controller implements Constants {
         dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
         dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
 
-        explaining = actionBar.findViewById(R.id.explaining);
-
-        solveButton = actionBar.findViewById(R.id.solve);
-        solveButton.setOnClickListener(actionsClickListener);
-
-        backButton = actionBar.findViewById(R.id.back_arrow);
-        backButton.setOnClickListener(actionsClickListener);
-
         actionButton = actionBar.findViewById(R.id.action);
         actionButton.setOnClickListener(actionsClickListener);
     }
@@ -147,113 +136,15 @@ public class Controller implements Constants {
         @Override
         public void onClick(View v) {
             int id = v.getId();
-            if (id == R.id.action) {
-                ((Activity) _context).getWindow().setSoftInputMode(
-                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-                dialog.show();
-            } else if (id == R.id.back_arrow) {
-                onBackPressed();
-            } else if (id == R.id.solve) {
-                if (state == STATE_SIDE_COLUMN_ADDED) {
-                    try {
-                        findSystemSolvation();
-                        solveButton.setVisibility(View.GONE);
-                    } catch (SingularMatrixException e) {
-                        e.printStackTrace();  //Todo
-                    }
-                } else if (state == STATE_MULTIPLY_PRESSED) {
-                    findMultiplication();
-                    solveButton.setVisibility(View.GONE);
-                }
-            } else {
-                if (dialog != null && dialog.isShowing())
-                    dialog.dismiss();
-                onMenu(id);
-            }
+            if (dialog != null && dialog.isShowing())
+                dialog.dismiss();
+            onMenu(id);
         }
     };
 
     public void onDestroy() {
-        stopExplain();
-        mainMatrixModel.onDestroy();
+        mainMatrixView.onDestroy();
     }
-
-    private void showXplainButton() {
-        backButton.setVisibility(View.VISIBLE);
-        actionButton.setVisibility(View.GONE);
-        xplainButton = (Button) mainView.findViewById(R.id.explain);
-        xplainButton.setVisibility(View.VISIBLE);
-        xplainButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                explaining.setVisibility(View.VISIBLE);
-                solvationView.setVisibility(View.VISIBLE);
-                solvationView.removeAllViews();
-                if (state == STATE_SYSTEM_SOLVED) {
-                    showSystemDialog();
-                } else {
-                    xplainButton.setVisibility(View.GONE);
-                    startExplain();
-                }
-            }
-        });
-    }
-
-    private void showSystemDialog() {
-
-
-    }
-
-    private void addResultText() {
-        resultText = new TextView(_context);
-        resultText.setTextSize(20);
-        resultText.setPadding(20, 20, 20, 20);
-        resultText.setId(RESULT_ID);
-        resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-        resultView.addView(resultText, wrapWrapCenterHor);
-    }
-
-    public void addSecondMatrix() {
-
-        state = STATE_MULTIPLY_PRESSED;
-        bottomPlusHolder.setVisibility(View.GONE);
-        rightPlusHolder.setVisibility(View.GONE);
-        actionButton.setVisibility(View.GONE);
-        solveButton.setVisibility(View.VISIBLE);
-        backButton.setVisibility(View.VISIBLE);
-
-        secondMatrixView = new LinearLayout(_context);
-
-        secondMatrixView.setLayoutParams(wrapWrap);
-        secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
-
-        secondMatrixModel = new MatrixView(_context, secondMatrixView, 1);
-        secondMatrixModel.adjustSizeTo(mainMatrixModel.rows, mainMatrixModel.columns);
-        secondMatrixModel.refreshVisible();
-
-        mainMatrixLayout.addView(secondMatrixView);
-
-        animator.setSecMW(secondMatrixModel);
-    }
-
-    // -----------------------------------------controls----------------------------------------------------
-
-//    public void moveToEdit(int direction) {
-//        int newId;
-//        EditText input2;
-//        if (curEditId < 100) {
-//            newId = mainMatrixModel.getNextEdit(direction, curEditId);
-//            input2 = (EditText) mainMatrixModel._view.findViewById(newId);
-//        } else {
-//            newId = secondMatrixModel.getNextEdit(direction, curEditId - 100);
-//            input2 = (EditText) secondMatrixModel.bodyMatrix.findViewById(newId);
-//        }
-//        if (newId != -1) {
-//            input2.requestFocus();
-//            curEditId = newId;
-//        }
-//    }
-
-
 
     public void onMenu(int i) {
         switch (i) {
@@ -270,7 +161,7 @@ public class Controller implements Constants {
                 findRang();
                 break;
             case R.id.solve_sys:
-                mainMatrixModel.addSideColumn();
+                mainMatrixView.addSideColumn();
                 state = STATE_SIDE_COLUMN_ADDED;
                 break;
 //            case R.id.eigen:
@@ -280,67 +171,4 @@ public class Controller implements Constants {
         }
     }
 
-    public boolean onBackPressed() {
-        switch (state) {
-            case STATE_INITIAL:
-                return false;
-            case STATE_DETERMIN_PRESSED:
-                state = STATE_INITIAL;
-                resultText.setVisibility(View.GONE);
-                solvationView.setVisibility(View.GONE);
-                xplainButton.setVisibility(View.GONE);
-                backButton.setVisibility(View.GONE);
-                actionButton.setVisibility(View.VISIBLE);
-                bottomPlusHolder.setVisibility(View.VISIBLE);
-                rightPlusHolder.setVisibility(View.VISIBLE);
-                break;
-            case STATE_DETERMIN_EXPLAINING:
-                animator.stopExplain();
-            case STATE_DETERMIN_EXPLAINED:
-                explaining.setVisibility(View.GONE);
-                state = STATE_DETERMIN_PRESSED;
-                solvationView.setVisibility(View.GONE);
-                xplainButton.setVisibility(View.VISIBLE);
-                backButton.setVisibility(View.VISIBLE);
-                break;
-            case STATE_MULTIPLY_EXPLAINED:
-                resultView.removeView(resultMatrixLayout);
-                resMatrixModel.onDestroy();
-            case STATE_MULTIPLY_PRESSED:
-            case STATE_MULTIPLY_FIND:
-            case STATE_MULTIPLY_EXPLAINING:
-                mainMatrixLayout.removeView(secondMatrixView);
-                secondMatrixModel.onDestroy();
-                resultView.removeAllViews();
-            case STATE_SYSTEM_EXPLAINING_GAUS:
-                resultView.removeView(resultMatrixLayout);
-                if (resMatrixModel != null)
-                    resMatrixModel.onDestroy();
-                break;
-            case STATE_INVERT_EXPLAINING:
-                animator.stopExplain();
-            case STATE_INVERT_EXPLAINED:
-                solvationView.setVisibility(View.GONE);    //todo decimal is FRACTION
-                explaining.setVisibility(View.GONE);
-                xplainButton.setVisibility(View.VISIBLE);
-                state = STATE_INVERT_FIND;
-                break;
-            case STATE_INVERT_FIND:
-            case STATE_RANG_FIND:
-            case STATE_SIDE_COLUMN_ADDED:
-            case STATE_SYSTEM_SOLVED:
-                state = STATE_INITIAL;
-                bottomPlusHolder.setVisibility(View.VISIBLE);
-                rightPlusHolder.setVisibility(View.VISIBLE);
-
-                solvationView.removeAllViews();
-                Thread.yield();
-                secondMatrixView = null;
-                secondMatrixModel = null;
-                break;
-
-        }
-
-        return true;
-    }
 }
