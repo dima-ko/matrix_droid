@@ -15,8 +15,8 @@ import android.view.WindowManager;
 import android.widget.*;
 import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
-import com.insomniacmath.math.Fraction;
 import com.insomniacmath.R;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 
@@ -98,6 +98,10 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
         hintLayout.setVisibility(View.GONE);
 
         refreshVisible();
+
+    }
+
+    protected void updateUI() {
 
     }
 
@@ -323,7 +327,7 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
 //        return -1;
 //    }
 
-    public void addRow() {
+    private void changeDimensions(int newRows, int newColumns) {
         if (rows < MAX_ROWS) {
             rows++;
             double[][] temp = new double[rows][columns];
@@ -337,10 +341,12 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
             m = temp.clone();
         } else
             Toast.makeText(context, "tooobig", 2000).show();
-        refreshVisible();
     }
 
-    protected abstract void refreshVisible();
+    public void addRow() {
+        model.addRow();
+        updateUI();
+    }
 
     public void removeRow() {
         if (rows > 1) {
@@ -390,9 +396,6 @@ public abstract class EditableMatrixView extends MatrixView implements Constants
             Toast.makeText(context, "tooosmall", 2000).show();
         refreshVisible();
     }
-
-
-    protected abstract void updateUI();
 
 
 }

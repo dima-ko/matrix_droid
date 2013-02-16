@@ -33,4 +33,8 @@ public class MatrixModel implements Constants {
         }
     }
 
+    public void addRow() {
+
+
+    }
 }

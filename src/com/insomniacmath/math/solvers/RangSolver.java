@@ -19,23 +19,23 @@ public class RangSolver extends Solver {
 
 
     }
-
-    public void findRang() {
-        resultView.removeAllViews();
-        addResultText();
-        try {
-            resultText.setText("Rang = " + Utils.round(mainMatrixModel.findRang(), false));
-            resultText.setTextColor(Color.WHITE);
-            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
-            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
-
-            state = STATE_RANG_FIND;
-            showXplainButton();
-        } catch (BadSymbolException e) {
-            resultText.setText(_context.getString(R.string.bad_elements));
-            resultText.setTextColor(Color.RED);
-//            solvationText.setVisibility(View.GONE);
-        }
-    }
-
+//
+//    public void findRang() {
+//        resultView.removeAllViews();
+//        addResultText();
+//        try {
+//            resultText.setText("Rang = " + Utils.round(mainMatrixModel.findRang(), false));
+//            resultText.setTextColor(Color.WHITE);
+//            // xplainButton.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.rotate_indefinitely_cw));
+//            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
+//
+//            state = STATE_RANG_FIND;
+//            showXplainButton();
+//        } catch (BadSymbolException e) {
+//            resultText.setText(_context.getString(R.string.bad_elements));
+//            resultText.setTextColor(Color.RED);
+////            solvationText.setVisibility(View.GONE);
+//        }
+//    }
+//
 }
