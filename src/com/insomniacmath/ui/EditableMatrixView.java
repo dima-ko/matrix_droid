@@ -16,11 +16,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
 
 public class EditableMatrixView extends MatrixView implements Constants {
 
 
+    public static final int MAX_SIZE = 10; //todo
     public EditText[][] grid;
 
 //    public LinearLayout hintLayout;
@@ -34,7 +36,6 @@ public class EditableMatrixView extends MatrixView implements Constants {
     public EditableMatrixView(Context context, int number) {
         super(context, number);
         this.number = number;
-        model = new MatrixModel();
         updateBody();
 
 //        hintLayout = new LinearLayout(context);      todo hint layout
@@ -56,7 +57,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
             grid[i] = new EditText[model.columns];
             for (int j = 0; j < model.columns; j++) {
                 grid[i][j] = new EditText(getContext());
-//                grid[i][j].setId(i * INIT_SIZE + j + 100 * number);
+                grid[i][j].setId(i * MAX_SIZE + j + 100 * number);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setSingleLine(false);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
@@ -64,8 +65,31 @@ public class EditableMatrixView extends MatrixView implements Constants {
                 grid[i][j].setGravity(Gravity.CENTER);
                 grid[i][j].setMinWidth(70);
                 grid[i][j].setMinHeight(70);
+                final EditText a = grid[i][j];
+                grid[i][j].addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    }
 
-                grid[i][j].addTextChangedListener(watcher);
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                        a.setTextColor(Color.WHITE);
+                        int row = (a.getId() - 100 * number) / MAX_SIZE;
+                        int column = (a.getId() - 100 * number) - row * MAX_SIZE;
+                        if (charSequence.toString().equals("")) {
+                            a.setBackgroundResource(R.drawable.edit);
+                            model.mFrac[row][column] = null;
+                        } else {
+                            Integer in = Integer.parseInt(charSequence.toString());
+                            a.setBackgroundResource(0);
+                            model.mFrac[row][column] = new Fraction(in);   //todo double
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                    }
+                });
                 gridRows[i].addView(grid[i][j], LParams.L_WRAP_70);
             }
             bodyMatrixRows.addView(gridRows[i], LParams.L_WRAP_WRAP);
@@ -74,7 +98,13 @@ public class EditableMatrixView extends MatrixView implements Constants {
 
         for (int i = 0; i < model.rows; i++) {
             for (int j = 0; j < model.columns; j++) {
-                SpannableString text = model.mFrac[i][j].toSpanString();
+                Fraction fraction = model.mFrac[i][j];
+                if (fraction == null) {
+                    grid[i][j].setText("");
+                    grid[i][j].setBackgroundResource(R.drawable.edit);
+                    break;
+                }
+                SpannableString text = fraction.toSpanString();
                 grid[i][j].setSingleLine(false);
                 grid[i][j].setText(text);
                 if (text.toString().contains("\n"))
@@ -95,23 +125,6 @@ public class EditableMatrixView extends MatrixView implements Constants {
         });
         grid[0][0].requestFocus();
     }
-
-    TextWatcher watcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            Log.d("clicked on edittext", " id: " + a.getId());
-        }
-
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            ((EditText) a).setTextColor(Color.WHITE);
-//            if (charSequence.toString().equals(""))
-//                a.setBackgroundResource(R.drawable.edit);
-//            else
-//                a.setBackgroundResource(0);
-        }
-
-        public void afterTextChanged(Editable editable) {
-        }
-    };
 
 
     public void addSideMatrix() {

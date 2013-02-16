@@ -24,7 +24,6 @@ public class Controller implements Constants {
 //    private float downX;
 
     EditableMatrixView mainMatrixView;
-    LinearLayout mainMatrixLayout;
 
     private Context _context;
     private LinearLayout mainView;
@@ -44,16 +43,9 @@ public class Controller implements Constants {
         setActionBar(mainView);
 
         HorizontalScrollView scrollView = new HorizontalScrollView(context);
-
         scrollWrapper = new LinearLayout(context);
-        mainMatrixLayout = new LinearLayout(context);
-
-        mainMatrixLayout.setLayoutParams(LParams.L_WRAP_WRAP);
-        mainMatrixLayout.setOrientation(LinearLayout.HORIZONTAL);
-
         mainMatrixView = new EditableMatrixView(context, 0);
-
-        scrollWrapper.addView(mainMatrixLayout, LParams.L_WRAP_WRAP);
+        scrollWrapper.addView(mainMatrixView, LParams.L_WRAP_WRAP);
 
         //right plus-minus
         rightPlusHolder = new LinearLayout(context);

@@ -21,6 +21,7 @@ public abstract class MatrixView extends LinearLayout implements Constants {
 
     public MatrixView(Context context, int number) {
         super(context);
+        setOrientation(LinearLayout.HORIZONTAL);
         this.number = number;
         model = new MatrixModel();
         buildBricks();
