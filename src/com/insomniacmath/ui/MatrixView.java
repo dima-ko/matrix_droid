@@ -13,25 +13,26 @@ public abstract class MatrixView extends LinearLayout implements Constants {
 
     public RelativeLayout bodyMatrix;
     public MatrixCanvas canvas;
-    ImageView rightBraket, leftBraket;
 
     MatrixModel model;
+    protected int number;
 
     public MatrixView(Context context, int number) {
         super(context);
+        this.number = number;
         model = new MatrixModel();
         buildBricks();
     }
 
     protected void buildBricks() {
-        leftBraket = new ImageView(getContext());
+        ImageView leftBraket = new ImageView(getContext());
         leftBraket.setImageResource(R.drawable.left_braket);
         addView(leftBraket, new LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
 
         bodyMatrix = new RelativeLayout(getContext());
         addView(bodyMatrix, LParams.L_WRAP_WRAP);
 
-        rightBraket = new ImageView(getContext());
+        ImageView rightBraket = new ImageView(getContext());
         rightBraket.setImageResource(R.drawable.right_braket);
         addView(rightBraket, new LayoutParams(35, ViewGroup.LayoutParams.FILL_PARENT));
 

@@ -21,27 +21,19 @@ import com.insomniacmath.exceptions.BadSymbolException;
 
 public abstract class EditableMatrixView extends MatrixView implements Constants {
 
-    public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
-    public EditText[][] grid = new EditText[MAX_ROWS][];
-    public LinearLayout _view;
-    public LinearLayout bodyMatrix;
-    public LinearLayout hintLayout;
-    public MatrixCanvas canvas;
-    boolean isSideColumnVisible = false;
     LinearLayout[] gridRows = new LinearLayout[MAX_ROWS];
-    LayoutParams editParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 70);
-    LayoutParams wrapWrap = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams wrapWrapRel = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    RelativeLayout.LayoutParams fillFill = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
-    ImageView rightBraket, leftBraket;
-    RelativeLayout relativeLayout;
+    public EditText[][] grid = new EditText[MAX_ROWS][];
+
+    public LinearLayout hintLayout;
+
+    boolean isSideColumnVisible = false;
+    public EditText[] sideColumnEdits = new EditText[MAX_ROWS];
     LinearLayout sideColumn;
     LinearLayout divider;
 
-    public EditableMatrixView(Context context, LinearLayout view, int number) {
+    public EditableMatrixView(Context context, int number) {
         super(context, number);
         this.number = number;
-        _view = view;
         buildView();
     }
 

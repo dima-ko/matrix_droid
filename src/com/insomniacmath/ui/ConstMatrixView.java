@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.insomniacmath.Constants;
 
 
-public abstract class ConstMatrixView extends MatrixView implements Constants {
+public class ConstMatrixView extends MatrixView implements Constants {
 
     public TextView[][] grid;
     LinearLayout[] gridRows;

@@ -2,17 +2,13 @@ package com.insomniacmath.ui;
 
 import android.content.Context;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import com.insomniacmath.Fraction;
-import com.insomniacmath.exceptions.BadSymbolException;
-import com.insomniacmath.exceptions.NotSquareException;
 import com.insomniacmath.roboto.TextViewRoboto;
 
 public class MinorSolvationView extends LinearLayout {
 
 
-    private final MatrixView matrixView;
+    private final ConstMatrixView matrixView;
     TextViewRoboto postfix;
     TextViewRoboto prefix;
 
@@ -27,34 +23,19 @@ public class MinorSolvationView extends LinearLayout {
     }
 
     //todo : arrow - next step, long press -> automatic
-    public MinorSolvationView(Context context, int row, int column, Fraction[][] fraction) {
+    public MinorSolvationView(Context context, MatrixModel model) {
         super(context);
         setGravity(Gravity.CENTER);
 
         prefix = new TextViewRoboto(context);
-        prefix.setText("M" + row + column);
-        addView(prefix, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(prefix, LParams.L_WRAP_WRAP);
 
         LinearLayout matrixLayout = new LinearLayout(context);
-        matrixView = new MatrixView(context, matrixLayout, 0);
-        matrixView.mFrac = Fraction.deepCopy(fraction);
-        matrixView.buildBricks();
-        matrixView.refreshVisible();
-        addView(matrixLayout, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-
+        matrixView = new ConstMatrixView(context, model, 0);
+        addView(matrixLayout, LParams.L_WRAP_WRAP);
 
         postfix = new TextViewRoboto(context);
-        try {
-            postfix.setText("=" + matrixView.findDeterminant());
-        } catch (NotSquareException e) {
-            e.printStackTrace();
-        } catch (BadSymbolException e) {
-            e.printStackTrace();
-        }
-        addView(postfix, new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(postfix, LParams.L_WRAP_WRAP);
 
 
     }
