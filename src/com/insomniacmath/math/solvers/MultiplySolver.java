@@ -18,7 +18,6 @@ public class MultiplySolver extends Solver {
     protected View solveButton;
 
     ConstMatrixView resultMatrixView;
-    MatrixView resMatrixModel;
 
     public MultiplySolver(LinearLayout mainView, Controller controller) {
         super(mainView, controller);

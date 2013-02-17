@@ -15,7 +15,7 @@ public class InverseAnimation extends Animation {
 
     public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1, MatrixView resMW) {
         super(animator, solvationView, mW1);
-//        dim = mW1.columns;
+
     }
 
     @Override

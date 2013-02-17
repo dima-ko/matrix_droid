@@ -123,10 +123,18 @@ public class MatrixUtils {
         return x;
     }
 
-    public static Fraction[][] inverse(double[][] A) {
+    public static Fraction[][] inverse(Fraction[][] A) {
         int size = A.length;
-        int cofac[][] = matrixOfCofactors(A);
-        SimpleMatrix origM = new SimpleMatrix(A);
+
+        double aDouble[][] = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            aDouble[i] = new double[size];
+            for (int j = 0; j < size; j++) {
+                aDouble[i][j] = A[i][j].doubleValue();
+            }
+        }
+        int cofac[][] = matrixOfCofactors(aDouble);
+        SimpleMatrix origM = new SimpleMatrix(aDouble);
         int determin = (int) origM.determinant();
         Fraction[][] result = new Fraction[size][];
         for (int i = 0; i < size; i++) {

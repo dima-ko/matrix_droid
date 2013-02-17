@@ -1,78 +1,55 @@
 package com.insomniacmath.math.solvers;
 
-import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.Controller;
-import com.insomniacmath.R;
-import com.insomniacmath.etc.Utils;
 import com.insomniacmath.math.Fraction;
-import com.insomniacmath.math.exceptions.BadSymbolException;
-import com.insomniacmath.math.exceptions.NotSquareException;
-import com.insomniacmath.ui.MatrixView;
-import org.ejml.simple.SimpleMatrix;
+import com.insomniacmath.math.MatrixModel;
+import com.insomniacmath.math.MatrixUtils;
+import com.insomniacmath.ui.ConstMatrixView;
 
 public class InvertSolver extends Solver {
 
 
     public InvertSolver(LinearLayout mainView, Controller controller) {
         super(mainView, controller);
+        controller.bottomPlusHolder.setVisibility(View.GONE);
+        controller.rightPlusHolder.setVisibility(View.GONE);
+        controller.state = STATE_MULTIPLY_PRESSED;
+
+        findInverse();
     }
 
     @Override
     public void onBackPressed() {
-
+        if (controller.state == STATE_MULTIPLY_PRESSED) {
+            controller.state = STATE_INITIAL;
+            mainView.removeView(resultView);
+            controller.bottomPlusHolder.setVisibility(View.VISIBLE);
+            controller.rightPlusHolder.setVisibility(View.VISIBLE);
+            onDestroySolver();
+        }
 
     }
 
-//     public void findInverse() {
-//        resultView.removeAllViews();
-//        try {
-//            mainMatrixModel.fillMatrixFromViews();
-//        } catch (BadSymbolException e) {
-//            addResultText();
-//            resultText.setText(_context.getString(R.string.bad_elements));
-//            resultText.setTextColor(Color.RED);
-//            return;
-//        }
-//
-//        if (mainMatrixModel.columns != mainMatrixModel.rows) {
-//            addResultText();
-//            resultText.setText("Matrix must be square");
-//            resultText.setTextColor(Color.RED);
-//            return;
-//        }
-//
-//        resultMatrixLayout = new LinearLayout(_context);
-//        resultMatrixLayout.setId(RESULT_MATRIX);
-//        resultView.addView(resultMatrixLayout, wrapWrapCenterHor);
-//        resMatrixModel = new MatrixView(_context, resultMatrixLayout, 2);
-//
-//        if (mainMatrixModel.elementsFractions) {
-//            Fraction[][] result = mainMatrixModel.findInverseFraction();
-//            resMatrixModel.adjustSizeTo(result[0].length, result.length);
-//            resMatrixModel.mFrac = result;
-//        } else {
-//            SimpleMatrix inverse = mainMatrixModel.findInverseDouble();
-//            resMatrixModel.adjustSizeTo(inverse.numCols(), inverse.numRows());
-//            for (int i = 0; i < inverse.numRows(); i++) {
-//                for (int j = 0; j < inverse.numCols(); j++) {
-//                    double v = inverse.get(i, j);
-//                    resMatrixModel.m[i][j] = v;
-//                }
-//            }
-//        }
-//
-//        state = STATE_INVERT_FIND;
-//
-//        resMatrixModel.fillViewsFromMatrix();
-//        resMatrixModel.refreshVisible();
+    ConstMatrixView resultMatrixView;
+
+    public void findInverse() {
+
+        controller.state = STATE_INVERT_FIND;
+
+        MatrixModel model = controller.mainMatrixView.model;
+        Fraction[][] result = MatrixUtils.inverse(model.mFrac);
+
+        MatrixModel resMatrix = new MatrixModel();
+        resMatrix.mFrac = result;  //todo rows
+
+        resultMatrixView = new ConstMatrixView(mainView.getContext(), resMatrix, 1);
+        resultView.addView(resultMatrixView);
+
 //        animator.setResultMW(resMatrixModel);
 //        animator.setAnimType(Animator.ANIM_INVERT, mainMatrixModel.rows, mainMatrixModel.columns);
-//        showXplainButton();
-//        bottomPlusHolder.setVisibility(View.GONE);
-//        rightPlusHolder.setVisibility(View.GONE);
-//    }
+        showXplainButton();
+    }
 
 }
