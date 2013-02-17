@@ -13,7 +13,6 @@ import com.insomniacmath.ui.MatrixView;
 public class MultiplySolver extends Solver {
 
     private EditableMatrixView secondMatrixView;
-
     protected View solveButton;
 
     LinearLayout resultMatrixLayout;
@@ -81,11 +80,16 @@ public class MultiplySolver extends Solver {
 
 
     @Override
-   public void onBackPressed() {
-        if (controller.state == STATE_MULTIPLY_FIND)
+    public void onBackPressed() {
+        if (controller.state == STATE_MULTIPLY_FIND) {
             controller.state = STATE_MULTIPLY_PRESSED;
-        else if (controller.state == STATE_MULTIPLY_PRESSED) {
+            if (solvationView != null)
+                mainView.removeView(solvationView);
+        } else if (controller.state == STATE_MULTIPLY_PRESSED) {
             controller.state = STATE_INITIAL;
+            mainView.removeView(secondMatrixView);
+            controller.bottomPlusHolder.setVisibility(View.VISIBLE);
+            controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
         }
 

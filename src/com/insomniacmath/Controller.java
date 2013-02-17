@@ -18,7 +18,7 @@ import com.insomniacmath.ui.LParams;
 
 public class Controller implements Constants {
 
-    public  int state = STATE_INITIAL;
+    public int state = STATE_INITIAL;
 
 //    private float downY;
 //    private float downX;
@@ -175,9 +175,10 @@ public class Controller implements Constants {
     }
 
     public boolean onBackPressed() {
+        boolean b = state != STATE_INITIAL;
         if (solver == null)
             return false;
         solver.onBackPressed();
-        return state != STATE_INITIAL;
+        return b;
     }
 }
