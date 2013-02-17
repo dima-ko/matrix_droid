@@ -22,7 +22,7 @@ import com.insomniacmath.math.MatrixModel;
 public class EditableMatrixView extends MatrixView implements Constants {
 
 
-    public static final int MAX_SIZE = 10; //todo
+
     public EditText[][] grid;
 
 //    public LinearLayout hintLayout;

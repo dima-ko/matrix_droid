@@ -43,7 +43,7 @@ public class SystemAnimTest extends GeneralTest {
         }
 
         solo.clickOnMenuItem("Solve");
-        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
+//        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
         solo.sleep(400200);
 
     }

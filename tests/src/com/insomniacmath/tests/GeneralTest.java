@@ -30,7 +30,7 @@ public class GeneralTest extends
     }
 
     protected void enterEditByXY(int x, int y, float number) {
-        int id = y * MAX_COLUMNS + x;
+        int id = y * MAX_SIZE + x;
         enterEditByID(id, number);
     }
 
@@ -41,7 +41,7 @@ public class GeneralTest extends
     }
 
     protected void enterEditByXY(int x, int y, int number) {
-        int id = y * MAX_COLUMNS + x;
+        int id = y * MAX_SIZE + x;
         enterEditByID(id, number);
     }
 

@@ -19,10 +19,10 @@ public class Determinan2x2tTest extends
         enterEditByXY(1, 0, 5);
         enterEditByXY(0, 1, 8);
         enterEditByXY(1, 1, 12);
+        solo.clickOnText("Action");
         solo.clickOnMenuItem("Determinant");
         solo.sleep(10);
-        TextView result = (TextView) solo.getView(RESULT_ID);
-        Assert.assertEquals(result.getText(), "Determinant = " + "-16");
+        Assert.assertTrue(solo.searchText("Determinant = " + "-16"));
     }
 
 }

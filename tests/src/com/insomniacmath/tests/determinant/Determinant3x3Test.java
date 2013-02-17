@@ -1,8 +1,6 @@
 package com.insomniacmath.tests.determinant;
 
 
-import android.widget.TextView;
-import com.insomniacmath.Constants;
 import com.insomniacmath.tests.GeneralTest;
 import junit.framework.Assert;
 
@@ -31,9 +29,9 @@ public class Determinant3x3Test extends
         enterEditByXY(1, 2, 0);
         enterEditByXY(2, 2, 6);
 
+        solo.clickOnText("Action");
         solo.clickOnMenuItem("Determinant");
         solo.sleep(10);
-        TextView result = (TextView) solo.getView(RESULT_ID);
-        Assert.assertEquals(result.getText(), "Determinant = " + "4");
+        Assert.assertTrue(solo.searchText("Determinant = " + "4"));
     }
 }

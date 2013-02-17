@@ -37,12 +37,12 @@ public class RandomTest extends
 
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                enterEditByID(100 + i * MAX_COLUMNS + j, random.nextInt() % 100);
+//                enterEditByID(100 + i * MAX_COLUMNS + j, random.nextInt() % 100);
             }
         }
 
         solo.clickOnMenuItem("Solve");
-        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
+//        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
         solo.sleep(400200);
 
     }

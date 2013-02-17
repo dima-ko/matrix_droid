@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
  */
 public interface Constants {
 
+    public static final int MAX_SIZE = 10; //todo
+
     int STATE_INITIAL = 0;
     int STATE_DETERMIN_PRESSED = 1;
     int STATE_DETERMIN_EXPLAINING = 2;

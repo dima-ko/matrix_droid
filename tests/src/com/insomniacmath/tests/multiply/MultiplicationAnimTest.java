@@ -33,7 +33,7 @@ public class MultiplicationAnimTest extends
         enterEditByID(117, 9);
 
         solo.clickOnMenuItem("Solve");
-        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
+//        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
         solo.sleep(400200);
 
     }

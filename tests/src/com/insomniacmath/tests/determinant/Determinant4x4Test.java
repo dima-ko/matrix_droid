@@ -40,9 +40,9 @@ public class Determinant4x4Test extends
         enterEditByXY(2, 3, 7);
         enterEditByXY(3, 3, -6);
 
+        solo.clickOnText("Action");
         solo.clickOnMenuItem("Determinant");
         solo.sleep(10);
-        TextView result = (TextView) solo.getView(RESULT_ID);
-        Assert.assertEquals(result.getText(), "Determinant = " + "6");
+        Assert.assertTrue(solo.searchText("Determinant = " + "6"));
     }
 }
