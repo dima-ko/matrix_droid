@@ -10,10 +10,10 @@ import com.insomniacmath.ui.MatrixView;
 
 public class Animator {
 
-    static final int ANIM_DETERMINANT = 0;
-    static final int ANIM_MULTIPLICATION = 1;
-    static final int ANIM_SYSTEM_GAUSS = 2;
-    static final int ANIM_INVERT = 3;
+   public static final int ANIM_DETERMINANT = 0;
+    public static final int ANIM_MULTIPLICATION = 1;
+    public static final int ANIM_SYSTEM_GAUSS = 2;
+    public static final int ANIM_INVERT = 3;
 
     TicTac tic;
 

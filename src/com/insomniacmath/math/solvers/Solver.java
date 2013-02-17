@@ -1,24 +1,59 @@
 package com.insomniacmath.math.solvers;
 
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import com.insomniacmath.Animations.Animator;
+import com.insomniacmath.Constants;
 import com.insomniacmath.Controller;
+import com.insomniacmath.R;
+import com.insomniacmath.ui.LParams;
 import com.insomniacmath.ui.MatrixView;
 
-public abstract class Solver {
+public abstract class Solver implements Constants {
 
 
-    private LinearLayout mainView;
-    private Controller controller;
+    protected LinearLayout mainView;
+    protected Controller controller;
 
     protected Solver(LinearLayout mainView, Controller controller) {
         this.mainView = mainView;
         this.controller = controller;
+        addResultView();
     }
 
-    int state;
     protected Animator animator;
+
+    protected LinearLayout solvationView;
+    protected LinearLayout resultView;
+
+    public void addSolvationView() {
+        solvationView = new LinearLayout(mainView.getContext());
+        solvationView.setBackgroundColor(0xff222222);
+        //    solvationView.setOnTouchListener(new View.OnTouchListener() {
+        //        public boolean onTouch(View view, MotionEvent motionEvent) {
+        //            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+        //                downX = motionEvent.getX();
+        //            } else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
+        //                animator.changeSpeed((motionEvent.getX() - downX) > 0);
+        //            return true;
+        //        }
+        //    });
+        solvationView.setOrientation(LinearLayout.VERTICAL);
+        solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
+        solvationView.setVisibility(View.GONE);
+        mainView.addView(solvationView);
+    }
+
+
+    public void addResultView() {
+        resultView = new LinearLayout(mainView.getContext());
+        resultView.setGravity(Gravity.CENTER_HORIZONTAL);
+        resultView.setOrientation(LinearLayout.HORIZONTAL);
+        resultView.setPadding(0, 5, 0, 0);
+        resultView.setBackgroundColor(0xff000000);
+        mainView.addView(resultView, LParams.L_FILL_FILL);
+    }
 
     public void showInitial() {
 
@@ -36,46 +71,53 @@ public abstract class Solver {
 
     }
 
+    public void onDestroySolver() {
+        mainView.removeView(resultView);
+        mainView.removeView(solvationView);
+        resultView = null;
+        solvationView = null;
+    }
+
 
     private LinearLayout secondMatrixView;
-    private LinearLayout solvationView;
     LinearLayout resultMatrixLayout;
 
     MatrixView resMatrixModel;
 
-    private void showXplainButton() {
-//        backButton.setVisibility(View.VISIBLE);
-//        actionButton.setVisibility(View.GONE);
-//        xplainButton = (Button) mainView.findViewById(R.id.explain);
-//        xplainButton.setVisibility(View.VISIBLE);
-//        xplainButton.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View view) {
-//                explaining.setVisibility(View.VISIBLE);
-//                solvationView.setVisibility(View.VISIBLE);
-//                solvationView.removeAllViews();
-//                if (state == STATE_SYSTEM_SOLVED) {
-//                    showSystemDialog();
-//                } else {
-//                    xplainButton.setVisibility(View.GONE);
-//                    startExplain();
-//                }
-//            }
-//        });
+    private View backButton;
+    private View solveButton;
+    private View explaining;
+    private View xplainButton;
+
+    protected void showXplainButton() {
+        backButton.setVisibility(View.VISIBLE);
+        controller.actionButton.setVisibility(View.GONE);
+        xplainButton = mainView.findViewById(R.id.explain);
+        xplainButton.setVisibility(View.VISIBLE);
+        xplainButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                explaining.setVisibility(View.VISIBLE);
+                solvationView.setVisibility(View.VISIBLE);
+                solvationView.removeAllViews();
+                if (Controller.state == STATE_SYSTEM_SOLVED) {
+                    showSystemDialog();
+                } else {
+                    xplainButton.setVisibility(View.GONE);
+                    startExplain();
+                }
+            }
+        });
+    }
+
+    private void startExplain() {
+
+
     }
 
     private void showSystemDialog() {
 
 
     }
-//
-//    private void addResultText() {
-//        resultText = new TextView(_context);
-//        resultText.setTextSize(20);
-//        resultText.setPadding(20, 20, 20, 20);
-//        resultText.setId(RESULT_ID);
-//        resultText.setGravity(Gravity.CENTER_HORIZONTAL);
-//        resultView.addView(resultText, wrapWrapCenterHor);
-//    }
 
     //            if (id == R.id.action) {
 //                ((Activity) _context).getWindow().setSoftInputMode(
@@ -120,9 +162,7 @@ public abstract class Solver {
 //        animator.setSecMW(secondMatrixModel);
 //    }
 
-    private View backButton;
-    private View solveButton;
-    private View explaining;
+
 //
 //    private void startExplain() {
 //        ((Activity) _context).getWindow().setSoftInputMode(
@@ -220,28 +260,6 @@ public abstract class Solver {
     }
 
 
-//    solvationView = new LinearLayout(context);
-//    solvationView.setBackgroundColor(0xff222222);
-//    solvationView.setOnTouchListener(new View.OnTouchListener() {
-//        public boolean onTouch(View view, MotionEvent motionEvent) {
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                downX = motionEvent.getX();
-//            } else if (motionEvent.getAction() == MotionEvent.ACTION_UP)
-//                animator.changeSpeed((motionEvent.getX() - downX) > 0);
-//            return true;
-//        }
-//    });
-//
-//    solvationView.setOrientation(LinearLayout.VERTICAL);
-//    solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-//    solvationView.setVisibility(View.GONE);     //todo add margin
-//    mainView.addView(solvationView);
-//
-//    resultView = new LinearLayout(context);
-//    resultView.setGravity(Gravity.CENTER_HORIZONTAL);
-//    resultView.setOrientation(LinearLayout.HORIZONTAL);
-//    resultView.setPadding(0, 5, 0, 0);
-//    resultView.setBackgroundColor(0xff000000);
 //    resultView.setOnTouchListener(new View.OnTouchListener() {
 //        public boolean onTouch(View view, MotionEvent motionEvent) {
 //            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -259,9 +277,4 @@ public abstract class Solver {
 //            return true;
 //        }
 //    });
-//
-//    mainView.addView(resultView, fillFill);
-//
-//    animator = new Animator(mainMatrixModel);
-//    animator.setView(solvationView);
 }

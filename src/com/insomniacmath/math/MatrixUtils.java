@@ -2,9 +2,6 @@ package com.insomniacmath.math;
 
 
 import android.util.Log;
-import com.insomniacmath.etc.Utils;
-import com.insomniacmath.math.exceptions.BadSymbolException;
-import com.insomniacmath.math.exceptions.NotSquareException;
 import com.insomniacmath.math.exceptions.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
@@ -12,21 +9,26 @@ public class MatrixUtils {
 
     private static final double EPSILON = 1e-10;
 
-    public static double determin(double[][] m) {
+    public static Fraction determin(Fraction[][] m) {
+
         int size = m.length;
-        double D = 0;
+        Fraction D = new Fraction(0);
         if (size == 1)
             return m[0][0];
         else {
             for (int k = 0; k < size; k++) {
-                double[][] temp = new double[size - 1][];
+                Fraction[][] temp = new Fraction[size - 1][];
                 for (int i = 0; i < size - 1; i++) {
-                    temp[i] = new double[size - 1];
+                    temp[i] = new Fraction[size - 1];
                     for (int j = 0; j < size - 1; j++) {
                         temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
                     }
                 }
-                D += Math.pow(-1, k) * m[0][k] * determin(temp);
+                int pow = 1;
+                for (int i = 0; i < k; i++) {
+                    pow *= -1;
+                }
+                D = D.add(m[0][k].multiply(determin(temp)).multiply(pow));
             }
         }
         return D;
@@ -153,16 +155,6 @@ public class MatrixUtils {
 //        return A.solve(b);
 //    }
 //
-//    public static double findDeterminant() throws NotSquareException, BadSymbolException {
-//        fillMatrixFromViews();
-//        if (columns != rows) {
-////            Toast.makeText(context, "no square", 2000).show();
-//            throw new NotSquareException();
-//        } else {
-//            return Utils.determin(m);
-//        }
-//
-//    }
 //
 //    public static Fraction[] solveSLEFraction() throws SingularMatrixException {
 //        return Utils.gauss(mFrac, sideFrac);

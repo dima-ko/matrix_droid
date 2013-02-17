@@ -16,7 +16,7 @@ public abstract class MatrixView extends LinearLayout implements Constants {
     LinearLayout[] gridRows;
     public MatrixCanvas canvas;
 
-    MatrixModel model;
+   public MatrixModel model;
     protected int number;
 
     public MatrixView(Context context, int number) {

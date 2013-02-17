@@ -23,13 +23,13 @@ public class Controller implements Constants {
 //    private float downY;
 //    private float downX;
 
-    EditableMatrixView mainMatrixView;
+   public EditableMatrixView mainMatrixView;
 
     private Context _context;
     private LinearLayout mainView;
-    LinearLayout bottomPlusHolder;
-    LinearLayout rightPlusHolder;
-    LinearLayout scrollWrapper;
+    public LinearLayout bottomPlusHolder;
+    public LinearLayout rightPlusHolder;
+    public LinearLayout scrollWrapper;
 
     Dialog dialog;
     Solver solver = null;
@@ -111,6 +111,8 @@ public class Controller implements Constants {
 
     }
 
+    public View actionButton;
+
     private void setActionBar(LinearLayout mainView) {
         RelativeLayout actionBar = (RelativeLayout) ((Activity) _context).getLayoutInflater().inflate(R.layout.top, null);
         mainView.addView(actionBar, new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -123,7 +125,8 @@ public class Controller implements Constants {
         dialog.findViewById(R.id.solve_sys).setOnClickListener(actionsClickListener);
         dialog.findViewById(R.id.rank).setOnClickListener(actionsClickListener);
 
-        View actionButton = actionBar.findViewById(R.id.action);
+
+        actionButton = actionBar.findViewById(R.id.action);
         actionButton.setOnClickListener(actionsClickListener);
     }
 

@@ -117,6 +117,12 @@ public class Fraction {
         return result;
     }
 
+    public Fraction multiply(int a) {
+        Fraction result = new Fraction(this.num * a, this.denom );
+        result.simplify();
+        return result;
+    }
+
     public double doubleValue() {
         return ((double) num) / denom;
     }
