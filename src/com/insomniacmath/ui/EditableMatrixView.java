@@ -49,7 +49,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
         updateBody();
     }
 
-    protected void updateBody() {
+    public void updateBody() {
         bodyMatrix.removeAllViews();
 
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());

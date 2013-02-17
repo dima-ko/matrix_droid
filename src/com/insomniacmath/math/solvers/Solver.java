@@ -70,23 +70,14 @@ public abstract class Solver implements Constants {
         mainView.addView(resultView, LParams.L_FILL_FILL);
     }
 
-    public void showInitial() {
-
-    }
-
-    public void showSolve() {
-
-    }
-
-    public void showExplaine() {
-
-    }
-
     public void showExplaining() {
 
     }
 
     public void onDestroySolver() {
+        controller.actionButton.setVisibility(View.VISIBLE);
+        backButton.setVisibility(View.GONE);
+        message.setVisibility(View.GONE);
         mainView.removeView(resultView);
         mainView.removeView(solvationView);
         resultView = null;

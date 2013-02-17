@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 import com.insomniacmath.ui.EditableMatrixView;
@@ -15,7 +16,7 @@ public class MultiplySolver extends Solver {
     private EditableMatrixView secondMatrixView;
     protected View solveButton;
 
-    LinearLayout resultMatrixLayout;
+    EditableMatrixView resultMatrixView;
     MatrixView resMatrixModel;
 
     public MultiplySolver(LinearLayout mainView, Controller controller) {
@@ -32,6 +33,7 @@ public class MultiplySolver extends Solver {
 
         secondMatrixView = new EditableMatrixView(mainView.getContext(), secMatrix, 1);
         controller.scrollWrapper.addView(secondMatrixView);
+
         showSolveButton();
     }
 
@@ -69,13 +71,15 @@ public class MultiplySolver extends Solver {
             }
             controller.state = STATE_MULTIPLY_FIND;
             message.setVisibility(View.GONE);
+
+            findMultiplication();
+            showXplainButton();
         } catch (BadSymbolException e) {
             e.printStackTrace();
             message.setText(mainView.getContext().getString(R.string.bad_elements));
             message.setTextColor(Color.RED);
             message.setVisibility(View.VISIBLE);
         }
-
     }
 
 
@@ -83,6 +87,7 @@ public class MultiplySolver extends Solver {
     public void onBackPressed() {
         if (controller.state == STATE_MULTIPLY_FIND) {
             controller.state = STATE_MULTIPLY_PRESSED;
+            xplainButton.setVisibility(View.GONE);
             if (solvationView != null)
                 mainView.removeView(solvationView);
         } else if (controller.state == STATE_MULTIPLY_PRESSED) {
@@ -92,52 +97,57 @@ public class MultiplySolver extends Solver {
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
         }
+    }
+
+    @Override
+    public void onDestroySolver() {
+        super.onDestroySolver();
+        solveButton.setVisibility(View.GONE);
+    }
+
+    public void findMultiplication() {
+
+        controller.state = STATE_MULTIPLY_FIND;
+        Fraction[][] a = controller.mainMatrixView.model.mFrac;
+        Fraction[][] b = secondMatrixView.model.mFrac;
+
+        int aRows = a.length,
+                aColumns = a[0].length,
+                bRows = b.length,
+                bColumns = b[0].length;
+
+        if (aColumns != bRows) {
+            throw new IllegalArgumentException("A:Rows: " + aColumns + " did not match B:Columns " + bRows + ".");
+        }
+
+        Fraction[][] resultant = new Fraction[aRows][bColumns];
+
+        for (int i = 0; i < aRows; i++) { // aRow
+            resultant[i] = new Fraction[bColumns];
+            for (int j = 0; j < bColumns; j++) { // bColumn
+                resultant[i][j] = new Fraction(0);
+                for (int k = 0; k < aColumns; k++) { // aColumn
+                    Fraction multiply = a[i][k].multiply(b[k][j]);
+                    resultant[i][j] = resultant[i][j].add(multiply);
+                }
+            }
+        }
+
+        MatrixModel resMatrix = new MatrixModel();
+        resMatrix.mFrac = resultant;  //todo rows
+
+        resultMatrixView = new EditableMatrixView(mainView.getContext(), resMatrix, 1);
+        resultView.addView(resultMatrixView);
+
+        showXplainButton();
+//        animator.setResultMW(resMatrixModel);
+//        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
 
     }
-//
-//    public void findMultiplication() {
-//        try {
-//            mainMatrixModel.fillMatrixFromViews();
-//        } catch (BadSymbolException e) {
-//            addResultText();
-//            resultText.setText(_context.getString(R.string.bad_elements));
-//            resultText.setTextColor(Color.RED);
-//            return;
-//        }
-//        try {
-//            secondMatrixModel.fillMatrixFromViews();
-//        } catch (BadSymbolException e) {
-//            addResultText();
-//            resultText.setText(_context.getString(R.string.bad_elements));
-//            resultText.setTextColor(Color.RED);
-//            return;
-//        }
-//
-//        state = STATE_MULTIPLY_FIND;
-//
-//        SimpleMatrix a = new SimpleMatrix(mainMatrixModel.m);
-//        SimpleMatrix b = new SimpleMatrix(secondMatrixModel.m);
-//
-//        SimpleMatrix c = a.mult(b);
-//
-//        LinearLayout resultMatrixLay = new LinearLayout(_context);
-//        resultMatrixLay.setId(RESULT_MATRIX);
-//        resultView.addView(resultMatrixLay, wrapWrapCenterHor);
-//
-//        resMatrixModel = new MatrixView(_context, resultMatrixLay, 2);
-//        resMatrixModel.adjustSizeTo(c.numRows(), c.numCols());
-//        for (int i = 0; i < c.numRows(); i++) {
-//            for (int j = 0; j < c.numCols(); j++) {
-//                resMatrixModel.m[i][j] = c.get(i, j);
-//            }
-//        }
-//        resMatrixModel.fillViewsFromMatrix();
-//        resMatrixModel.refreshVisible();
-//        animator.setResultMW(resMatrixModel);
-//        showXplainButton();
-//        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
-//    }
-//
 
-
+    @Override
+    protected void showXplainButton() {
+        super.showXplainButton();
+        solveButton.setVisibility(View.GONE);
+    }
 }

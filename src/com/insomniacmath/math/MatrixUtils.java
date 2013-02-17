@@ -34,6 +34,28 @@ public class MatrixUtils {
         return D;
     }
 
+//    public static MatrixModel multiply(MatrixModel a, MatrixModel b) {
+//
+//        int size = m.length;
+//        else{
+//            for (int k = 0; k < size; k++) {
+//                Fraction[][] temp = new Fraction[size - 1][];
+//                for (int i = 0; i < size - 1; i++) {
+//                    temp[i] = new Fraction[size - 1];
+//                    for (int j = 0; j < size - 1; j++) {
+//                        temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
+//                    }
+//                }
+//                int pow = 1;
+//                for (int i = 0; i < k; i++) {
+//                    pow *= -1;
+//                }
+//                D = D.add(m[0][k].multiply(determin(temp)).multiply(pow));
+//            }
+//        }
+//        return D;
+//    }
+
     public static int[][] matrixOfCofactors(double orig[][]) {
         int size = orig.length;
         int[][] result = new int[size][];
