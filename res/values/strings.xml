@@ -9,5 +9,6 @@
     <string name="multiply">Multiply</string>
     <string name="determinant">Determinant</string>
     <string name="bad_elements">Some elements\n are unsuitable</string>
+    <string name="sing">singular</string>
     <string name="press_menu">press menu</string>
 </resources>

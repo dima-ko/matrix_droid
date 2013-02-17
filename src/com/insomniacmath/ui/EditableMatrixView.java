@@ -135,7 +135,6 @@ public class EditableMatrixView extends MatrixView implements Constants {
 
 
     public void addSideMatrix() {
-
         divider = new LinearLayout(getContext());
         divider.setBackgroundColor(Color.WHITE);
         RelativeLayout.LayoutParams dividerparams = new RelativeLayout.LayoutParams(5, RelativeLayout.LayoutParams.FILL_PARENT);

@@ -21,6 +21,7 @@ public class SystemSolver extends Solver {
         super(mainView, controller);
         solveButton = mainView.findViewById(R.id.solve);
         controller.mainMatrixView.addSideMatrix();
+        showSolveButton();
     }
 
     protected void showSolveButton() {
@@ -54,7 +55,6 @@ public class SystemSolver extends Solver {
             }
 
         } catch (BadSymbolException e) {
-            e.printStackTrace();
             message.setText(mainView.getContext().getString(R.string.bad_elements));
             message.setVisibility(View.VISIBLE);
             return;
@@ -62,6 +62,14 @@ public class SystemSolver extends Solver {
 
         controller.state = STATE_SYSTEM_SOLVED;
         message.setVisibility(View.GONE);
+
+        try {
+            findSystemSolvation();
+        } catch (SingularMatrixException e) {
+            message.setText(mainView.getContext().getString(R.string.sing));
+            message.setVisibility(View.VISIBLE);
+            return;
+        }
 
         showXplainButton();
 
@@ -78,9 +86,7 @@ public class SystemSolver extends Solver {
         resultView.removeAllViews();
         Fraction[] result = MatrixUtils.gauss(controller.mainMatrixView.model.mFrac, controller.mainMatrixView.sideFrac);
 
-        MatrixModel resMatrix = new MatrixModel(result);
-
-        resultMatrixView = new ConstMatrixView(mainView.getContext(), resMatrix, 1);
+        resultMatrixView = new ConstMatrixView(mainView.getContext(), result, 1);
         resultView.addView(resultMatrixView);
 
 //        animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixModel.rows, mainMatrixModel.columns);
