@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.view.Gravity;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Constants;
@@ -28,6 +27,7 @@ public class ConstMatrixView extends MatrixView implements Constants {
     protected void updateBody() {
         bodyMatrix.removeAllViews();
         grid = new TextView[model.rows][];
+        gridRows = new LinearLayout[model.rows];
 
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
@@ -35,12 +35,13 @@ public class ConstMatrixView extends MatrixView implements Constants {
         for (int i = 0; i < model.rows; i++) {
             gridRows[i] = new LinearLayout(getContext());
             gridRows[i].setOrientation(LinearLayout.HORIZONTAL);
-            grid[i] = new EditText[model.columns];
+            grid[i] = new TextView[model.columns];
             for (int j = 0; j < model.columns; j++) {
                 grid[i][j] = new TextView(getContext());
                 grid[i][j].setTextColor(Color.WHITE);
                 grid[i][j].setGravity(Gravity.CENTER);
                 grid[i][j].setMinHeight(70);
+                grid[i][j].setMinWidth(70);
                 gridRows[i].addView(grid[i][j], LParams.L_WRAP_70);
             }
             bodyMatrixRows.addView(gridRows[i], LParams.L_WRAP_WRAP);
@@ -56,7 +57,6 @@ public class ConstMatrixView extends MatrixView implements Constants {
                     grid[i][j].setTextSize(12);
                 else
                     grid[i][j].setTextSize(18);
-
             }
         }
     }

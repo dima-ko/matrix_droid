@@ -8,6 +8,7 @@ import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.exceptions.BadSymbolException;
+import com.insomniacmath.ui.ConstMatrixView;
 import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.MatrixView;
 
@@ -16,7 +17,7 @@ public class MultiplySolver extends Solver {
     private EditableMatrixView secondMatrixView;
     protected View solveButton;
 
-    EditableMatrixView resultMatrixView;
+    ConstMatrixView resultMatrixView;
     MatrixView resMatrixModel;
 
     public MultiplySolver(LinearLayout mainView, Controller controller) {
@@ -74,6 +75,7 @@ public class MultiplySolver extends Solver {
 
             findMultiplication();
             showXplainButton();
+
         } catch (BadSymbolException e) {
             e.printStackTrace();
             message.setText(mainView.getContext().getString(R.string.bad_elements));
@@ -136,7 +138,7 @@ public class MultiplySolver extends Solver {
         MatrixModel resMatrix = new MatrixModel();
         resMatrix.mFrac = resultant;  //todo rows
 
-        resultMatrixView = new EditableMatrixView(mainView.getContext(), resMatrix, 1);
+        resultMatrixView = new ConstMatrixView(mainView.getContext(), resMatrix, 1);
         resultView.addView(resultMatrixView);
 
         showXplainButton();
