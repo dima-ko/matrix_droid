@@ -16,15 +16,16 @@ public class InvertSolver extends Solver {
         controller.bottomPlusHolder.setVisibility(View.GONE);
         controller.rightPlusHolder.setVisibility(View.GONE);
         controller.state = STATE_MULTIPLY_PRESSED;
-
         findInverse();
     }
 
     @Override
     public void onBackPressed() {
-        if (controller.state == STATE_MULTIPLY_PRESSED) {
+        if (controller.state == STATE_INVERT_FIND) {
             controller.state = STATE_INITIAL;
             mainView.removeView(resultView);
+            resultView = null;
+            resultMatrixView = null;
             controller.bottomPlusHolder.setVisibility(View.VISIBLE);
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
@@ -37,7 +38,6 @@ public class InvertSolver extends Solver {
     public void findInverse() {
 
         controller.state = STATE_INVERT_FIND;
-
         MatrixModel model = controller.mainMatrixView.model;
         Fraction[][] result = MatrixUtils.inverse(model.mFrac);
 

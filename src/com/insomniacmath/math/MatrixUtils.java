@@ -34,28 +34,6 @@ public class MatrixUtils {
         return D;
     }
 
-//    public static MatrixModel multiply(MatrixModel a, MatrixModel b) {
-//
-//        int size = m.length;
-//        else{
-//            for (int k = 0; k < size; k++) {
-//                Fraction[][] temp = new Fraction[size - 1][];
-//                for (int i = 0; i < size - 1; i++) {
-//                    temp[i] = new Fraction[size - 1];
-//                    for (int j = 0; j < size - 1; j++) {
-//                        temp[i][j] = (j >= k) ? m[i + 1][j + 1] : m[i + 1][j];
-//                    }
-//                }
-//                int pow = 1;
-//                for (int i = 0; i < k; i++) {
-//                    pow *= -1;
-//                }
-//                D = D.add(m[0][k].multiply(determin(temp)).multiply(pow));
-//            }
-//        }
-//        return D;
-//    }
-
     public static int[][] matrixOfCofactors(double orig[][]) {
         int size = orig.length;
         int[][] result = new int[size][];
@@ -126,13 +104,8 @@ public class MatrixUtils {
     public static Fraction[][] inverse(Fraction[][] A) {
         int size = A.length;
 
-        double aDouble[][] = new double[size][size];
-        for (int i = 0; i < size; i++) {
-            aDouble[i] = new double[size];
-            for (int j = 0; j < size; j++) {
-                aDouble[i][j] = A[i][j].doubleValue();
-            }
-        }
+        double[][] aDouble = getDoublesMatrix(A, size);
+
         int cofac[][] = matrixOfCofactors(aDouble);
         SimpleMatrix origM = new SimpleMatrix(aDouble);
         int determin = (int) origM.determinant();
@@ -144,6 +117,17 @@ public class MatrixUtils {
             }
         }
         return result;
+    }
+
+    public static double[][] getDoublesMatrix(Fraction[][] A, int size) {
+        double aDouble[][] = new double[size][size];
+        for (int i = 0; i < size; i++) {
+            aDouble[i] = new double[size];
+            for (int j = 0; j < size; j++) {
+                aDouble[i][j] = A[i][j].doubleValue();
+            }
+        }
+        return aDouble;
     }
 
     public static Fraction[][] removeRowAndColumn(Fraction[][] a, int excludedRow, int excludedColumn) {
@@ -160,19 +144,10 @@ public class MatrixUtils {
         return res;
     }
 
-//    public static SimpleMatrix findInverseDouble() {
-//        SimpleMatrix orig = new SimpleMatrix(null); //todo
-//        return orig.invert();
-//    }
-//
-//    public static Fraction[][] findInverseFraction() {
-//        return Utils.inverse(m);
-//    }
-//
-//    public static double findRang() throws BadSymbolException {
-//        SimpleMatrix orig = new SimpleMatrix(m);
-//        return orig.svd(true).rank();
-//    }
+    public static double findRang(MatrixModel m) {
+        SimpleMatrix orig = new SimpleMatrix(getDoublesMatrix(m.mFrac, m.rows));
+        return orig.svd(true).rank();
+    }
 
 //    public static SimpleMatrix solveSLEDouble() {            //todo: exception
 //        double[][] rightPart = new double[rows][];
