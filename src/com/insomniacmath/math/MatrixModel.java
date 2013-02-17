@@ -25,13 +25,25 @@ public class MatrixModel implements Constants {
     }
 
     public MatrixModel(MatrixModel orig) {
-        int rows = orig.mFrac.length;
-        int columns = orig.mFrac[0].length;
+        rows = orig.mFrac.length;
+        columns = orig.mFrac[0].length;
         mFrac = new Fraction[rows][];
         for (int i = 0; i < rows; i++) {
             mFrac[i] = new Fraction[columns];
             for (int j = 0; j < columns; j++) {
                 mFrac[i][j] = orig.mFrac[i][j].clone();
+            }
+        }
+    }
+
+    public MatrixModel(Fraction[] column) {
+        int rows = column.length;
+        int columns = 1;
+        mFrac = new Fraction[rows][];
+        for (int i = 0; i < rows; i++) {
+            mFrac[i] = new Fraction[columns];
+            for (int j = 0; j < columns; j++) {
+                mFrac[i][j] = column[i].clone();
             }
         }
     }

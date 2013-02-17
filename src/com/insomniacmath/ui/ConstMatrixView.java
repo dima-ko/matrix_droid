@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Constants;
+import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
 
 
@@ -19,6 +20,13 @@ public class ConstMatrixView extends MatrixView implements Constants {
         model = matrixModel;
         updateBody();
     }
+
+    public ConstMatrixView(Context context, Fraction[] column, int number) {
+        super(context, number);
+        model = new MatrixModel(column);
+        updateBody();
+    }
+
 
     public void onDestroy() {
         canvas.onDestroy();

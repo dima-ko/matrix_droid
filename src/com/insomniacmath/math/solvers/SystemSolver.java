@@ -9,11 +9,13 @@ import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.MatrixUtils;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 import com.insomniacmath.math.exceptions.SingularMatrixException;
+import com.insomniacmath.ui.ConstMatrixView;
 
 public class SystemSolver extends Solver {
 
 
     private View solveButton;
+    private ConstMatrixView resultMatrixView;
 
     public SystemSolver(LinearLayout mainView, Controller controller) {
         super(mainView, controller);
@@ -69,14 +71,17 @@ public class SystemSolver extends Solver {
     @Override
     public void onBackPressed() {
 
-
     }
 
     private void findSystemSolvation() throws SingularMatrixException {
+
         resultView.removeAllViews();
+        Fraction[] result = MatrixUtils.gauss(controller.mainMatrixView.model.mFrac, controller.mainMatrixView.sideFrac);
 
-        Fraction[] result = MatrixUtils.solveSLEFraction();
+        MatrixModel resMatrix = new MatrixModel(result);
 
+        resultMatrixView = new ConstMatrixView(mainView.getContext(), resMatrix, 1);
+        resultView.addView(resultMatrixView);
 
 //        animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixModel.rows, mainMatrixModel.columns);
 //        animator.setResultMW(resMatrixModel);
