@@ -3,25 +3,73 @@ package com.insomniacmath.math.solvers;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
-import com.insomniacmath.math.Fraction;
+import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.exceptions.BadSymbolException;
+import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.MatrixView;
-import org.ejml.simple.SimpleMatrix;
 
 public class MultiplySolver extends Solver {
 
+    private EditableMatrixView secondMatrixView;
 
-    private LinearLayout secondMatrixView;
+    protected View solveButton;
+
     LinearLayout resultMatrixLayout;
-
     MatrixView resMatrixModel;
-    private View solveButton;
+
     public MultiplySolver(LinearLayout mainView, Controller controller) {
         super(mainView, controller);
+
+        solveButton = mainView.findViewById(R.id.solve);
+
+        controller.bottomPlusHolder.setVisibility(View.GONE);
+        controller.rightPlusHolder.setVisibility(View.GONE);
+        Controller.state = STATE_MULTIPLY_PRESSED;
+
+        secondMatrixView = new EditableMatrixView(mainView.getContext(), 1);
+        controller.mainMatrixView.addView(secondMatrixView);
+        showSolveButton();
     }
+
+    protected void showSolveButton() {
+        backButton.setVisibility(View.VISIBLE);
+        controller.actionButton.setVisibility(View.GONE);
+        solveButton.setVisibility(View.VISIBLE);
+        solveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                onSolveClicked();
+            }
+        });
+    }
+
+    private void onSolveClicked() {
+        MatrixModel model = controller.mainMatrixView.model;
+        MatrixModel model2 = secondMatrixView.model;
+        try {
+            for (int i = 0; i < model.rows; i++) {
+                for (int j = 0; j < model.columns; j++) {
+                    if (model.mFrac[i][j] == null)
+                        throw new BadSymbolException();
+                }
+            }
+            for (int i = 0; i < model2.rows; i++) {
+                for (int j = 0; j < model2.columns; j++) {
+                    if (model2.mFrac[i][j] == null)
+                        throw new BadSymbolException();
+                }
+            }
+            message.setVisibility(View.GONE);
+        } catch (BadSymbolException e) {
+            e.printStackTrace();
+            message.setText(mainView.getContext().getString(R.string.bad_elements));
+            message.setTextColor(Color.RED);
+            message.setVisibility(View.VISIBLE);
+        }
+
+    }
+
 
     @Override
     void onBack() {

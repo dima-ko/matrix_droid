@@ -3,6 +3,7 @@ package com.insomniacmath.math.solvers;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.Controller;
@@ -15,10 +16,11 @@ public abstract class Solver implements Constants {
     protected LinearLayout mainView;
     protected Controller controller;
 
-    private View backButton;
+    protected View backButton;
 
-    private View explaining;
-    private View xplainButton;
+    protected View explaining;
+    protected View xplainButton;
+    protected TextView message;
 
     protected Solver(LinearLayout mainView, Controller controller) {
         this.mainView = mainView;
@@ -27,6 +29,7 @@ public abstract class Solver implements Constants {
         xplainButton = mainView.findViewById(R.id.explain);
         backButton = mainView.findViewById(R.id.back_arrow);
         explaining = mainView.findViewById(R.id.explaining);
+        message = (TextView) mainView.findViewById(R.id.message);
 
     }
 
@@ -97,6 +100,8 @@ public abstract class Solver implements Constants {
         });
     }
 
+
+
     protected void onExplainClicked() {
         addSolvationView();
         explaining.setVisibility(View.VISIBLE);
@@ -106,12 +111,7 @@ public abstract class Solver implements Constants {
         startExplain();
     }
 
-    private void startExplain() {
-
-
-    }
-
-    private void showSystemDialog() {
+    protected void startExplain() {
 
 
     }
@@ -136,28 +136,6 @@ public abstract class Solver implements Constants {
 //                }
 //            } else {
 
-//    public void addSecondMatrix() {
-//
-//        state = STATE_MULTIPLY_PRESSED;
-//        bottomPlusHolder.setVisibility(View.GONE);
-//        rightPlusHolder.setVisibility(View.GONE);
-//        actionButton.setVisibility(View.GONE);
-//        solveButton.setVisibility(View.VISIBLE);
-//        backButton.setVisibility(View.VISIBLE);
-//
-//        secondMatrixView = new LinearLayout(_context);
-//
-//        secondMatrixView.setLayoutParams(wrapWrap);
-//        secondMatrixView.setOrientation(LinearLayout.HORIZONTAL);
-//
-//        secondMatrixModel = new MatrixView(_context, secondMatrixView, 1);
-//        secondMatrixModel.adjustSizeTo(mainMatrixView.rows, mainMatrixView.columns);
-//        secondMatrixModel.refreshVisible();
-//
-//        mainMatrixLayout.addView(secondMatrixView);
-//
-//        animator.setSecMW(secondMatrixModel);
-//    }
 
 
 //
