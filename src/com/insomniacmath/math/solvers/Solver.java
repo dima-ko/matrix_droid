@@ -8,7 +8,6 @@ import com.insomniacmath.Constants;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
 import com.insomniacmath.ui.LParams;
-import com.insomniacmath.ui.MatrixView;
 
 public abstract class Solver implements Constants {
 
@@ -16,10 +15,19 @@ public abstract class Solver implements Constants {
     protected LinearLayout mainView;
     protected Controller controller;
 
+    private View backButton;
+
+    private View explaining;
+    private View xplainButton;
+
     protected Solver(LinearLayout mainView, Controller controller) {
         this.mainView = mainView;
         this.controller = controller;
         addResultView();
+        xplainButton = mainView.findViewById(R.id.explain);
+        backButton = mainView.findViewById(R.id.back_arrow);
+        explaining = mainView.findViewById(R.id.explaining);
+
     }
 
     protected Animator animator;
@@ -41,7 +49,6 @@ public abstract class Solver implements Constants {
         //    });
         solvationView.setOrientation(LinearLayout.VERTICAL);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvationView.setVisibility(View.GONE);
         mainView.addView(solvationView);
     }
 
@@ -79,34 +86,24 @@ public abstract class Solver implements Constants {
     }
 
 
-    private LinearLayout secondMatrixView;
-    LinearLayout resultMatrixLayout;
-
-    MatrixView resMatrixModel;
-
-    private View backButton;
-    private View solveButton;
-    private View explaining;
-    private View xplainButton;
-
     protected void showXplainButton() {
         backButton.setVisibility(View.VISIBLE);
         controller.actionButton.setVisibility(View.GONE);
-        xplainButton = mainView.findViewById(R.id.explain);
         xplainButton.setVisibility(View.VISIBLE);
         xplainButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                explaining.setVisibility(View.VISIBLE);
-                solvationView.setVisibility(View.VISIBLE);
-                solvationView.removeAllViews();
-                if (Controller.state == STATE_SYSTEM_SOLVED) {
-                    showSystemDialog();
-                } else {
-                    xplainButton.setVisibility(View.GONE);
-                    startExplain();
-                }
+                onExplainClicked();
             }
         });
+    }
+
+    protected void onExplainClicked() {
+        addSolvationView();
+        explaining.setVisibility(View.VISIBLE);
+        solvationView.setVisibility(View.VISIBLE);
+        solvationView.removeAllViews();
+        xplainButton.setVisibility(View.GONE);
+        startExplain();
     }
 
     private void startExplain() {

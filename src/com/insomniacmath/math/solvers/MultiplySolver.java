@@ -14,6 +14,11 @@ import org.ejml.simple.SimpleMatrix;
 public class MultiplySolver extends Solver {
 
 
+    private LinearLayout secondMatrixView;
+    LinearLayout resultMatrixLayout;
+
+    MatrixView resMatrixModel;
+    private View solveButton;
     public MultiplySolver(LinearLayout mainView, Controller controller) {
         super(mainView, controller);
     }
