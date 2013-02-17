@@ -31,7 +31,7 @@ public class MultiplySolver extends Solver {
         MatrixModel secMatrix = new MatrixModel(model.columns, model.rows);
 
         secondMatrixView = new EditableMatrixView(mainView.getContext(), secMatrix, 1);
-        controller.mainMatrixView.addView(secondMatrixView);
+        controller.scrollWrapper.addView(secondMatrixView);
         showSolveButton();
     }
 
@@ -87,7 +87,7 @@ public class MultiplySolver extends Solver {
                 mainView.removeView(solvationView);
         } else if (controller.state == STATE_MULTIPLY_PRESSED) {
             controller.state = STATE_INITIAL;
-            mainView.removeView(secondMatrixView);
+            controller.scrollWrapper.removeView(secondMatrixView);
             controller.bottomPlusHolder.setVisibility(View.VISIBLE);
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
