@@ -21,7 +21,7 @@ public class InvertSolver extends Solver {
     }
 
     @Override
-    void onBack() {
+    public void onBackPressed() {
 
 
     }

@@ -30,7 +30,12 @@ public abstract class Solver implements Constants {
         backButton = mainView.findViewById(R.id.back_arrow);
         explaining = mainView.findViewById(R.id.explaining);
         message = (TextView) mainView.findViewById(R.id.message);
-
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     protected Animator animator;
@@ -101,7 +106,6 @@ public abstract class Solver implements Constants {
     }
 
 
-
     protected void onExplainClicked() {
         addSolvationView();
         explaining.setVisibility(View.VISIBLE);
@@ -137,7 +141,6 @@ public abstract class Solver implements Constants {
 //            } else {
 
 
-
 //
 //    private void startExplain() {
 //        ((Activity) _context).getWindow().setSoftInputMode(
@@ -167,10 +170,10 @@ public abstract class Solver implements Constants {
 
     }
 
-    abstract void onBack();
+    public abstract void onBackPressed();
 
 
-    public boolean onBackPressed() {
+//    public boolean onBackPressed() {
 //        switch (state) {
 //            case STATE_INITIAL:
 //                return false;
@@ -231,8 +234,8 @@ public abstract class Solver implements Constants {
 //
 //        }
 //
-        return true;
-    }
+//        return true;
+//    }
 
 
 //    resultView.setOnTouchListener(new View.OnTouchListener() {

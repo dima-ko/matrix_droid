@@ -19,7 +19,7 @@ public class EigenSolver extends Solver {
     }
 
     @Override
-    void onBack() {
+    public void onBackPressed() {
 
 
     }

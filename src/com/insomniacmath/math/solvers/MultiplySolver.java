@@ -81,7 +81,7 @@ public class MultiplySolver extends Solver {
 
 
     @Override
-    void onBack() {
+   public void onBackPressed() {
         if (controller.state == STATE_MULTIPLY_FIND)
             controller.state = STATE_MULTIPLY_PRESSED;
         else if (controller.state == STATE_MULTIPLY_PRESSED) {
