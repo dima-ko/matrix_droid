@@ -149,20 +149,4 @@ public class MatrixUtils {
         return orig.svd(true).rank();
     }
 
-//    public static SimpleMatrix solveSLEDouble() {            //todo: exception
-//        double[][] rightPart = new double[rows][];
-//        for (int i = 0; i < rows; i++) {
-//            rightPart[i] = new double[1];
-//            rightPart[i][0] = side[i];
-//        }
-//        SimpleMatrix A = new SimpleMatrix(m);
-//        SimpleMatrix b = new SimpleMatrix(rightPart);
-//        return A.solve(b);
-//    }
-//
-//
-//    public static Fraction[] solveSLEFraction() throws SingularMatrixException {
-//        return Utils.gauss(mFrac, sideFrac);
-//    }
-
 }

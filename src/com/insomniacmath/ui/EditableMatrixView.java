@@ -10,10 +10,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
@@ -21,16 +21,16 @@ import com.insomniacmath.math.MatrixModel;
 
 public class EditableMatrixView extends MatrixView implements Constants {
 
-
+    public static final int BODY_MATR_ROWS = 567;
     public EditText[][] grid;
 
 //    public LinearLayout hintLayout;
 
-    public MatrixModel sideMatrix;
-    boolean isSideColumnVisible = false;
+    public Fraction[] sideFrac;
     public EditText[] sideColumnEdits;
     LinearLayout sideColumn;
     LinearLayout divider;
+
 
     public EditableMatrixView(Context context, int number) {
         super(context, number);
@@ -53,6 +53,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
         bodyMatrix.removeAllViews();
 
         LinearLayout bodyMatrixRows = new LinearLayout(getContext());
+        bodyMatrixRows.setId(BODY_MATR_ROWS);
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
         grid = new EditText[model.rows][];
         gridRows = new LinearLayout[model.rows];
@@ -63,7 +64,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
             grid[i] = new EditText[model.columns];
             for (int j = 0; j < model.columns; j++) {
                 grid[i][j] = new EditText(getContext());
-                grid[i][j].setId(i * MAX_SIZE + j + 100 * number);
+                grid[i][j].setId(i * MAX_SIZE + j + 200 * number);
                 grid[i][j].setInputType(InputType.TYPE_CLASS_PHONE);
                 grid[i][j].setSingleLine(false);
                 grid[i][j].setBackgroundResource(R.drawable.edit);
@@ -80,8 +81,8 @@ public class EditableMatrixView extends MatrixView implements Constants {
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
                         a.setTextColor(Color.WHITE);
-                        int row = (a.getId() - 100 * number) / MAX_SIZE;
-                        int column = (a.getId() - 100 * number) - row * MAX_SIZE;
+                        int row = (a.getId() - 200 * number) / MAX_SIZE;
+                        int column = (a.getId() - 200 * number) - row * MAX_SIZE;
                         if (charSequence.toString().equals("")) {
                             a.setBackgroundResource(R.drawable.edit);
                             model.mFrac[row][column] = null;
@@ -134,35 +135,49 @@ public class EditableMatrixView extends MatrixView implements Constants {
 
 
     public void addSideMatrix() {
+
         divider = new LinearLayout(getContext());
         divider.setBackgroundColor(Color.WHITE);
-        bodyMatrix.addView(divider, new LayoutParams(5, ViewGroup.LayoutParams.FILL_PARENT));
+        RelativeLayout.LayoutParams dividerparams = new RelativeLayout.LayoutParams(5, RelativeLayout.LayoutParams.FILL_PARENT);
+        dividerparams.addRule(RelativeLayout.RIGHT_OF, BODY_MATR_ROWS);
+        dividerparams.addRule(RelativeLayout.ALIGN_BOTTOM, BODY_MATR_ROWS);
+        bodyMatrix.addView(divider, dividerparams);
 
+        sideFrac = new Fraction[model.rows];
         sideColumn = new LinearLayout(getContext());
         sideColumn.setOrientation(LinearLayout.VERTICAL);
         sideColumn.setGravity(Gravity.CENTER);
-        bodyMatrix.addView(sideColumn, LParams.R_WRAP_WRAP);
+        RelativeLayout.LayoutParams sideParams = new RelativeLayout.LayoutParams(LParams.R_WRAP_WRAP);
+        sideParams.addRule(RelativeLayout.RIGHT_OF, BODY_MATR_ROWS);
+        bodyMatrix.addView(sideColumn, sideParams);
+        sideColumnEdits = new EditText[model.rows];
 
         for (int i = 0; i < model.rows; i++) {
             sideColumnEdits[i] = new EditText(getContext());
             sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
+            sideColumnEdits[i].setId(i + 100 * number);
             sideColumnEdits[i].setTextColor(Color.WHITE);
             sideColumnEdits[i].setGravity(Gravity.CENTER);
             sideColumnEdits[i].setMinWidth(70);
             sideColumnEdits[i].setMinHeight(70);
-            final View a = sideColumnEdits[i];
+            final EditText a = sideColumnEdits[i];
             sideColumnEdits[i].addTextChangedListener(new TextWatcher() {
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     Log.d("clicked on edittext", " id: " + a.getId());
                 }
 
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    ((EditText) a).setTextColor(Color.WHITE);
-                    if (charSequence.toString().equals(""))
+                    a.setTextColor(Color.WHITE);
+                    int row = (a.getId() - 100 * number);
+                    if (charSequence.toString().equals("")) {
                         a.setBackgroundResource(R.drawable.edit);
-                    else
+                        sideFrac[row] = null;
+                    } else {
+                        Integer in = Integer.parseInt(charSequence.toString());
                         a.setBackgroundResource(0);
+                        sideFrac[row] = new Fraction(in);
+                    }
                 }
 
                 public void afterTextChanged(Editable editable) {
@@ -173,13 +188,14 @@ public class EditableMatrixView extends MatrixView implements Constants {
     }
 
     public void removeSideMatrix() {
-        removeView(divider);
+        removeView(divider);         //todo
         divider = null;
 
         removeView(sideColumn);
         sideColumn = null;
-    }
 
+        sideFrac = null;
+    }
 
     public void onDestroy() {
 //        canvas.onDestroy();

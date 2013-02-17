@@ -70,16 +70,16 @@
             />
 
     <TextView
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:gravity="center"
-            android:layout_toRightOf="@id/solve"
             android:id="@+id/message"
             android:visibility="gone"
-            android:textColor="#ffff0000"
+            android:textColor="#FFFF0000"
             android:textSize="20px"
             android:text=""
             android:layout_height="45dp"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             />
 
 </RelativeLayout>
