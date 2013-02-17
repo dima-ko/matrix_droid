@@ -26,7 +26,6 @@ public class DeterminantSolver extends Solver {
     @Override
     void onBack() {
 
-
     }
 
     public void setResult() {
@@ -51,7 +50,7 @@ public class DeterminantSolver extends Solver {
             resultText.setText("Determinant = " + determin.toString());
             resultText.setTextColor(Color.WHITE);
 //            animator.setAnimType(Animator.ANIM_DETERMINANT, mainMatrixModel.rows, mainMatrixModel.columns);
-            Controller.state = STATE_DETERMIN_PRESSED;
+            controller.state = STATE_DETERMIN_PRESSED;
             if (model.rows == 2 || model.rows == 3)
                 showXplainButton();
             controller.bottomPlusHolder.setVisibility(View.GONE);

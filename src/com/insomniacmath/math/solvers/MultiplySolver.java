@@ -26,7 +26,7 @@ public class MultiplySolver extends Solver {
 
         controller.bottomPlusHolder.setVisibility(View.GONE);
         controller.rightPlusHolder.setVisibility(View.GONE);
-        Controller.state = STATE_MULTIPLY_PRESSED;
+        controller.state = STATE_MULTIPLY_PRESSED;
 
         secondMatrixView = new EditableMatrixView(mainView.getContext(), 1);
         controller.mainMatrixView.addView(secondMatrixView);
@@ -50,16 +50,22 @@ public class MultiplySolver extends Solver {
         try {
             for (int i = 0; i < model.rows; i++) {
                 for (int j = 0; j < model.columns; j++) {
-                    if (model.mFrac[i][j] == null)
+                    if (model.mFrac[i][j] == null) {
+                        controller.mainMatrixView.grid[i][j].setBackgroundResource(R.drawable.red_edit);
                         throw new BadSymbolException();
+                    }
                 }
             }
+
             for (int i = 0; i < model2.rows; i++) {
                 for (int j = 0; j < model2.columns; j++) {
-                    if (model2.mFrac[i][j] == null)
+                    if (model2.mFrac[i][j] == null) {
+                        secondMatrixView.grid[i][j].setBackgroundResource(R.drawable.red_edit);
                         throw new BadSymbolException();
+                    }
                 }
             }
+            controller.state = STATE_MULTIPLY_FIND;
             message.setVisibility(View.GONE);
         } catch (BadSymbolException e) {
             e.printStackTrace();
@@ -73,7 +79,12 @@ public class MultiplySolver extends Solver {
 
     @Override
     void onBack() {
-
+        if (controller.state == STATE_MULTIPLY_FIND)
+            controller.state = STATE_MULTIPLY_PRESSED;
+        else if (controller.state == STATE_MULTIPLY_PRESSED) {
+            controller.state = STATE_INITIAL;
+            onDestroySolver();
+        }
 
     }
 //

@@ -18,12 +18,12 @@ import com.insomniacmath.ui.LParams;
 
 public class Controller implements Constants {
 
-    public static int state = STATE_INITIAL;
+    public  int state = STATE_INITIAL;
 
 //    private float downY;
 //    private float downX;
 
-   public EditableMatrixView mainMatrixView;
+    public EditableMatrixView mainMatrixView;
 
     private Context _context;
     private LinearLayout mainView;
@@ -175,7 +175,9 @@ public class Controller implements Constants {
     }
 
     public boolean onBackPressed() {
-        //todo
+        if (solver == null)
+            return false;
+        solver.onBackPressed();
         return state != STATE_INITIAL;
     }
 }
