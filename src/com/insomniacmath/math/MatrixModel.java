@@ -15,6 +15,15 @@ public class MatrixModel implements Constants {
         }
     }
 
+    public MatrixModel(int rows, int columns) {
+        this.rows = rows;
+        this.columns = columns;
+        mFrac = new Fraction[rows][];
+        for (int i = 0; i < rows; i++) {
+            mFrac[i] = new Fraction[columns];
+        }
+    }
+
     public MatrixModel(MatrixModel orig) {
         int rows = orig.mFrac.length;
         int columns = orig.mFrac[0].length;

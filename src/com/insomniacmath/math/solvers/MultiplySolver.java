@@ -28,7 +28,10 @@ public class MultiplySolver extends Solver {
         controller.rightPlusHolder.setVisibility(View.GONE);
         controller.state = STATE_MULTIPLY_PRESSED;
 
-        secondMatrixView = new EditableMatrixView(mainView.getContext(), 1);
+        MatrixModel model = controller.mainMatrixView.model;
+        MatrixModel secMatrix = new MatrixModel(model.columns, model.rows);
+
+        secondMatrixView = new EditableMatrixView(mainView.getContext(), secMatrix, 1);
         controller.mainMatrixView.addView(secondMatrixView);
         showSolveButton();
     }

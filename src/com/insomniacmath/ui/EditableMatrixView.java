@@ -22,7 +22,6 @@ import com.insomniacmath.math.MatrixModel;
 public class EditableMatrixView extends MatrixView implements Constants {
 
 
-
     public EditText[][] grid;
 
 //    public LinearLayout hintLayout;
@@ -41,6 +40,13 @@ public class EditableMatrixView extends MatrixView implements Constants {
 //        hintLayout = new LinearLayout(context);      todo hint layout
 //        _view.addView(hintLayout, new LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
 //        hintLayout.setVisibility(View.GONE);
+    }
+
+    public EditableMatrixView(Context context, MatrixModel model, int number) {
+        super(context, number);
+        this.model = model;
+        this.number = number;
+        updateBody();
     }
 
     protected void updateBody() {
