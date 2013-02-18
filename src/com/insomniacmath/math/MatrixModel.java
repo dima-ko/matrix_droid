@@ -37,8 +37,8 @@ public class MatrixModel implements Constants {
     }
 
     public MatrixModel(Fraction[] column) {
-        int rows = column.length;
-        int columns = 1;
+        rows = column.length;
+        columns = 1;
         mFrac = new Fraction[rows][];
         for (int i = 0; i < rows; i++) {
             mFrac[i] = new Fraction[columns];

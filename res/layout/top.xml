@@ -31,11 +31,12 @@
             />
 
     <Button
+            android:id="@+id/solve"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/back_arrow"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:visibility="gone"
-            android:id="@+id/solve"
             android:textColor="#ffffffff"
             android:textSize="30px"
             android:layout_height="wrap_content"
@@ -45,10 +46,10 @@
             />
 
     <Button
+            android:id="@+id/explain"
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:visibility="gone"
-            android:id="@+id/explain"
             android:textColor="#ffffffff"
             android:textSize="30px"
             android:layout_centerInParent="true"

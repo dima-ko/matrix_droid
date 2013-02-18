@@ -71,10 +71,12 @@ public class SystemSolver extends Solver {
             return;
         }
 
+        controller.bottomPlusHolder.setVisibility(View.GONE);
+        controller.rightPlusHolder.setVisibility(View.GONE);
+
         showXplainButton();
-
+        solveButton.setVisibility(View.GONE);
     }
-
 
     @Override
     public void onBackPressed() {
