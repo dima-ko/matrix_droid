@@ -13,7 +13,6 @@ import com.insomniacmath.ui.ConstMatrixView;
 
 public class SystemSolver extends Solver {
 
-
     private View solveButton;
     private ConstMatrixView resultMatrixView;
 
@@ -80,6 +79,19 @@ public class SystemSolver extends Solver {
 
     @Override
     public void onBackPressed() {
+        if (controller.state == STATE_SYSTEM_SOLVED) {
+            controller.state = STATE_SIDE_COLUMN_ADDED;
+            xplainButton.setVisibility(View.GONE);
+            controller.bottomPlusHolder.setVisibility(View.VISIBLE);
+            controller.rightPlusHolder.setVisibility(View.VISIBLE);
+            resultView.removeAllViews();
+            showSolveButton();
+        } else if (controller.state == STATE_SIDE_COLUMN_ADDED) {
+            controller.state = STATE_INITIAL;
+            controller.mainMatrixView.removeSideMatrix();
+            solveButton.setVisibility(View.GONE);
+            onDestroySolver();
+        }
 
     }
 
