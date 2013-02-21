@@ -6,8 +6,8 @@ import com.insomniacmath.ui.MatrixView;
 public class CramerAnimation extends Animation {
 
 
-    CramerAnimation(Animator animator, LinearLayout solvation, MatrixView parent) {
-        super(animator, solvation, parent);
+    CramerAnimation( LinearLayout solvation, MatrixView parent) {
+        super( solvation, parent);
     }
 
     public void tic(int t) {

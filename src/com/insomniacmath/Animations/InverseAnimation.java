@@ -13,8 +13,8 @@ public class InverseAnimation extends Animation {
 
     int dim;
 
-    public InverseAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1, MatrixView resMW) {
-        super(animator, solvationView, mW1);
+    public InverseAnimation(LinearLayout solvationView, MatrixView mW1, MatrixView resMW) {
+        super( solvationView, mW1);
 
     }
 

@@ -118,8 +118,9 @@ public abstract class Solver implements Constants {
 
     ExplainThread explainThread;
 
-    Animation animation;
+    public final static String ANIM_MONITOR = "anim";
 
+    Animation animation;
 
     static int timeout = 1000;
 
@@ -142,7 +143,9 @@ public abstract class Solver implements Constants {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                animation.notify();
+                synchronized (ANIM_MONITOR) {
+                    animation.notify();
+                }
             }
         }
 

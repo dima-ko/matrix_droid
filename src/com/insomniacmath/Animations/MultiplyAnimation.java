@@ -21,8 +21,8 @@ public class MultiplyAnimation extends Animation {
 
     int[] colors = new int[]{cyan, viol, ros, blu, gree, yel};
 
-    public MultiplyAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1, MatrixView mW2, MatrixView resMW) {
-        super(animator, solvationView, mW1);
+    public MultiplyAnimation(LinearLayout solvationView, MatrixView mW1, MatrixView mW2, MatrixView resMW) {
+        super(solvationView, mW1);
 //        this.mW2 = mW2;
 //        resultMW = resMW;
 //

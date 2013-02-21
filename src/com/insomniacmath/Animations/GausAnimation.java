@@ -22,8 +22,8 @@ public class GausAnimation extends Animation {
     int revIter;
     int prevRevIterEnded;
 
-    public GausAnimation(Animator animator, LinearLayout solvationView, MatrixView mW1) {
-        super(animator, solvationView, mW1);
+    public GausAnimation(LinearLayout solvationView, MatrixView mW1) {
+        super(solvationView, mW1);
 //        buildHint();
 //        r = mW1.rows;
 //        c = mW1.columns;
