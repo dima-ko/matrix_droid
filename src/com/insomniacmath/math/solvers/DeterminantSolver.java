@@ -25,7 +25,22 @@ public class DeterminantSolver extends Solver {
 
     @Override
     public void onBackPressed() {
-
+        if (controller.state == STATE_DETERMIN_EXPLAINING ||
+                controller.state == STATE_DETERMIN_EXPLAINED) {
+            controller.state = STATE_DETERMIN_PRESSED;
+            xplainButton.setVisibility(View.VISIBLE);
+            if (solvationView != null)
+                mainView.removeView(solvationView);
+            explaining.setVisibility(View.GONE);
+        } else if (controller.state == STATE_DETERMIN_PRESSED) {
+            mainView.removeView(resultView);
+            controller.actionButton.setVisibility(View.VISIBLE);
+            backButton.setVisibility(View.GONE);
+            controller.state = STATE_INITIAL;
+            controller.bottomPlusHolder.setVisibility(View.VISIBLE);
+            controller.rightPlusHolder.setVisibility(View.VISIBLE);
+            onDestroySolver();
+        }
     }
 
     public void setResult() {
@@ -64,6 +79,13 @@ public class DeterminantSolver extends Solver {
             message.setTextColor(Color.RED);
             message.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    protected void onExplainClicked() {
+        super.onExplainClicked();
+        controller.state = STATE_DETERMIN_EXPLAINING;
+
     }
 
     @Override

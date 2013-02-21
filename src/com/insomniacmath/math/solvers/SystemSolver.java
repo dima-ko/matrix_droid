@@ -92,7 +92,6 @@ public class SystemSolver extends Solver {
             solveButton.setVisibility(View.GONE);
             onDestroySolver();
         }
-
     }
 
     private void findSystemSolvation() throws SingularMatrixException {
@@ -106,6 +105,5 @@ public class SystemSolver extends Solver {
 //        animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixModel.rows, mainMatrixModel.columns);
 //        animator.setResultMW(resMatrixModel);
     }
-
 
 }
