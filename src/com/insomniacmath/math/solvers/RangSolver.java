@@ -55,7 +55,18 @@ public class RangSolver extends Solver {
 
     @Override
     public void onBackPressed() {
-        if (controller.state == STATE_RANG_FIND) {
+
+        if (controller.state == STATE_RANG_EXPLAINED||
+                controller.state == STATE_RANG_EXPLAINING) {
+
+            controller.state = STATE_RANG_FIND;
+            explaining.setVisibility(View.GONE);
+            xplainButton.setVisibility(View.VISIBLE);
+            if (solvationView != null)
+                mainView.removeView(solvationView);
+
+        } else if (controller.state == STATE_RANG_FIND) {
+            xplainButton.setVisibility(View.GONE);
             controller.state = STATE_INITIAL;
             mainView.removeView(resultView);
             resultView = null;
@@ -63,6 +74,13 @@ public class RangSolver extends Solver {
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
         }
+
+    }
+
+    @Override
+    protected void onExplainClicked() {
+        super.onExplainClicked();
+        controller.state = STATE_RANG_EXPLAINING;
 
     }
 

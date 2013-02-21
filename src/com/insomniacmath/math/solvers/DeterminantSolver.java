@@ -86,7 +86,6 @@ public class DeterminantSolver extends Solver {
     protected void onExplainClicked() {
         super.onExplainClicked();
         controller.state = STATE_DETERMIN_EXPLAINING;
-
     }
 
     @Override
