@@ -21,7 +21,15 @@ public class InvertSolver extends Solver {
 
     @Override
     public void onBackPressed() {
-        if (controller.state == STATE_INVERT_FIND) {
+        if (controller.state == STATE_INVERT_EXPLAINED ||
+                controller.state == STATE_INVERT_EXPLAINING) {
+            controller.state = STATE_INVERT_FIND;
+            xplainButton.setVisibility(View.VISIBLE);
+            if (solvationView != null)
+                mainView.removeView(solvationView);
+            explaining.setVisibility(View.GONE);
+        } else if (controller.state == STATE_INVERT_FIND) {
+            xplainButton.setVisibility(View.GONE);
             controller.state = STATE_INITIAL;
             mainView.removeView(resultView);
             resultView = null;
@@ -30,6 +38,13 @@ public class InvertSolver extends Solver {
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
         }
+
+    }
+
+    @Override
+    protected void onExplainClicked() {
+        super.onExplainClicked();
+        controller.state = STATE_INVERT_EXPLAINING;
 
     }
 
