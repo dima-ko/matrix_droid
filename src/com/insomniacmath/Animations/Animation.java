@@ -17,8 +17,7 @@ abstract public class Animation implements Constants {
     public LinearLayout solvation;
     public MatrixView mW1;
 
-    Animation(Animator animator, LinearLayout solvation, MatrixView parent) {
-        this.animator = animator;
+    Animation(LinearLayout solvation, MatrixView parent) {
         this.solvation = solvation;
         this.mW1 = parent;
     }

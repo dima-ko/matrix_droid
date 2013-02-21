@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.insomniacmath.Animations.Det2x2Animation;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
@@ -86,6 +87,7 @@ public class DeterminantSolver extends Solver {
     protected void onExplainClicked() {
         super.onExplainClicked();
         controller.state = STATE_DETERMIN_EXPLAINING;
+        animation = new Det2x2Animation(solvationView, controller.mainMatrixView);
     }
 
     @Override
