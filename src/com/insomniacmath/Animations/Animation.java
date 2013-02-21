@@ -23,12 +23,6 @@ abstract public class Animation implements Constants {
         this.mW1 = parent;
     }
 
-    protected Animation() {
-    }
 
-    public abstract void tic(int t);
-
-//    solvationString = "" + Utils.round(mW1.m[0][0]) + "*" + Utils.round(mW1.m[1][1]) + " - "
-//            + Utils.round(mW1.m[0][1]) + "*" + Utils.round(mW1.m[1][0]);
-
+    public abstract void animate();
 }

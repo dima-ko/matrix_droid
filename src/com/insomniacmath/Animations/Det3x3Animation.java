@@ -36,6 +36,11 @@ public class Det3x3Animation extends Animation {
     }
 
     @Override
+    public void animate() {
+
+
+    }
+
     public void tic(int t) {
         switch (t) {
 //            case 0:

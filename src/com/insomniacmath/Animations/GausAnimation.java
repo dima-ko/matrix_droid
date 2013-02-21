@@ -29,7 +29,12 @@ public class GausAnimation extends Animation {
 //        c = mW1.columns;
     }
 
-//    public void buildHint() {
+    @Override
+    public void animate() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    //    public void buildHint() {
 //        LinearLayout hintEditsLayout = new LinearLayout(solvation.getContext());
 //        hintEditsLayout.setOrientation(LinearLayout.VERTICAL);
 //        hints = new TextView[mW1.rows];
@@ -50,7 +55,6 @@ public class GausAnimation extends Animation {
 //        arrowLayout.setVisibility(View.GONE);
 //    }
 //
-    @Override
     public void tic(int t) {
 //
 //        if (t == (mW1.rows - iter - 1) * 4 + prevIterEnded) {

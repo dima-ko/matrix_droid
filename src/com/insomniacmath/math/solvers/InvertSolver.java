@@ -38,7 +38,6 @@ public class InvertSolver extends Solver {
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
         }
-
     }
 
     @Override
@@ -67,4 +66,10 @@ public class InvertSolver extends Solver {
         showXplainButton();
     }
 
+    @Override
+    protected void startExplain() {
+        super.startExplain();
+
+
+    }
 }

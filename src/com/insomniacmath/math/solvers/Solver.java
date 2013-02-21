@@ -4,6 +4,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.insomniacmath.Animations.Animation;
 import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.Controller;
@@ -21,6 +22,8 @@ public abstract class Solver implements Constants {
     protected View explaining;
     protected View xplainButton;
     protected TextView message;
+
+    TicTac tic;
 
     protected Solver(LinearLayout mainView, Controller controller) {
         this.mainView = mainView;
@@ -107,127 +110,49 @@ public abstract class Solver implements Constants {
     }
 
     protected void startExplain() {
+        explainThread = new ExplainThread();
+        explainThread.start();
+        tic = new TicTac();
+        tic.start();
+    }
 
+    ExplainThread explainThread;
+
+    Animation animation;
+
+
+    static int timeout = 1000;
+
+    class ExplainThread extends Thread {
+
+        @Override
+        public void run() {
+            animation.animate();
+        }
+    }
+
+
+    class TicTac extends Thread {
+
+        @Override
+        public void run() {
+            while (!this.isInterrupted()) {
+                try {
+                    Thread.sleep(timeout);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                animation.notify();
+            }
+        }
 
     }
 
-    //            if (id == R.id.action) {
-//                ((Activity) _context).getWindow().setSoftInputMode(
-//                        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-//                dialog.show();
-//            } else if (id == R.id.back_arrow) {
-//                onBackPressed();
-//            } else if (id == R.id.solve) {
-//                if (state == STATE_SIDE_COLUMN_ADDED) {
-//                    try {
-//                        findSystemSolvation();
-//                        solveButton.setVisibility(View.GONE);
-//                    } catch (SingularMatrixException e) {
-//                        e.printStackTrace();  //Todo
-//                    }
-//                } else if (state == STATE_MULTIPLY_PRESSED) {
-//                    findMultiplication();
-//                    solveButton.setVisibility(View.GONE);
-//                }
-//            } else {
-
-
-//
-//    private void startExplain() {
-//        ((Activity) _context).getWindow().setSoftInputMode(
-//                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-//        switch (state) {
-//            case STATE_DETERMIN_PRESSED:
-//                state = STATE_DETERMIN_EXPLAINING;
-//                break;
-//            case STATE_MULTIPLY_FIND:
-//                state = STATE_MULTIPLY_EXPLAINING;
-//                break;
-//            case STATE_SYSTEM_SOLVED:
-//                state = STATE_SYSTEM_EXPLAINING_GAUS;
-//                break;
-//            case STATE_INVERT_FIND:
-//                state = STATE_INVERT_EXPLAINING;
-//                break;
-//            default:
-//                return;
-//        }
-//        solvationView.setVisibility(View.VISIBLE);
-//        animator.startExplaining();
-//    }
-
-    public void stopExplain() {
-        animator.stopExplain();
-
-    }
 
     public abstract void onBackPressed();
 
 
-//    public boolean onBackPressed() {
-//        switch (state) {
-//            case STATE_INITIAL:
-//                return false;
-//            case STATE_DETERMIN_PRESSED:
-//                state = STATE_INITIAL;
-//                resultText.setVisibility(View.GONE);
-//                solvationView.setVisibility(View.GONE);
-//                xplainButton.setVisibility(View.GONE);
-//                backButton.setVisibility(View.GONE);
-//                actionButton.setVisibility(View.VISIBLE);
-//                bottomPlusHolder.setVisibility(View.VISIBLE);
-//                rightPlusHolder.setVisibility(View.VISIBLE);
-//                break;
-//            case STATE_DETERMIN_EXPLAINING:
-//                animator.stopExplain();
-//            case STATE_DETERMIN_EXPLAINED:
-//                explaining.setVisibility(View.GONE);
-//                state = STATE_DETERMIN_PRESSED;
-//                solvationView.setVisibility(View.GONE);
-//                xplainButton.setVisibility(View.VISIBLE);
-//                backButton.setVisibility(View.VISIBLE);
-//                break;
-//            case STATE_MULTIPLY_EXPLAINED:
-//                resultView.removeView(resultMatrixLayout);
-//                resMatrixModel.onDestroy();
-//            case STATE_MULTIPLY_PRESSED:
-//            case STATE_MULTIPLY_FIND:
-//            case STATE_MULTIPLY_EXPLAINING:
-//                mainMatrixLayout.removeView(secondMatrixView);
-//                secondMatrixModel.onDestroy();
-//                resultView.removeAllViews();
-//            case STATE_SYSTEM_EXPLAINING_GAUS:
-//                resultView.removeView(resultMatrixLayout);
-//                if (resMatrixModel != null)
-//                    resMatrixModel.onDestroy();
-//                break;
-//            case STATE_INVERT_EXPLAINING:
-//                animator.stopExplain();
-//            case STATE_INVERT_EXPLAINED:
 //                solvationView.setVisibility(View.GONE);    //todo decimal is FRACTION
-//                explaining.setVisibility(View.GONE);
-//                xplainButton.setVisibility(View.VISIBLE);
-//                state = STATE_INVERT_FIND;
-//                break;
-//            case STATE_INVERT_FIND:
-//            case STATE_RANG_FIND:
-//            case STATE_SIDE_COLUMN_ADDED:
-//            case STATE_SYSTEM_SOLVED:
-//                state = STATE_INITIAL;
-//                bottomPlusHolder.setVisibility(View.VISIBLE);
-//                rightPlusHolder.setVisibility(View.VISIBLE);
-//
-//                solvationView.removeAllViews();
-//                Thread.yield();
-//                secondMatrixView = null;
-//                secondMatrixModel = null;
-//                break;
-//
-//        }
-//
-//        return true;
-//    }
-
 
 //    resultView.setOnTouchListener(new View.OnTouchListener() {
 //        public boolean onTouch(View view, MotionEvent motionEvent) {

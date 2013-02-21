@@ -18,10 +18,9 @@ public class InverseAnimation extends Animation {
 
     }
 
-    @Override
     public void tic(int t) {
         if (t >= dim * dim) {
-            animator.stopExplain();
+//            animator.stopExplain();
             return;
         }
 
@@ -32,6 +31,12 @@ public class InverseAnimation extends Animation {
 //                Utils.removeRowAndColumn(mW1.mFrac, row, column));
 //        solvation.addView(minor, new LinearLayout.LayoutParams(
 //                ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+    }
+
+    @Override
+    public void animate() {
+
 
     }
 }

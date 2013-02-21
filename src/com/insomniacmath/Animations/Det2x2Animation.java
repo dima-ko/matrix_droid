@@ -24,6 +24,11 @@ public class Det2x2Animation extends Animation {
     }
 
     @Override
+    public void animate() {
+
+
+    }
+
     public void tic(int t) {
         switch (t) {
             case 0:
@@ -60,7 +65,7 @@ public class Det2x2Animation extends Animation {
 //                break;
 //
 //            default:
-                animator.stopExplain();
+//                animator.stopExplain();
                 break;
 
         }

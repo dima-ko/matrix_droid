@@ -44,7 +44,6 @@ public class MultiplyAnimation extends Animation {
 
     StringBuilder builder = new StringBuilder();
 
-    @Override
     public void tic(int t) {
 
 //        if (t == actions * resMax) {
@@ -102,6 +101,12 @@ public class MultiplyAnimation extends Animation {
 //            }
 //        if (resCount < solvationTexts.length )
 //            solvationTexts[resCount].setText(builder.toString());
+
+    }
+
+    @Override
+    public void animate() {
+
 
     }
 }
