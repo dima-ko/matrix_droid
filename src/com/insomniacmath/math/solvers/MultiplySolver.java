@@ -10,7 +10,6 @@ import com.insomniacmath.math.MatrixModel;
 import com.insomniacmath.math.exceptions.BadSymbolException;
 import com.insomniacmath.ui.ConstMatrixView;
 import com.insomniacmath.ui.EditableMatrixView;
-import com.insomniacmath.ui.MatrixView;
 
 public class MultiplySolver extends Solver {
 
@@ -86,11 +85,18 @@ public class MultiplySolver extends Solver {
 
     @Override
     public void onBackPressed() {
-        if (controller.state == STATE_MULTIPLY_FIND) {
-            controller.state = STATE_MULTIPLY_PRESSED;
-            xplainButton.setVisibility(View.GONE);
+        if (controller.state == STATE_MULTIPLY_EXPLAINED ||
+                controller.state == STATE_MULTIPLY_EXPLAINING) {
+            controller.state = STATE_MULTIPLY_FIND;
+            xplainButton.setVisibility(View.VISIBLE);
+            explaining.setVisibility(View.GONE);
             if (solvationView != null)
                 mainView.removeView(solvationView);
+        } else if (controller.state == STATE_MULTIPLY_FIND) {
+            controller.state = STATE_MULTIPLY_PRESSED;
+            xplainButton.setVisibility(View.GONE);
+            mainView.removeView(resultView);
+            solveButton.setVisibility(View.VISIBLE);
         } else if (controller.state == STATE_MULTIPLY_PRESSED) {
             controller.state = STATE_INITIAL;
             controller.scrollWrapper.removeView(secondMatrixView);
@@ -144,6 +150,12 @@ public class MultiplySolver extends Solver {
 //        animator.setResultMW(resMatrixModel);
 //        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
 
+    }
+
+    @Override
+    protected void onExplainClicked() {
+        super.onExplainClicked();
+        controller.state = STATE_MULTIPLY_EXPLAINING;
     }
 
     @Override

@@ -37,6 +37,7 @@ public class DeterminantSolver extends Solver {
             controller.actionButton.setVisibility(View.VISIBLE);
             backButton.setVisibility(View.GONE);
             controller.state = STATE_INITIAL;
+            xplainButton.setVisibility(View.GONE);
             controller.bottomPlusHolder.setVisibility(View.VISIBLE);
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             onDestroySolver();
