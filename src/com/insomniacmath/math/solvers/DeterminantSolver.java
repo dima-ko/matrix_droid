@@ -1,11 +1,14 @@
 package com.insomniacmath.math.solvers;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.Animations.Det2x2Animation;
+import com.insomniacmath.Animations.Det3x3Animation;
+import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
@@ -18,6 +21,7 @@ import com.insomniacmath.ui.LParams;
 public class DeterminantSolver extends Solver {
 
     private TextView resultText;
+
 
     public DeterminantSolver(LinearLayout mainView, Controller controller) {
         super(mainView, controller);
@@ -87,7 +91,13 @@ public class DeterminantSolver extends Solver {
     protected void onExplainClicked() {
         super.onExplainClicked();
         controller.state = STATE_DETERMIN_EXPLAINING;
-        animation = new Det2x2Animation(solvationView, controller.mainMatrixView);
+        controller.mainMatrixView.setCanvas(new MatrixCanvas(context));
+
+        if (controller.mainMatrixView.model.rows == 2)
+            animation = new Det2x2Animation(solvationView, controller.mainMatrixView);
+        else
+            animation = new Det3x3Animation(solvationView, controller.mainMatrixView);
+
         explainThread = new ExplainThread();
         explainThread.start();
     }

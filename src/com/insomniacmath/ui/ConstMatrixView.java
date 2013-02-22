@@ -6,6 +6,7 @@ import android.text.SpannableString;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
 import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
@@ -14,6 +15,7 @@ import com.insomniacmath.math.MatrixModel;
 public class ConstMatrixView extends MatrixView implements Constants {
 
     public TextView[][] grid;
+    LinearLayout bodyMatrixRows;
 
     public ConstMatrixView(Context context, MatrixModel matrixModel, int number) {
         super(context, number);
@@ -37,7 +39,8 @@ public class ConstMatrixView extends MatrixView implements Constants {
         grid = new TextView[model.rows][];
         gridRows = new LinearLayout[model.rows];
 
-        LinearLayout bodyMatrixRows = new LinearLayout(getContext());
+
+        bodyMatrixRows = new LinearLayout(getContext());
         bodyMatrixRows.setOrientation(LinearLayout.VERTICAL);
 
         for (int i = 0; i < model.rows; i++) {
@@ -67,6 +70,12 @@ public class ConstMatrixView extends MatrixView implements Constants {
                     grid[i][j].setTextSize(18);
             }
         }
+    }
+
+    @Override
+    public void setCanvas(MatrixCanvas canvas) {
+        super.setCanvas(canvas);
+        bodyMatrixRows.bringToFront();
     }
 
 

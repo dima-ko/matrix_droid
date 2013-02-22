@@ -1,5 +1,6 @@
 package com.insomniacmath.math.solvers;
 
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,10 +23,12 @@ public abstract class Solver implements Constants {
     protected View explaining;
     protected View xplainButton;
     protected TextView message;
+    Context context;
 
 //    TicTac tic;
 
     protected Solver(LinearLayout mainView, Controller controller) {
+        context = mainView.getContext();
         this.mainView = mainView;
         this.controller = controller;
         addResultView();
@@ -62,7 +65,7 @@ public abstract class Solver implements Constants {
         solvationView.setOrientation(LinearLayout.VERTICAL);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
         mainView.addView(solvationView);
-        mainView.addView(resultView,LParams.L_FILL_FILL);
+        mainView.addView(resultView, LParams.L_FILL_FILL);
     }
 
 

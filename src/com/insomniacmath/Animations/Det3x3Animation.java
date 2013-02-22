@@ -294,7 +294,7 @@ public class Det3x3Animation extends Animation {
                 solvationTexts[0].setText(solvationTexts[0].getText() + "  (" + mW1.model.mFrac[0][0].multiply(mW1.model.mFrac[1][1]).multiply(mW1.model.mFrac[2][2]) + ")");
             }
         });
-        w();
+        w();                            //todo
 
     }
 

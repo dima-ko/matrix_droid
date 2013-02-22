@@ -45,7 +45,7 @@ public abstract class MatrixView extends LinearLayout implements Constants {
 
     public void setCanvas(MatrixCanvas canvas) {
         this.canvas = canvas;
-        bodyMatrix.addView(canvas, LParams.R_FILL_FILL);
+        bodyMatrix.addView(canvas, new RelativeLayout.LayoutParams(model.rows*70,model.columns*70));
     }
 
     public MatrixCanvas getCanvas() {

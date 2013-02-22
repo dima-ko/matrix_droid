@@ -35,7 +35,7 @@ public class Det2x2Animation extends Animation {
                 solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationText.setText(mW1.model.mFrac[0][0].toString());
-                //        mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
+                        mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
             }
         });
         w();
@@ -43,8 +43,8 @@ public class Det2x2Animation extends Animation {
             @Override
             public void run() {
                 solvationText.setText(mW1.model.mFrac[0][0] + "·" + mW1.model.mFrac[1][1]);
-                //        mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
-                //        mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
+                        mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
+                        mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
             }
         });
         w();
@@ -55,7 +55,7 @@ public class Det2x2Animation extends Animation {
                 solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 solvationText2.setText("-" + mW1.model.mFrac[0][1]);
-                //        mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
+                        mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
             }
         });
         w();
@@ -63,8 +63,8 @@ public class Det2x2Animation extends Animation {
             @Override
             public void run() {
                 solvationText2.setText("-" + mW1.model.mFrac[0][1] + "·" + mW1.model.mFrac[1][0]);
-                //        mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
-                //        mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
+                        mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
+                        mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
             }
         });
         w();

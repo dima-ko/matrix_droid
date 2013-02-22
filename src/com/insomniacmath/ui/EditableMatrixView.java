@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Constants;
 import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
@@ -133,6 +134,11 @@ public class EditableMatrixView extends MatrixView implements Constants {
         grid[0][0].requestFocus();
     }
 
+    @Override
+    public void setCanvas(MatrixCanvas canvas) {
+        super.setCanvas(canvas);
+        findViewById(BODY_MATR_ROWS).bringToFront();
+    }
 
     public void addSideMatrix() {
         divider = new LinearLayout(getContext());
