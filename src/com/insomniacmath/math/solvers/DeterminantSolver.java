@@ -88,11 +88,8 @@ public class DeterminantSolver extends Solver {
         super.onExplainClicked();
         controller.state = STATE_DETERMIN_EXPLAINING;
         animation = new Det2x2Animation(solvationView, controller.mainMatrixView);
-        animation.animate();
+        explainThread = new ExplainThread();
+        explainThread.start();
     }
 
-    @Override
-    protected void startExplain() {
-
-    }
 }

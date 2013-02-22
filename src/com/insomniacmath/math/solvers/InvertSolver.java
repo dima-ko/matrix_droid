@@ -66,10 +66,4 @@ public class InvertSolver extends Solver {
         showXplainButton();
     }
 
-    @Override
-    protected void startExplain() {
-        super.startExplain();
-
-
-    }
 }

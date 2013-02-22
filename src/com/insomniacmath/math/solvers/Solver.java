@@ -47,6 +47,7 @@ public abstract class Solver implements Constants {
     protected LinearLayout resultView;
 
     public void addSolvationView() {
+        mainView.removeView(resultView);
         solvationView = new LinearLayout(mainView.getContext());
         solvationView.setBackgroundColor(0xff222222);
         //    solvationView.setOnTouchListener(new View.OnTouchListener() {
@@ -61,6 +62,7 @@ public abstract class Solver implements Constants {
         solvationView.setOrientation(LinearLayout.VERTICAL);
         solvationView.setGravity(Gravity.CENTER_HORIZONTAL);
         mainView.addView(solvationView);
+        mainView.addView(resultView,LParams.L_FILL_FILL);
     }
 
 
@@ -106,15 +108,8 @@ public abstract class Solver implements Constants {
         solvationView.setVisibility(View.VISIBLE);
         solvationView.removeAllViews();
         xplainButton.setVisibility(View.GONE);
-        startExplain();
     }
 
-    protected void startExplain() {
-        explainThread = new ExplainThread();
-        explainThread.start();
-//        tic = new TicTac();
-//        tic.start();
-    }
 
     ExplainThread explainThread;
 

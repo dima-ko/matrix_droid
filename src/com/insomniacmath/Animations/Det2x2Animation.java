@@ -3,6 +3,7 @@ package com.insomniacmath.Animations;
 
 import android.app.Activity;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,9 +27,11 @@ public class Det2x2Animation extends Animation {
 
     @Override
     public void animate() {
+        w();
         ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                solvation.setVisibility(View.VISIBLE);
                 solvationText.setTextSize(SOLV_TEXT_SIZE);
                 solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
                 solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -79,7 +82,6 @@ public class Det2x2Animation extends Animation {
                 solvationText2.setText(solvationText2.getText() + "  (" + mW1.model.mFrac[0][1].multiply(mW1.model.mFrac[1][0]).multiply(-1) + ")");
             }
         });
-
     }
 
     private void w() {
