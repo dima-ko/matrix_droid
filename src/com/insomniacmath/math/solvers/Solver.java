@@ -23,7 +23,7 @@ public abstract class Solver implements Constants {
     protected View xplainButton;
     protected TextView message;
 
-    TicTac tic;
+//    TicTac tic;
 
     protected Solver(LinearLayout mainView, Controller controller) {
         this.mainView = mainView;
@@ -112,13 +112,13 @@ public abstract class Solver implements Constants {
     protected void startExplain() {
         explainThread = new ExplainThread();
         explainThread.start();
-        tic = new TicTac();
-        tic.start();
+//        tic = new TicTac();
+//        tic.start();
     }
 
     ExplainThread explainThread;
 
-    public final static String ANIM_MONITOR = "anim";
+//    public final static String ANIM_MONITOR = "anim";
 
     Animation animation;
 
@@ -133,23 +133,23 @@ public abstract class Solver implements Constants {
     }
 
 
-    class TicTac extends Thread {
-
-        @Override
-        public void run() {
-            while (!this.isInterrupted()) {
-                try {
-                    Thread.sleep(timeout);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                synchronized (ANIM_MONITOR) {
-                    animation.notify();
-                }
-            }
-        }
-
-    }
+//    class TicTac extends Thread {
+//
+//        @Override
+//        public void run() {
+//            while (!this.isInterrupted()) {
+//                try {
+//                    Thread.sleep(timeout);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                synchronized (ANIM_MONITOR) {
+//                    animation.notify();
+//                }
+//            }
+//        }
+//
+//    }
 
 
     public abstract void onBackPressed();
