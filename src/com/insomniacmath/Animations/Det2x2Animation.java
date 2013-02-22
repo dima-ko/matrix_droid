@@ -27,7 +27,6 @@ public class Det2x2Animation extends Animation {
 
     @Override
     public void animate() {
-        w();
         ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -84,12 +83,5 @@ public class Det2x2Animation extends Animation {
         });
     }
 
-    private void w() {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-    }
 
 }

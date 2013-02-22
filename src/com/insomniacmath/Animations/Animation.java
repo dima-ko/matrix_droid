@@ -22,6 +22,15 @@ abstract public class Animation implements Constants {
         this.mW1 = parent;
     }
 
+    protected void w() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public abstract void animate();
 }
