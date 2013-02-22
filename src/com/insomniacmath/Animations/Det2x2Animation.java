@@ -1,6 +1,7 @@
 package com.insomniacmath.Animations;
 
 
+import android.app.Activity;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -25,30 +26,59 @@ public class Det2x2Animation extends Animation {
 
     @Override
     public void animate() {
-        solvationText.setTextSize(SOLV_TEXT_SIZE);
-        solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        solvationText.setText(mW1.model.mFrac[0][0].toString());
-//        mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
+        ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                solvationText.setTextSize(SOLV_TEXT_SIZE);
+                solvationText.setGravity(Gravity.CENTER_HORIZONTAL);
+                solvation.addView(solvationText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvationText.setText(mW1.model.mFrac[0][0].toString());
+                //        mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
+            }
+        });
         w();
-        solvationText.setText(mW1.model.mFrac[0][0] + "·" + mW1.model.mFrac[1][1]);
-//        mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
-//        mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
+        ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                solvationText.setText(mW1.model.mFrac[0][0] + "·" + mW1.model.mFrac[1][1]);
+                //        mW1.getCanvas().addPath(0, 0, 1, 1, 0xFF3388FF);
+                //        mW1.getCanvas().addCircle(1, 1, 0xFF3388FF);
+            }
+        });
         w();
-        solvationText2.setTextSize(SOLV_TEXT_SIZE);
-        solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
-        solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        solvationText2.setText("-" + mW1.model.mFrac[0][1]);
-//        mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
+        ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                solvationText2.setTextSize(SOLV_TEXT_SIZE);
+                solvationText2.setGravity(Gravity.CENTER_HORIZONTAL);
+                solvation.addView(solvationText2, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                solvationText2.setText("-" + mW1.model.mFrac[0][1]);
+                    //        mW1.getCanvas().addCircle(1, 0, 0xFF8833FF);
+            }
+        });
         w();
-        solvationText2.setText("-" + mW1.model.mFrac[0][1] + "·" + mW1.model.mFrac[1][0]);
-//        mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
-//        mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
+        ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                solvationText2.setText("-" + mW1.model.mFrac[0][1] + "·" + mW1.model.mFrac[1][0]);
+                //        mW1.getCanvas().addPath(0, 1, 1, 0, 0xFF8833FF);
+                //        mW1.getCanvas().addCircle(0, 1, 0xFF8833FF);
+            }
+        });
         w();
-        solvationText.setText(solvationText.getText() + "  (" + mW1.model.mFrac[0][0].multiply(mW1.model.mFrac[1][1]) + ")");
+        ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                solvationText.setText(solvationText.getText() + "  (" + mW1.model.mFrac[0][0].multiply(mW1.model.mFrac[1][1]) + ")");
+            }
+        });
         w();
-        solvationText2.setText(solvationText2.getText() + "  (" + mW1.model.mFrac[0][1].multiply(mW1.model.mFrac[1][0]).multiply(-1) + ")");
-//
+        ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                solvationText2.setText(solvationText2.getText() + "  (" + mW1.model.mFrac[0][1].multiply(mW1.model.mFrac[1][0]).multiply(-1) + ")");
+            }
+        });
 
     }
 
