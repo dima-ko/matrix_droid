@@ -56,7 +56,9 @@ public class InvertSolver extends Solver {
         Fraction[][] result = MatrixUtils.inverse(model.mFrac);
 
         MatrixModel resMatrix = new MatrixModel();
-        resMatrix.mFrac = result;  //todo rows
+        resMatrix.mFrac = result;
+        resMatrix.rows= result.length;
+        resMatrix.columns = result.length;
 
         resultMatrixView = new ConstMatrixView(mainView.getContext(), resMatrix, 1);
         resultView.addView(resultMatrixView);

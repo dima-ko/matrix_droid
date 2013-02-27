@@ -10,6 +10,7 @@ import com.insomniacmath.Animations.Animator;
 import com.insomniacmath.Constants;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
+import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.LParams;
 
 public abstract class Solver implements Constants {
@@ -17,6 +18,7 @@ public abstract class Solver implements Constants {
 
     protected LinearLayout mainView;
     protected Controller controller;
+    EditableMatrixView mainMatrixView ;
 
     protected View backButton;
 
@@ -31,6 +33,7 @@ public abstract class Solver implements Constants {
         context = mainView.getContext();
         this.mainView = mainView;
         this.controller = controller;
+        mainMatrixView = controller.mainMatrixView;
         addResultView();
         xplainButton = mainView.findViewById(R.id.explain);
         backButton = mainView.findViewById(R.id.back_arrow);

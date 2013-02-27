@@ -1,6 +1,5 @@
 package com.insomniacmath.math.solvers;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
@@ -34,6 +33,8 @@ public class DeterminantSolver extends Solver {
                 controller.state == STATE_DETERMIN_EXPLAINED) {
             controller.state = STATE_DETERMIN_PRESSED;
             xplainButton.setVisibility(View.VISIBLE);
+            explainThread.interrupt();
+            mainMatrixView.bodyMatrix.removeView(mainMatrixView.getCanvas());
             if (solvationView != null)
                 mainView.removeView(solvationView);
             explaining.setVisibility(View.GONE);
@@ -51,7 +52,7 @@ public class DeterminantSolver extends Solver {
 
     public void setResult() {
         try {
-            MatrixModel model = controller.mainMatrixView.model;
+            MatrixModel model = mainMatrixView.model;
             for (int i = 0; i < model.rows; i++) {
                 for (int j = 0; j < model.columns; j++) {
                     if (model.mFrac[i][j] == null)
@@ -91,12 +92,12 @@ public class DeterminantSolver extends Solver {
     protected void onExplainClicked() {
         super.onExplainClicked();
         controller.state = STATE_DETERMIN_EXPLAINING;
-        controller.mainMatrixView.setCanvas(new MatrixCanvas(context));
+        mainMatrixView.setCanvas(new MatrixCanvas(context));
 
-        if (controller.mainMatrixView.model.rows == 2)
-            animation = new Det2x2Animation(solvationView, controller.mainMatrixView);
+        if (mainMatrixView.model.rows == 2)
+            animation = new Det2x2Animation(solvationView, mainMatrixView);
         else
-            animation = new Det3x3Animation(solvationView, controller.mainMatrixView);
+            animation = new Det3x3Animation(solvationView, mainMatrixView);
 
         explainThread = new ExplainThread();
         explainThread.start();
