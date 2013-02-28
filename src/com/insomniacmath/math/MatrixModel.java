@@ -48,6 +48,13 @@ public class MatrixModel implements Constants {
         }
     }
 
+    public MatrixModel(Fraction[][] fractions) {
+        mFrac = fractions;
+        rows = fractions.length;
+        columns = fractions[0].length;
+
+    }
+
     public void addRow() {
         rows++;
         Fraction[][] temp = new Fraction[rows][columns];

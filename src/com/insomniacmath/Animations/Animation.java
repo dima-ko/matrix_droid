@@ -30,7 +30,5 @@ abstract public class Animation implements Constants {
         }
     }
 
-
-
     public abstract void animate();
 }

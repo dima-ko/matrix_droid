@@ -2,6 +2,8 @@ package com.insomniacmath.math.solvers;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import com.insomniacmath.Animations.InverseAnimation;
+import com.insomniacmath.Animations.MatrixCanvas;
 import com.insomniacmath.Controller;
 import com.insomniacmath.math.Fraction;
 import com.insomniacmath.math.MatrixModel;
@@ -44,7 +46,12 @@ public class InvertSolver extends Solver {
     protected void onExplainClicked() {
         super.onExplainClicked();
         controller.state = STATE_INVERT_EXPLAINING;
+        mainMatrixView.setCanvas(new MatrixCanvas(context));
 
+        animation = new InverseAnimation(solvationView, mainMatrixView, resultMatrixView);
+
+        explainThread = new ExplainThread();
+        explainThread.start();
     }
 
     ConstMatrixView resultMatrixView;
@@ -57,7 +64,7 @@ public class InvertSolver extends Solver {
 
         MatrixModel resMatrix = new MatrixModel();
         resMatrix.mFrac = result;
-        resMatrix.rows= result.length;
+        resMatrix.rows = result.length;
         resMatrix.columns = result.length;
 
         resultMatrixView = new ConstMatrixView(mainView.getContext(), resMatrix, 1);

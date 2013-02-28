@@ -29,13 +29,14 @@ public class MinorSolvationView extends LinearLayout {
         setGravity(Gravity.CENTER);
 
         prefix = new TextViewRoboto(context);
+        prefix.setTextSize(18);
         addView(prefix, LParams.L_WRAP_WRAP);
 
-        LinearLayout matrixLayout = new LinearLayout(context);
-        matrixView = new ConstMatrixView(context, model, 0);
-        addView(matrixLayout, LParams.L_WRAP_WRAP);
+        matrixView = new ConstMatrixView(context, model, 100);
+        addView(matrixView, LParams.L_WRAP_WRAP);
 
         postfix = new TextViewRoboto(context);
+        postfix.setTextSize(18);
         addView(postfix, LParams.L_WRAP_WRAP);
 
 
