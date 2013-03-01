@@ -3,10 +3,10 @@ package com.insomniacmath.Animations;
 import android.widget.LinearLayout;
 import com.insomniacmath.ui.MatrixView;
 
-public class CramerAnimation extends Animation {
+public class InverseSystemAnimation extends Animation {
 
 
-    public CramerAnimation(LinearLayout solvation, MatrixView parent) {
+    public InverseSystemAnimation(LinearLayout solvation, MatrixView parent) {
         super( solvation, parent);
     }
 

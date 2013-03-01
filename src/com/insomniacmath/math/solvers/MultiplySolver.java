@@ -3,6 +3,8 @@ package com.insomniacmath.math.solvers;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
+import com.insomniacmath.Animations.MatrixCanvas;
+import com.insomniacmath.Animations.MultiplyAnimation;
 import com.insomniacmath.Controller;
 import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
@@ -147,8 +149,6 @@ public class MultiplySolver extends Solver {
         resultView.addView(resultMatrixView);
 
         showXplainButton();
-//        animator.setResultMW(resMatrixModel);
-//        animator.setAnimType(Animator.ANIM_MULTIPLICATION, mainMatrixModel.rows, mainMatrixModel.columns);
 
     }
 
@@ -156,6 +156,12 @@ public class MultiplySolver extends Solver {
     protected void onExplainClicked() {
         super.onExplainClicked();
         controller.state = STATE_MULTIPLY_EXPLAINING;
+        mainMatrixView.setCanvas(new MatrixCanvas(context));
+
+        animation = new MultiplyAnimation(solvationView, mainMatrixView, secondMatrixView, resultMatrixView);
+
+        explainThread = new ExplainThread();
+        explainThread.start();
     }
 
     @Override

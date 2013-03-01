@@ -21,9 +21,8 @@ public class InverseAnimation extends Animation {
     private MatrixView resultMW;
 
 
-    public InverseAnimation(LinearLayout solvationView, MatrixView mW1, MatrixView resMW) {
+    public InverseAnimation(LinearLayout solvationView, MatrixView mW1) {
         super(solvationView, mW1);
-        resultMW = resMW;
     }
 
     @Override

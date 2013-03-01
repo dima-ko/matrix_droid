@@ -1,37 +1,23 @@
 package com.insomniacmath.Animations;
 
 
-import android.util.Log;
-import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import com.insomniacmath.ui.MatrixView;
-import com.insomniacmath.etc.Utils;
 
 public class MultiplyAnimation extends Animation {
 
     public static final LinearLayout.LayoutParams FILL_WRAP =
             new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-    TextView[] solvationTexts;
     private MatrixView mW2;
     private MatrixView resultMW;
-    int actions;
-    int resMax;
 
     int[] colors = new int[]{cyan, viol, ros, blu, gree, yel};
 
     public MultiplyAnimation(LinearLayout solvationView, MatrixView mW1, MatrixView mW2, MatrixView resMW) {
         super(solvationView, mW1);
-//        this.mW2 = mW2;
-//        resultMW = resMW;
-//
-//        resMax = mW1.rows * mW1.rows;
-//        solvationTexts = new TextView[resMax];
-//        for (int i = 0; i < resMax; i++) {
-//            solvationTexts[i] = new TextView(solvation.getContext());
-//        }
-//        actions = 4 * mW1.columns + 1;
+        this.mW2 = mW2;
+        resultMW = resMW;
     }
 
     /**
@@ -44,7 +30,9 @@ public class MultiplyAnimation extends Animation {
 
     StringBuilder builder = new StringBuilder();
 
-    public void tic(int t) {
+    @Override
+    public void animate() {
+
 
 //        if (t == actions * resMax) {
 //            animator.stopExplain();
@@ -101,11 +89,6 @@ public class MultiplyAnimation extends Animation {
 //            }
 //        if (resCount < solvationTexts.length )
 //            solvationTexts[resCount].setText(builder.toString());
-
-    }
-
-    @Override
-    public void animate() {
 
 
     }
