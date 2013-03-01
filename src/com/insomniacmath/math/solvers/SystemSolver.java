@@ -194,8 +194,6 @@ public class SystemSolver extends Solver {
         resultMatrixView = new ConstMatrixView(mainView.getContext(), result, 1);
         resultView.addView(resultMatrixView);
 
-//        animator.setAnimType(Animator.ANIM_SYSTEM_GAUSS, mainMatrixModel.rows, mainMatrixModel.columns);
-//        animator.setResultMW(resMatrixModel);
     }
 
 }

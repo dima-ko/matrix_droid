@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.insomniacmath.math.Fraction;
+import com.insomniacmath.ui.EditableMatrixView;
 import com.insomniacmath.ui.MatrixView;
 import com.insomniacmath.R;
 
@@ -22,7 +23,7 @@ public class GausAnimation extends Animation {
     int revIter;
     int prevRevIterEnded;
 
-    public GausAnimation(LinearLayout solvationView, MatrixView mW1) {
+    public GausAnimation(LinearLayout solvationView, EditableMatrixView mW1) {
         super(solvationView, mW1);
 //        buildHint();
 //        r = mW1.rows;
@@ -31,31 +32,8 @@ public class GausAnimation extends Animation {
 
     @Override
     public void animate() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 
-    //    public void buildHint() {
-//        LinearLayout hintEditsLayout = new LinearLayout(solvation.getContext());
-//        hintEditsLayout.setOrientation(LinearLayout.VERTICAL);
-//        hints = new TextView[mW1.rows];
-//        for (int i = 0; i < mW1.rows; i++) {
-//            hints[i] = new TextView(solvation.getContext());
-//            hints[i].setTextColor(Color.WHITE);
-//            hints[i].setGravity(Gravity.CENTER);
-//            hintEditsLayout.addView(hints[i], c70x70);
-//        }
-//
-//        arrowLayout = new LinearLayout(solvation.getContext());
-//        LinearLayout arrow = new LinearLayout(solvation.getContext());      //todo: commit explain speed
-//        arrow.setBackgroundResource(R.drawable.arrow);
-//        arrowLayout.addView(arrow, c20Fill);
-//        mW1.hintLayout.addView(arrowLayout, c20Fill);
-//        mW1.hintLayout.addView(hintEditsLayout, wrap_wrap);
-//        mW1.hintLayout.setVisibility(View.VISIBLE);
-//        arrowLayout.setVisibility(View.GONE);
-//    }
-//
-    public void tic(int t) {
+
 //
 //        if (t == (mW1.rows - iter - 1) * 4 + prevIterEnded) {
 //            iter++;
@@ -138,4 +116,25 @@ public class GausAnimation extends Animation {
 //
 //
     }
+
+    //    public void buildHint() {
+//        LinearLayout hintEditsLayout = new LinearLayout(solvation.getContext());
+//        hintEditsLayout.setOrientation(LinearLayout.VERTICAL);
+//        hints = new TextView[mW1.rows];
+//        for (int i = 0; i < mW1.rows; i++) {
+//            hints[i] = new TextView(solvation.getContext());
+//            hints[i].setTextColor(Color.WHITE);
+//            hints[i].setGravity(Gravity.CENTER);
+//            hintEditsLayout.addView(hints[i], c70x70);
+//        }
+//
+//        arrowLayout = new LinearLayout(solvation.getContext());
+//        LinearLayout arrow = new LinearLayout(solvation.getContext());      //todo: commit explain speed
+//        arrow.setBackgroundResource(R.drawable.arrow);
+//        arrowLayout.addView(arrow, c20Fill);
+//        mW1.hintLayout.addView(arrowLayout, c20Fill);
+//        mW1.hintLayout.addView(hintEditsLayout, wrap_wrap);
+//        mW1.hintLayout.setVisibility(View.VISIBLE);
+//        arrowLayout.setVisibility(View.GONE);
+//    }
 }
