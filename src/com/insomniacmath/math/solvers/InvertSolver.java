@@ -48,7 +48,7 @@ public class InvertSolver extends Solver {
         controller.state = STATE_INVERT_EXPLAINING;
         mainMatrixView.setCanvas(new MatrixCanvas(context));
 
-        animation = new InverseAnimation(solvationView, mainMatrixView, resultMatrixView);
+        animation = new InverseAnimation(solvationView, mainMatrixView);
 
         explainThread = new ExplainThread();
         explainThread.start();

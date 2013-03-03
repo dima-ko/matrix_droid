@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        android:gravity="center_vertical">
+
+    <Button
+            android:id="@+id/cramer"
+            android:textColor="#ffffffff"
+            android:textSize="30px"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:text="Cramer"
+            android:background="@drawable/roboto_under_bl"
+            />
+
+    <Button
+            android:layout_marginLeft="2px"
+            android:id="@+id/gauss"
+            android:textColor="#ffffffff"
+            android:textSize="30px"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:text="Gauss"
+            android:background="@drawable/roboto_under_bl"
+            />
+
+    <Button
+            android:layout_marginLeft="2px"
+            android:id="@+id/inverse"
+            android:textColor="#ffffffff"
+            android:textSize="30px"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:text="Inverse"
+            android:background="@drawable/roboto_under_bl"
+            />
+
+
+</LinearLayout>
