@@ -14,13 +14,14 @@ import java.util.Random;
 public class SystemAnimTest extends GeneralTest {
 
 
-    public static final int ADD_COLUMN_START_ID = 80;
+    public static final int ADD_COLUMN_START_ID = 100;
 
-    public void testSolveSystem() throws Exception {
+    public void testGauss3x3() throws Exception {
 //
         Random random = new Random();
         final int MAX_TEXT_DIM = 2;
-        int rows = 2 + random.nextInt(MAX_TEXT_DIM);
+        int rows = 3;
+//        int rows = 2 + random.nextInt(MAX_TEXT_DIM);
 //        int columns = 2 + random.nextInt(MAX_TEXT_DIM);
         int columns = rows;
         for (int i = 0; i < columns - 2; i++) {
@@ -36,13 +37,15 @@ public class SystemAnimTest extends GeneralTest {
             }
         }
 
-        solo.clickOnMenuItem("Linear system");
+        solo.clickOnText("Action");
+        solo.clickOnText("Linear");
 
         for (int i = 0; i < rows; i++) {
-            enterEditByID(ADD_COLUMN_START_ID + i, random.nextInt(10));
+            enterEditByID(100 + i, random.nextInt(10));
         }
 
         solo.clickOnMenuItem("Solve");
+        solo.clickOnMenuItem("Gauss");
 //        clickOnViewByID(Controller.EXPLAIN_BUTTON_ID);
         solo.sleep(400200);
 

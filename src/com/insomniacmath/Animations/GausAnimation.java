@@ -1,40 +1,67 @@
 package com.insomniacmath.Animations;
 
-
+import android.app.Activity;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.insomniacmath.R;
 import com.insomniacmath.math.Fraction;
 import com.insomniacmath.ui.EditableMatrixView;
-import com.insomniacmath.ui.MatrixView;
-import com.insomniacmath.R;
+import com.insomniacmath.ui.LParams;
 
 public class GausAnimation extends Animation {
 
-    int c;
-    int r;
     TextView[] hints;
     LinearLayout arrowLayout;
-    Fraction alpha;
-    int iter = 0;
-    int prevIterEnded;
-    int revIter;
-    int prevRevIterEnded;
+    private LinearLayout hintLayout;
 
     public GausAnimation(LinearLayout solvationView, EditableMatrixView mW1) {
         super(solvationView, mW1);
-//        buildHint();
-//        r = mW1.rows;
-//        c = mW1.columns;
+        buildHint();
     }
+
+    int multiplic;
+    int finalJ;
+
 
     @Override
     public void animate() {
 
+        //forward
 
-//
+        for (int i = 0; i < mW1.model.rows; i++) {
+            multiplic = i;
+            for (int j = i + 1; j < mW1.model.rows; j++) {
+                finalJ = j;
+                ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Fraction lastAlpha = mW1.model.mFrac[multiplic][multiplic]
+                                .divide(mW1.model.mFrac[finalJ][multiplic]);
+                        hints[finalJ].setText(lastAlpha.toSpanString());
+                    }
+                });
+                w();
+            }
+        }
+
+        //backward
+//        for (int i = 0; i < mW1.model.rows; i++) {
+//            for (int j = 0; j < mW1.model.rows - i; j++) {
+//                ((Activity) solvation.getContext()).runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mW1.getCanvas().addCircle(0, 0, 0xFF3388FF);
+//                    }
+//                });
+//                w();
+//            }
+//        }
+
+
 //        if (t == (mW1.rows - iter - 1) * 4 + prevIterEnded) {
 //            iter++;
 //            prevIterEnded = t;
@@ -117,24 +144,34 @@ public class GausAnimation extends Animation {
 //
     }
 
-    //    public void buildHint() {
-//        LinearLayout hintEditsLayout = new LinearLayout(solvation.getContext());
-//        hintEditsLayout.setOrientation(LinearLayout.VERTICAL);
-//        hints = new TextView[mW1.rows];
-//        for (int i = 0; i < mW1.rows; i++) {
-//            hints[i] = new TextView(solvation.getContext());
-//            hints[i].setTextColor(Color.WHITE);
-//            hints[i].setGravity(Gravity.CENTER);
-//            hintEditsLayout.addView(hints[i], c70x70);
-//        }
-//
-//        arrowLayout = new LinearLayout(solvation.getContext());
-//        LinearLayout arrow = new LinearLayout(solvation.getContext());      //todo: commit explain speed
-//        arrow.setBackgroundResource(R.drawable.arrow);
-//        arrowLayout.addView(arrow, c20Fill);
-//        mW1.hintLayout.addView(arrowLayout, c20Fill);
-//        mW1.hintLayout.addView(hintEditsLayout, wrap_wrap);
-//        mW1.hintLayout.setVisibility(View.VISIBLE);
-//        arrowLayout.setVisibility(View.GONE);
-//    }
+
+    public void buildHint() {
+
+        hintLayout = new LinearLayout(solvation.getContext());
+        mW1.addView(hintLayout, new LinearLayout.LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
+
+        LinearLayout hintEditsLayout = new LinearLayout(solvation.getContext());
+        hintEditsLayout.setOrientation(LinearLayout.VERTICAL);
+        hints = new TextView[mW1.model.rows];
+        for (int i = 0; i < mW1.model.rows; i++) {
+            hints[i] = new TextView(solvation.getContext());
+            hints[i].setTextColor(Color.WHITE);
+            hints[i].setGravity(Gravity.CENTER);
+            hintEditsLayout.addView(hints[i], LParams.L_WRAP_70);
+        }
+        hintLayout.addView(hintEditsLayout, LParams.L_WRAP_WRAP);
+
+        arrowLayout = new LinearLayout(solvation.getContext());
+        LinearLayout arrow = new LinearLayout(solvation.getContext());      //todo: commit explain speed
+        arrow.setBackgroundResource(R.drawable.arrow);
+        arrowLayout.addView(arrow, LParams.L_20_Fill);
+        hintLayout.addView(arrowLayout, LParams.L_20_Fill);
+        hintLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void onDestroy() {
+        mW1.removeView(hintLayout);
+        hintLayout.removeAllViews();
+        hintLayout = null;
+    }
 }

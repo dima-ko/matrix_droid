@@ -25,7 +25,6 @@ public class EditableMatrixView extends MatrixView implements Constants {
     public static final int BODY_MATR_ROWS = 567;
     public EditText[][] grid;
 
-//    public LinearLayout hintLayout;
 
     public Fraction[] sideFrac;
     public EditText[] sideColumnEdits;
@@ -38,9 +37,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
         this.number = number;
         updateBody();
 
-//        hintLayout = new LinearLayout(context);      todo hint layout
-//        _view.addView(hintLayout, new LayoutParams(100, ViewGroup.LayoutParams.FILL_PARENT));
-//        hintLayout.setVisibility(View.GONE);
+
     }
 
     public EditableMatrixView(Context context, MatrixModel model, int number) {
@@ -161,7 +158,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
             sideColumnEdits[i] = new EditText(getContext());
             sideColumnEdits[i].setInputType(InputType.TYPE_CLASS_PHONE);
             sideColumnEdits[i].setBackgroundResource(R.drawable.edit);
-            sideColumnEdits[i].setId(i + 100 * number);
+            sideColumnEdits[i].setId(i + 200 * number + 100);
             sideColumnEdits[i].setTextColor(Color.WHITE);
             sideColumnEdits[i].setGravity(Gravity.CENTER);
             sideColumnEdits[i].setMinWidth(70);
@@ -174,7 +171,7 @@ public class EditableMatrixView extends MatrixView implements Constants {
 
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     a.setTextColor(Color.WHITE);
-                    int row = (a.getId() - 100 * number);
+                    int row = (a.getId() - 200 * number - 100);
                     if (charSequence.toString().equals("")) {
                         a.setBackgroundResource(R.drawable.edit);
                         sideFrac[row] = null;
@@ -193,10 +190,10 @@ public class EditableMatrixView extends MatrixView implements Constants {
     }
 
     public void removeSideMatrix() {
-        removeView(divider);         //todo
+        bodyMatrix.removeView(divider);
         divider = null;
 
-        removeView(sideColumn);
+        bodyMatrix.removeView(sideColumn);
         sideColumn = null;
 
         sideFrac = null;

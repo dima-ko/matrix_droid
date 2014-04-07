@@ -16,15 +16,15 @@ public class LParams {
     public final static RelativeLayout.LayoutParams R_WRAP_WRAP_CENTER_HOR = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
     public final static LinearLayout.LayoutParams L_FILL_WRAP = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-    final static LinearLayout.LayoutParams L_80_80_LEFT_100 = new LinearLayout.LayoutParams(80, 80);
+    public final static LinearLayout.LayoutParams L_80_80_LEFT_100 = new LinearLayout.LayoutParams(80, 80);
     public final static LinearLayout.LayoutParams L_80_80 = new LinearLayout.LayoutParams(80, 80);
 
 
-    LinearLayout.LayoutParams L_20_Fill = new LinearLayout.LayoutParams(20, RelativeLayout.LayoutParams.FILL_PARENT);
-    LinearLayout.LayoutParams L_70_70 = new LinearLayout.LayoutParams(70, 70);
+    public static LinearLayout.LayoutParams L_20_Fill = new LinearLayout.LayoutParams(20, LinearLayout.LayoutParams.FILL_PARENT);
+    public static LinearLayout.LayoutParams L_70_70 = new LinearLayout.LayoutParams(70, 70);
     //todo
-    final static LinearLayout.LayoutParams wrap_80 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
-    final static LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    public final static LinearLayout.LayoutParams wrap_80 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 80);
+    public final static LinearLayout.LayoutParams wrapWrap = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
     static {
         R_WRAP_WRAP_CENTER_HOR.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);

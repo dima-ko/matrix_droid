@@ -92,12 +92,21 @@ public class SystemSolver extends Solver {
 
     @Override
     public void onBackPressed() {
-        if (controller.state == STATE_SYSTEM_SOLVED) {
+        if (controller.state == STATE_SYSTEM_SOLVED
+            || controller.state == STATE_SYSTEM_EXPLAINING_INVERT
+            || controller.state == STATE_SYSTEM_EXPLAINING_CRAMER
+            || controller.state == STATE_SYSTEM_EXPLAINING_GAUS
+
+        ) {
+            explainThread.interrupt();
+            explaining.setVisibility(View.GONE);
             controller.state = STATE_SIDE_COLUMN_ADDED;
             xplainButton.setVisibility(View.GONE);
             controller.bottomPlusHolder.setVisibility(View.VISIBLE);
             controller.rightPlusHolder.setVisibility(View.VISIBLE);
             resultView.removeAllViews();
+            topPanel.removeView(buttonHolder);
+            ((GausAnimation)animation).onDestroy();
             showSolveButton();
         } else if (controller.state == STATE_SIDE_COLUMN_ADDED) {
             controller.state = STATE_INITIAL;
@@ -143,10 +152,10 @@ public class SystemSolver extends Solver {
         mainMatrixView.setCanvas(new MatrixCanvas(context));
 
         if (method == R.id.cramer) {
-            animation = new GausAnimation(solvationView, mainMatrixView);
+            animation = new CramerAnimation(solvationView, mainMatrixView);
             controller.state = STATE_SYSTEM_EXPLAINING_CRAMER;
         } else if (method == R.id.gauss) {
-            animation = new CramerAnimation(solvationView, mainMatrixView);
+            animation = new GausAnimation(solvationView, mainMatrixView);
             controller.state = STATE_SYSTEM_EXPLAINING_GAUS;
         } else {
             animation = new InverseAnimation(solvationView, mainMatrixView);
