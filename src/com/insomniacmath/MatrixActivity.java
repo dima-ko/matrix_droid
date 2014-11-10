@@ -12,6 +12,7 @@ public class MatrixActivity extends Activity implements Constants {
     private static final int MENU_EDIT = 3;
     private static final int MENU_DELETE = 4;
 
+	
     /**
      * Called when the activity is first created.
      */
